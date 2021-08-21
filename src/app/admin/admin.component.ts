@@ -8,7 +8,6 @@ import { UserService } from '../_services/user.service';
 })
 export class AdminComponent implements OnInit {
 
-  message;
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {

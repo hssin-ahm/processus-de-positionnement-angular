@@ -14,6 +14,7 @@ import { HeaderComponent } from './header/header.component';
 import { AuthGuard } from './_auth/auth.guard';
 import { AuthInterceptor } from './_auth/auth.interceptor';
 import { UserService } from './_services/user.service';
+import { SidenavComponent } from './sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UserService } from './_services/user.service';
     AdminComponent,
     ForbiddenComponent,
     LoginComponent,
-    HeaderComponent
+    HeaderComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,

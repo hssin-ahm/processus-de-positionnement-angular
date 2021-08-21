@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { LoginComponent } from './login/login.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { AuthGuard } from './_auth/auth.guard';
 
@@ -11,7 +12,8 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate:[AuthGuard], data:{roles:['Admin'] }},
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent },
-  { path: 'forbidden', component: ForbiddenComponent }
+  { path: 'forbidden', component: ForbiddenComponent },
+  { path: 'sidenav', component: SidenavComponent }
 ];
 
 @NgModule({

@@ -18,7 +18,21 @@ export class LoginComponent implements OnInit {
      ) { }
 
   ngOnInit(): void {
+    this.getReturnUrl()
   }
+
+  getReturnUrl(): void{
+    const userRoles: any = this.userAuthService.getRoles();
+    
+    if (this.userAuthService.isLoggedIn()) {
+      if (userRoles[0].roleName === 'Super_Admin') {
+        this.router.navigate(['/super-admin']);
+      }else{
+        this.router.navigate(['/admin']);
+      }
+    }
+  }
+
   login(loginForm: NgForm) {
     this.userService.login(loginForm.value).subscribe(
       (response:any) => {
