@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserAuthService } from '../_services/user-auth.service';
-import { Role } from './Role';
 import { User } from './user';
 import { UserService } from './user.service';
 @Component({
@@ -27,7 +26,6 @@ export class SuperAdminComponent implements OnInit {
     this.userService.getUsers().subscribe(
       (response: User[]) => {
         this.users = response;
-        console.log(this.users);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -36,12 +34,10 @@ export class SuperAdminComponent implements OnInit {
   }
 
   public onAddUser(addForm: NgForm): void {
-    console.log(addForm.value);
     debugger
     document.getElementById('add-user-form').click();
     this.userService.addUser(addForm.value).subscribe(
       (response: User) => {
-        console.log(response);
         this.getUsers();
         addForm.reset();
       },
@@ -53,56 +49,20 @@ export class SuperAdminComponent implements OnInit {
   }
 
   public onUpdateUser(editForm: NgForm): void {
-    console.log(editForm.value);
     
     this.userService.updateUser(editForm.value).subscribe(
       (response: User) => {
-        editForm.reset();
         this.getUsers();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
-    // this.roleList["role"]["roleName"] = user.role
-    // delete this.roleList["role"][0]["roleName"]
-    // console.log(this.roleList);
-    // user.role = this.roleList["role"]
-    // console.log(user);
-    
-    // debugger
-    // let role = new Role();
-    
-    // role.roleName = user.role.toString();
-    // // console.log(role);
-    // // debugger
-    // //user.role.push.apply(role.roleName);
-    // delete user.role
-    // this.roleList.push(role)
-    // user.role = this.roleList;
-    // delete user.role
-    //  console.log(user);
-    //   debugger
-    
-    
-    // this.userList.push(user, this.roleList);
-    // console.log(this.userList);
-    // debugger
-    
-    // this.userService.updateUser(user).subscribe(
-    //   (response: User) => {
-    //     this.getUsers();
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     alert(error.message);
-    //   }
-    // );
   }
 
   public onDeleteUser(userName: string): void {
     this.userService.deleteUser(userName).subscribe(
       (response: void) => {
-        console.log(response);
         this.getUsers();
       },
       (error: HttpErrorResponse) => {
@@ -135,7 +95,6 @@ export class SuperAdminComponent implements OnInit {
     button.style.display = 'none';
     button.setAttribute('data-toggle', 'modal');
     if (mode === 'add') {
-      
       button.setAttribute('data-target', '#addUserModal');
     }
     if (mode === 'edit') {

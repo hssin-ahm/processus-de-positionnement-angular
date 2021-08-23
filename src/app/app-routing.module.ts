@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin/admin.component';
+import { ConsultantComponent } from './consultant/consultant.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { LoginComponent } from './login/login.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
@@ -12,8 +13,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent, canActivate:[AuthGuard], data:{roles:['Admin'] }},
   { path: 'login', component: LoginComponent },
   { path: '', component: LoginComponent },
-  { path: 'forbidden', component: ForbiddenComponent },
-  { path: 'sidenav', component: SidenavComponent }
+  { path: 'forbidden', component: ForbiddenComponent }
 ];
 
 @NgModule({

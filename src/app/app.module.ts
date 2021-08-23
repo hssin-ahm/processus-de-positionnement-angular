@@ -15,16 +15,17 @@ import { AuthGuard } from './_auth/auth.guard';
 import { AuthInterceptor } from './_auth/auth.interceptor';
 import { UserService } from './_services/user.service';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { ConsultantComponent } from './consultant/consultant.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SuperAdminComponent,
-    AdminComponent,
     ForbiddenComponent,
     LoginComponent,
     HeaderComponent,
-    SidenavComponent
+    SidenavComponent,
+    ConsultantComponent
   ],
   imports: [
     BrowserModule,
