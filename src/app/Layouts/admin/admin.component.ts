@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../_services/user.service';
+import { UserService } from '../../_services/user.service';
 
 @Component({
   selector: 'app-admin',
@@ -8,10 +8,13 @@ import { UserService } from '../_services/user.service';
 })
 export class AdminComponent implements OnInit {
 
-  constructor(private userService: UserService) { }
+  sideBarOpen = false;
+  constructor() { }
 
   ngOnInit(): void {
   }
-
+  sidebarToggler(){
+  this.sideBarOpen = !this.sideBarOpen;
+}
 
 }

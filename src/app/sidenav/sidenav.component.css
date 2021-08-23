@@ -1,8 +1,0 @@
-html
-{
-    display: flex;
-    height: 100%;
-}
-#container{
-    justify-content:flex-end;
-}

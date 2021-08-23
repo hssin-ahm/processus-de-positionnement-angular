@@ -1,3 +1,50 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="toggleSideBar()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <span> APP LOGO </span>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="flex-end">
+            <ul fxLayout="row" fxLayoutGap="20px">
+                <li>
+                    <button mat-icon-button>
+                        <mat-icon>settings</mat-icon>
+                    </button>
+                </li>
+                <li>
+                    <button mat-icon-button>
+                        <mat-icon>help_outline</mat-icon>
+                    </button>
+                </li>
+                <li>
+                    <button mat-button [matMenuTriggerFor]="menu">
+                        <mat-icon>person_outline</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="logout()"> 
+                            <mat-icon>exit_to_app</mat-icon>
+                            Sign out
+                        </button>
+                    </mat-menu>
+
+                </li>
+            </ul>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+
+
+
+
+
+
+
+
+
+
 <!-- 
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> -->
 <!-- Navbar Brand-->
@@ -21,25 +68,25 @@
         </li>
     </ul>
 </nav> -->
-
+<!-- 
 <body class="sb-nav-fixed" *ngIf="show()">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark"> 
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">  -->
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="">admin works</a> 
+        <!-- <a class="navbar-brand ps-3" href="">admin works</a>  -->
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                class="fas fa-bars"></i></button>
+        <!-- <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
+                class="fas fa-bars"></i></button> -->
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
             <div class="input-group">
                 <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
                     aria-describedby="btnNavbarSearch" />
                 <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
                         class="fas fa-search"></i></button>
             </div>
-        </form>
+        </form> -->
         <!-- Navbar-->
-        <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+        <!-- <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
@@ -55,7 +102,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <!-- <a class="nav-link" routerLink="/sidenav"> -->
+                        <a class="nav-link" routerLink="/sidenav">
                         <a class="nav-link active" id="consultant" (click)="saveUrl('consultant')" >
                             <div class="sb-nav-link-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                                 <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -133,18 +180,8 @@
 
         <div id="layoutSidenav_content">
             <main>
-                <div *ngIf="url === 'consultant'">
-                    <app-consultant></app-consultant>
-
-                </div>
-                <div *ngIf="url === 'sidenav'">
-                    <app-sidenav></app-sidenav>
-                </div>
-                <div *ngIf="url === null">
-                    <app-consultant></app-consultant>
-                </div>
             </main>
         </div>
 
     </div>
-</body>
+</body> -->
