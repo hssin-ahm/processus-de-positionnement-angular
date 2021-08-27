@@ -8,9 +8,7 @@ import { UserAuthService } from 'src/app/_services/user-auth.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  //url: any = null;
   @Output() toggleSideBarForMe: EventEmitter<any> = new EventEmitter();
-  // constructor(private userAuthService: UserAuthService, private router :Router, public userService: UserService ) { }
   constructor(private userAuthService: UserAuthService, private router :Router){  }
   ngOnInit(): void {
   }
@@ -26,22 +24,6 @@ export class HeaderComponent implements OnInit {
      this.router.navigate(["/login"])
    }
 
-  // public saveUrl(url){
-  //   const supelement = document.querySelector('.active');
-  //   supelement.classList.remove('active');
-  //   const element = document.getElementById(url);
-  //   element.classList.add('active');
-  //   this.url = url;
-  // }
 
-  // public getPathName(){
-  //   return location.pathname;
-  // }
-  // public show(){
-  //   if (this.userService.roulesMatch(['Admin']) && this.getPathName()!== "/forbidden") {
-  //     return true;
-  //   }
-  //   return false;
-  // }
  
 }

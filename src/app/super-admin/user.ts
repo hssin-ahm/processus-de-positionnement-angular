@@ -1,4 +1,4 @@
-import { Role } from "./Role";
+
 
 export interface User {
   userName: String;

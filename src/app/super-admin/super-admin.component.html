@@ -1,46 +1,53 @@
 <html>
-   <body>
-      
-      <!--<app-header></app-header>-->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-         <a class="navbar-brand" style="color:white;">User Manager</a>
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+
+<body>
+
+
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" style="color:white;">User Manager</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+         aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
          <span class="navbar-toggler-icon"></span>
-         </button>
-         <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav mr-auto">
-               <li class="nav-item active">
-                  <a class="nav-link" (click)="onOpenModal(null, 'add')"><svg style="margin-top: -4px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                     <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarColor02">
+         <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+               <a class="nav-link" (click)="onOpenModal(null, 'add')"><svg style="margin-top: -4px;"
+                     xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                     class="bi bi-plus-circle" viewBox="0 0 16 16">
+                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                     <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
                   </svg> Add User <span class="sr-only">(current)</span></a>
-               </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-               <input type="search" (ngModelChange)="searchUsers(key.value)" #key="ngModel" ngModel
-               name="key" id="searchName" class="form-control mr-sm-2" placeholder="Search users..." required>
-            </form>
-         </div>
-         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
+            </li>
+         </ul>
+         <form class="form-inline my-2 my-lg-0">
+            <input type="search" (ngModelChange)="searchUsers(key.value)" #key="ngModel" ngModel name="key"
+               id="searchName" class="form-control mr-sm-2" placeholder="Chercher ..." required>
+         </form>
+      </div>
+      <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown"
+               aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+               <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
             </ul>
          </li>
       </ul>
-      </nav>
-      <div class="container" id="main-container">
+   </nav>
+   <div class="container" id="main-container">
       <div class="row">
          <div *ngFor="let user of users" class="col-md-6 col-xl-3">
             <div class="card m-b-30" *ngIf="user?.role[0].roleName === 'Admin'">
                <div class="card-body row">
                   <div class="col-6">
-                     <a href=""><img src="https://www.residencescogir.com/DATA/NOUVELLE/79.jpg" alt="" class="img-fluid rounded-circle w-60"></a>
+                     <a href=""><img src="https://www.residencescogir.com/DATA/NOUVELLE/79.jpg" alt=""
+                           class="img-fluid rounded-circle w-60"></a>
                   </div>
                   <div class="col-6 card-title align-self-center mb-0">
-                     <h5>{{user?.userName}}</h5>
-                     <p class="m-0">{{user?.role[0].roleName}}</p>
+                     <h4>{{user?.userName}}</h4>
+                     <small class="text-muted">{{user?.role[0].roleName}}</small>
                   </div>
                </div>
                <ul class="list-group list-group-flush">
@@ -49,117 +56,135 @@
                </ul>
                <div class="card-body">
                   <div class="float-right btn-group btn-group-sm">
-                     <a (click)="onOpenModal(user, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                        <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                     </svg> </a>
-                     <a (click)="onOpenModal(user, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-original-title="Delete"><i class="fa fa-times"></i></a>
+                     <a (click)="onOpenModal(user, 'edit')" class="btn btn-primary tooltips" data-placement="top"
+                        data-original-title="Edit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                           fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                           <path
+                              d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                        </svg> </a>
+                     <a (click)="onOpenModal(user, 'delete')" class="btn btn-secondary tooltips" data-placement="top"
+                        data-original-title="Delete"><i class="fa fa-times"></i></a>
                   </div>
                </div>
             </div>
          </div>
       </div>
-      
+
       <!-- Add user Modal -->
-      <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+      <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel"
+         aria-hidden="true">
          <div class="modal-dialog" role="document">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h5 class="modal-title" id="addUserModalLabel">Add user</h5>
-               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-               <span aria-hidden="true">&times;</span>
-               </button>
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="addUserModalLabel">Add user</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body">
+                  <form #addForm="ngForm" (ngSubmit)="onAddUser(addForm)">
+                     <div class="form-group">
+                        <label for="userName">User name</label>
+                        <input type="text" ngModel name="userName" class="form-control" id="userName"
+                           placeholder="User name" required #userName="ngModel"
+                           [class.is-invalid]="userName.invalid && userName.touched">
+                        <small class="text-danger" [class.d-none]="userName.valid || userName.untouched">User name is
+                           required field</small>
+                     </div>
+                     <div class="form-group">
+                        <label for="email">First name</label>
+                        <input type="email" ngModel name="userFirstName" class="form-control" id="userFirstName"
+                           placeholder="First name" required #userFirstName="ngModel"
+                           [class.is-invalid]="userFirstName.invalid && userFirstName.touched">
+                        <small class="text-danger" [class.d-none]="userFirstName.valid || userFirstName.untouched">First
+                           Name is required field</small>
+                     </div>
+                     <div class="form-group">
+                        <label for="userLastName">Last name</label>
+                        <input type="text" ngModel name="userLastName" class="form-control" id="userLastName"
+                           placeholder="Last name" required #userLastName="ngModel"
+                           [class.is-invalid]="userLastName.invalid && userLastName.touched">
+                        <small class="text-danger" [class.d-none]="userLastName.valid || userLastName.untouched">last
+                           name is required field</small>
+                     </div>
+
+                     <div class="form-group">
+                        <label for="email">Email </label>
+                        <input type="email" ngModel name="email" class="form-control" id="email" placeholder="email"
+                           required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #email="ngModel"
+                           [class.is-invalid]="email.invalid && email.touched">
+                        <div *ngIf="email.errors && (email.invalid && email.touched) ">
+                           <small class="text-danger" *ngIf="email.errors.required">Email is required field</small>
+                           <small class="text-danger" *ngIf="email.errors.pattern">Enter the valid email</small>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="userPassword">Password:</label>
+                        <input type="password" ngModel name="userPassword" class="form-control" id="userPassword"
+                           placeholder="Password" required #userPassword="ngModel"
+                           [class.is-invalid]="userPassword.invalid && userPassword.touched">
+                        <small class="text-danger"
+                           [class.d-none]="userPassword.valid || userPassword.untouched">Password is required
+                           field</small>
+                     </div>
+                     <div class="form-group">
+                        <label for="userPassword">Confirm Password:</label>
+                        <input type="password" ngModel name="cuserPassword" class="form-control" id="userPassword"
+                           placeholder="Password" #cuserPassword="ngModel" required
+                           [class.is-invalid]="userPassword.invalid && userPassword.touched">
+                        <small class="text-danger"
+                           [class.d-none]="(cuserPassword.value == userPassword.value) || cuserPassword.untouched">Password
+                           & confirm password must be same</small>
+                     </div>
+                     <div class="modal-footer">
+                        <button type="button" id="add-user-form" class="btn btn-secondary"
+                           data-dismiss="modal">Close</button>
+                        <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save changes</button>
+                     </div>
+                  </form>
+               </div>
             </div>
-            <div class="modal-body">
-               <form #addForm="ngForm" (ngSubmit)="onAddUser(addForm)">
-               <div class="form-group">
-                  <label for="userName">User name</label>
-                  <input type="text" ngModel name="userName" class="form-control" id="userName" placeholder="User name" required #userName="ngModel"
-                  [class.is-invalid]="userName.invalid && userName.touched"
-                  >
-                  <small class="text-danger" [class.d-none]="userName.valid || userName.untouched">User name is required field</small>
-               </div>
-               <div class="form-group">
-                  <label for="email">First name</label>
-                  <input type="email" ngModel name="userFirstName" class="form-control" id="userFirstName" placeholder="First name" required #userFirstName="ngModel"
-                  [class.is-invalid]="userFirstName.invalid && userFirstName.touched"
-                  >
-                  <small class="text-danger" [class.d-none]="userFirstName.valid || userFirstName.untouched">First Name is required field</small>
-               </div>
-               <div class="form-group">
-                  <label for="userLastName">Last name</label>
-                  <input type="text" ngModel name="userLastName" class="form-control" id="userLastName" placeholder="Last name" required #userLastName="ngModel"
-                  [class.is-invalid]="userLastName.invalid && userLastName.touched"
-                  >
-                  <small class="text-danger" [class.d-none]="userLastName.valid || userLastName.untouched">last name is required field</small>
-                  </div>
-               
-               <div class="form-group">
-                  <label for="email">Email </label>
-                  <input type="email" ngModel name="email" class="form-control" id="email" placeholder="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #email="ngModel"
-                  [class.is-invalid]="email.invalid && email.touched"
-                  >
-                  <div *ngIf="email.errors && (email.invalid && email.touched) ">
-                     <small class="text-danger" *ngIf="email.errors.required">Email is required field</small>
-                     <small class="text-danger" *ngIf="email.errors.pattern">Enter the valid email</small>
-                  </div>
-               </div>
-               <div class="form-group">
-                  <label for="userPassword">Password:</label>
-                  <input type="password" ngModel name="userPassword" class="form-control" id="userPassword" placeholder="Password" required #userPassword="ngModel"
-                  [class.is-invalid]="userPassword.invalid && userPassword.touched"
-                  >
-                  <small class="text-danger" [class.d-none]="userPassword.valid || userPassword.untouched">Password is required field</small>
-               </div>
-               <div class="form-group">
-                  <label for="userPassword">Confirm Password:</label>
-                  <input type="password" ngModel name="cuserPassword" class="form-control" id="userPassword" placeholder="Password" #cuserPassword="ngModel"
-                  required
-                  [class.is-invalid]="userPassword.invalid && userPassword.touched"
-                  >
-                  <small class="text-danger" [class.d-none]="(cuserPassword.value == userPassword.value) || cuserPassword.untouched">Password & confirm password must be same</small>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" id="add-user-form" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save changes</button>
-               </div>
-               </form>
-            </div>
-         </div>
          </div>
       </div>
       <!-- Edit Modal -->
-      <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel" aria-hidden="true">
+      <div class="modal fade" id="updateUserModal" tabindex="-1" role="dialog" aria-labelledby="userEditModalLabel"
+         aria-hidden="true">
          <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title" id="updateUserModalLabel">Edit User {{editUser?.userName}}</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                     <span aria-hidden="true">&times;</span>
                   </button>
                </div>
                <div class="modal-body">
                   <form #editForm="ngForm">
                      <div class="form-group">
                         <label for="name">User name</label>
-                        <input type="hidden" ngModel="{{editUser?.userName}}" name="userName" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Name" #userName="ngModel">
-                        <input  class="form-control" type="text" value="{{editUser?.userName}}" disabled>
+                        <input type="hidden" ngModel="{{editUser?.userName}}" name="userName" class="form-control"
+                           id="name" aria-describedby="emailHelp" placeholder="Name" #userName="ngModel">
+                        <input class="form-control" type="text" value="{{editUser?.userName}}" disabled>
                      </div>
                      <div class="form-group">
                         <label for="email">First name</label>
-                        <input type="email" ngModel="{{editUser?.userFirstName}}" name="userFirstName" class="form-control" id="email" >
+                        <input type="email" ngModel="{{editUser?.userFirstName}}" name="userFirstName"
+                           class="form-control" id="email">
                      </div>
                      <div class="form-group">
                         <label for="phone">Last name</label>
-                        <input type="text" ngModel="{{editUser?.userLastName}}" name="userLastName" class="form-control" id="jobTitle" >
+                        <input type="text" ngModel="{{editUser?.userLastName}}" name="userLastName" class="form-control"
+                           id="jobTitle">
                      </div>
-                     
+
                      <div class="form-group">
-                     <label for="email">Email</label>
-                     <input type="text" ngModel="{{editUser?.email}}" name="email" class="form-control" id="email" placeholder="Add Email">
+                        <label for="email">Email</label>
+                        <input type="text" ngModel="{{editUser?.email}}" name="email" class="form-control" id="email"
+                           placeholder="Add Email">
                      </div>
                      <div class="form-group">
                         <!-- <label for="userPassword">Réinitialiser le mot de passe</label> -->
-                        <input type="hidden" ngModel ngModel="{{editUser?.userPassword}}" name="userPassword" class="form-control" id="userPassword" placeholder="Réinitialiser le mot de passe" required>
+                        <input type="hidden" ngModel ngModel="{{editUser?.userPassword}}" name="userPassword"
+                           class="form-control" id="userPassword" placeholder="Réinitialiser le mot de passe" required>
                      </div>
                      <!-- <div class="form-group">
                         <label for="">Role</label>
@@ -175,44 +200,48 @@
                   </select> -->
                      <div class="modal-footer">
                         <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                        <button (click)="onUpdateUser(editForm)" data-dismiss="modal" class="btn btn-primary" >Save changes</button>
+                        <button (click)="onUpdateUser(editForm)" data-dismiss="modal" class="btn btn-primary">Save
+                           changes</button>
                      </div>
                   </form>
                </div>
             </div>
          </div>
       </div>
-      
+
       <!-- Delete Modal -->
-      <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+      <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+         aria-hidden="true">
          <div class="modal-dialog" role="document">
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title" id="deleteModelLabel">Delete User</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
+                     <span aria-hidden="true">&times;</span>
                   </button>
                </div>
                <div class="modal-body">
                   <p>Are you sure you want to delete user {{deleteUser?.userName}}?</p>
                   <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-                     <button (click)="onDeleteUser(deleteUser?.userName)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                     <button (click)="onDeleteUser(deleteUser?.userName)" class="btn btn-danger"
+                        data-dismiss="modal">Yes</button>
                   </div>
                </div>
             </div>
          </div>
       </div>
-      </div>
-      
-      <!-- Notification for no users -->
-      <div *ngIf="users?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
+   </div>
+
+   <!-- Notification for no users -->
+   <div *ngIf="users?.length == 0" class="col-lg-12 col-md-12 col-xl-12">
       <div class="alert alert-info" role="alert">
          <h4 class="alert-heading">NO USERS!</h4>
          <p>No users were found.</p>
       </div>
-      </div>
-      
-      
-      </body>
+   </div>
+
+
+</body>
+
 </html>

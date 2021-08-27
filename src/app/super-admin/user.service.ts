@@ -11,12 +11,14 @@ export class UserService {
 
   constructor(private http: HttpClient,
     private userAuthService: UserAuthService
-    ){}
+  ){}
 
   public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiServerUrl}/users/all`);
   }
-
+  public getUserByUserName(username: string): Observable<User> {
+    return this.http.get<User>(`${this.apiServerUrl}/user/${username}`);
+  }
   public addUser(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiServerUrl}/user/save`, user);
   }

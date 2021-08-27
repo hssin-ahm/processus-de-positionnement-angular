@@ -1,3 +1,4 @@
+
 body{
     background:#dcdcdc;
     margin-top:20px;}
@@ -272,13 +273,11 @@ body{
 }
 
 
-
-
-
-
-
-
-
-
-
+.consultant:hover{
+  opacity: 0.7;
+  cursor:pointer;
+}
+.consultant button:hover{
+  opacity: 1;
+}
 

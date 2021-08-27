@@ -14,13 +14,17 @@ import { AuthInterceptor } from './_auth/auth.interceptor';
 import { UserService } from './_services/user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminModule } from './Layouts/admin/admin.module';
+import {MatIconModule} from '@angular/material/icon';
+import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     SuperAdminComponent,
     ForbiddenComponent,
-    LoginComponent
+    LoginComponent,
+    MatConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,9 @@ import { AdminModule } from './Layouts/admin/admin.module';
     HttpClientModule,
     RouterModule,
     BrowserAnimationsModule,
-    AdminModule
+    AdminModule,
+    MatDialogModule,
+    MatIconModule
   ],
   providers: [
     AuthGuard,

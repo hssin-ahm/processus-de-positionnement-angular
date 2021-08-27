@@ -7,15 +7,20 @@ import { SuperAdminComponent } from './super-admin/super-admin.component';
 import { AuthGuard } from './_auth/auth.guard';
 import { PositionnementsComponent } from './modules/positionnements/positionnements.component';
 import { ConsultantComponent } from './modules/consultant/consultant.component';
+import { UpdateConsultantComponent } from './modules/update-consultant/update-consultant.component';
+import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 
 const routes: Routes = [
   { path: 'super-admin', component: SuperAdminComponent, canActivate: [AuthGuard], data: { roles: ['Super_Admin'] } },
-
+  {path: 'consultant', component: ConsultantComponent}, 
   {
+    
     path: 'admin', component: AdminComponent, 
     children: [
       { path: '', component: ConsultantComponent },
       { path: 'positionnement', component: PositionnementsComponent },
+      { path: 'update/:id', component: UpdateConsultantComponent },
+      { path: 'add', component: UpdateConsultantComponent },
     ],
     canActivate: [AuthGuard], data: { roles: ['Admin'] }
   },
@@ -27,6 +32,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  entryComponents:[MatConfirmDialogComponent]
 })
 export class AppRoutingModule { }

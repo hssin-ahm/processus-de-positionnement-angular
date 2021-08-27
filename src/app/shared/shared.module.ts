@@ -12,6 +12,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatListModule} from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { HighchartsChartModule } from 'highcharts-angular';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -32,7 +33,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     MatMenuModule,
     MatListModule,
     RouterModule,
-    HighchartsChartModule
+    HighchartsChartModule,
+    MatDialogModule
   ],
   exports:  [
     FooterComponent,

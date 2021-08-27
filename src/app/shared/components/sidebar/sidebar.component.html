@@ -1,8 +1,8 @@
 <mat-nav-list>
     <div class="profile-card">
         <div class="header">
-            <h2>Ahmed Hssin</h2>
-            <h4>example@email.com</h4>
+            <h2>{{getUserName()}}</h2>
+            <h4>{{getFullName()}}</h4>
         </div>
         <img src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Soufiane FADIL">
     </div>
@@ -11,7 +11,7 @@
 
     <h2 matSubheader>Pages</h2>
 
-    <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin">Dashboard</a>
+    <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin">Resources</a>
     <a mat-list-item routerLinkActive="list-item-active" routerLink="/admin/positionnement">Positionnement</a>
     <a mat-list-item routerLinkActive="list-item-active" routerLink="/articles">Articles</a>
 

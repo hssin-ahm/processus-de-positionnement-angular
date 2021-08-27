@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
      ) { }
 
   ngOnInit(): void {
+    this.getReturnUrl();
+
   }
 
   getReturnUrl(): void{
@@ -35,6 +37,9 @@ export class LoginComponent implements OnInit {
   login(loginForm: NgForm) {
     this.userService.login(loginForm.value).subscribe(
       (response:any) => {
+        localStorage.setItem("userName", response.user.userName);
+        localStorage.setItem("firstName", response.user.userFirstName);
+        localStorage.setItem("lastName", response.user.userLastName);
         this.userAuthService.setRoles(response.user.role)
         this.userAuthService.setToken(response.jwtToken)
         const role = response.user.role[0]['roleName'];

@@ -1,0 +1,201 @@
+<div class="container">
+    <div class="view-account">
+        <section class="module">
+            <div class="module-inner">
+                <div class="side-bar">
+                    <div class="user-info">
+                        <img class="img-profile img-circle img-responsive center-block"
+                            src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+                        <ul class="meta list list-unstyled">
+                            <li class="name">{{consultant?.prenom}} {{consultant?.nom}}
+                                <label class="label label-info">{{consultant?.title}}</label>
+                            </li>
+                            <li class="email"><a href="#">{{consultant?.mail}}</a></li>
+                        </ul>
+                    </div>
+                    <nav class="side-menu">
+                        <ul class="nav">
+                            <li class="active"><a href="#"><span class="fa fa-user"></span> Profile</a></li>
+
+                        </ul>
+                    </nav>
+                </div>
+                <div class="content-panel">
+                    <form class="form-horizontal" #editForm="ngForm">
+                        <fieldset class="fieldset">
+                            <h3 class="fieldset-title">{{panelTitle}}</h3>
+                            <input type="hidden" ngModel="{{consultant?.id}}" name="id">
+                            <input type="hidden" ngModel="{{consultant?.consultantCode}}" name="consultantCode">
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Prenom <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control" ngModel="{{consultant?.prenom}}"
+                                        name="prenom" placeholder="Prenom" required #prenom="ngModel"
+                                        [class.is-invalid]="prenom.invalid && prenom.touched">
+                                    <small class="text-danger"
+                                        [class.d-none]="prenom.valid || prenom.untouched">Prenom est
+                                        Champs obligatoires</small>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nom <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control" ngModel="{{consultant?.nom}}" name="nom"
+                                    placeholder="Nom" required #nom="ngModel"
+                                        [class.is-invalid]="nom.invalid && nom.touched">
+                                    <small class="text-danger"
+                                        [class.d-none]="nom.valid || nom.untouched">Nom est
+                                        Champs obligatoires</small>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Title <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="text" class="form-control" ngModel="{{consultant?.title}}"
+                                        name="title"
+                                        placeholder="Title" required #title="ngModel"
+                                        [class.is-invalid]="title.invalid && title.touched">
+                                    <small class="text-danger"
+                                        [class.d-none]="title.valid || title.untouched">Title est
+                                        Champs obligatoires</small>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Disponibilité <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="date" class="form-control"
+                                        ngModel="{{consultant?.disponibilite | slice:0:10}}" name="disponibilite"
+                                        placeholder="Disponibilite" required #disponibilite="ngModel"
+                                        [class.is-invalid]="disponibilite.invalid && disponibilite.touched">
+                                    <small class="text-danger"
+                                        [class.d-none]="disponibilite.valid || disponibilite.untouched">Disponibilite est
+                                        Champs obligatoires</small>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Statut <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <select class="form-select" size="3" aria-label="size 3 select example"
+                                        [(ngModel)]="consultant.statut" name="statut"
+                                        required #statut="ngModel"
+                                        [class.is-invalid]="statut.invalid && statut.touched">
+                                    
+                                        <option value="Intercontrat">Intercontrat</option>
+                                        <option value="En mission">En mission</option>
+                                        <option value="Sortie">Sortie</option>
+                                    </select>
+                                    <small class="text-danger"
+                                        [class.d-none]="statut.valid || statut.untouched">Veuillez sélectionner l'une des options suivantes</small>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Séniorité <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <select class="form-select" size="5" aria-label="size 5 select example"
+                                        [(ngModel)]="consultant.seniorite" name="seniorite"
+                                        required #seniorite="ngModel"
+                                        [class.is-invalid]="seniorite.invalid && seniorite.touched">
+                                        <option value="Débutant">Débutant</option>
+                                        <option value="Junior">Junior</option>
+                                        <option value="Confirmé">Confirmé</option>
+                                        <option value="Senior">Senior</option>
+                                        <option value="Senior Avancé">Senior Avancé</option>
+                                    </select>
+                                </div>
+                                <small class="text-danger"
+                                [class.d-none]="seniorite.valid || seniorite.untouched">Veuillez sélectionner l'une des options suivantes</small>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <label class="control-label">Niveau Anglais </label>
+                                    <div class="col-md-8 col-sm-9 col-xs-12">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            [(ngModel)]="consultant.niveauAnglais" name="niveauAnglais">
+                                            <option value="Avancé">Avancé</option>
+                                            <option value="Intermédiaire">Intermédiaire</option>
+                                            <option value="Débutant">Débutant</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <label class="control-label">Niveau Français</label>
+                                    <div class="col-md-8 col-sm-9 col-xs-12">
+                                        <select class="form-select form-select-sm" aria-label=".form-select-sm example"
+                                            [(ngModel)]="consultant.niveauFrancais" name="niveauFrancais">
+                                            <option value="Avancé">Avancé</option>
+                                            <option value="Intermédiaire">Intermédiaire</option>
+                                            <option value="Débutant">Débutant</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Mobilité <span
+                                        style="color: red;">{{obligatoire}}</span></label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <select class="form-select" size="2" aria-label="size 2 select example"
+                                        [(ngModel)]="consultant.mobilite" name="mobilite"
+                                        required #mobilite="ngModel"
+                                        [class.is-invalid]="mobilite.invalid && mobilite.touched">
+                                        <option value="IDF">IDF</option>
+                                        <option value="Toute la france">Toute la france</option>
+                                    </select>
+                                    <small class="text-danger"
+                                [class.d-none]="mobilite.valid || mobilite.untouched">Veuillez sélectionner l'une des options suivantes</small>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br> <br>
+                        <fieldset class="fieldset">
+                            <h3 class="fieldset-title">Informations de contact</h3>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Email</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="email" class="form-control" ngModel="{{consultant?.mail}}" name="mail"
+                                    placeholder="Adresse mail personnelle"
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #mail="ngModel"
+                           [class.is-invalid]="mail.invalid && mail.touched">
+                                </div>
+                                <div *ngIf="mail.errors && (mail.invalid && mail.touched) ">
+                                    <small class="text-danger" *ngIf="mail.errors.pattern">Entrez une adresse email valide</small>
+                                 </div>
+                            </div>
+
+                            <br>
+                            <div class="form-group">
+                                <label class="col-md-2  col-sm-3 col-xs-12 control-label">Numéro de téléphone</label>
+                                <div class="col-md-10 col-sm-9 col-xs-12">
+                                    <input type="number" class="form-control" name="numTel" ngModel="{{consultant?.numTel}}" placeholder="Numéro de téléphone">
+
+                                </div>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <div class="form-group">
+                            <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                <input class="btn btn-primary" (click)="onUpdateConsultant(editForm.value)"
+                                    type="submit" value="{{buttonValue}}"
+                                    [disabled]="editForm.invalid">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

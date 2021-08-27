@@ -34,7 +34,6 @@ export class SuperAdminComponent implements OnInit {
   }
 
   public onAddUser(addForm: NgForm): void {
-    debugger
     document.getElementById('add-user-form').click();
     this.userService.addUser(addForm.value).subscribe(
       (response: User) => {
@@ -88,7 +87,6 @@ export class SuperAdminComponent implements OnInit {
   }
 
   public onOpenModal(user: User, mode: string): void {
-    
     const container = document.getElementById('main-container');
     const button = document.createElement('button');
     button.type = 'button';
@@ -98,15 +96,8 @@ export class SuperAdminComponent implements OnInit {
       button.setAttribute('data-target', '#addUserModal');
     }
     if (mode === 'edit') {
-      //const adminOption = document.getElementById('adminOption');
-      //const superAdminOption = document.getElementById('SuperAdminOption');
-      
       this.editUser = user;
-      //  if (user.role[0]['roleName'] === 'Admin') {
-      //    adminOption.setAttribute('selected', 'selected');
-      //  }else{
-      //    superAdminOption.setAttribute('selected', 'selected');
-      //  }
+      
       button.setAttribute('data-target', '#updateUserModal');
     }
     if (mode === 'delete') {

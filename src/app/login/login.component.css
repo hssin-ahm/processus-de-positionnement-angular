@@ -28,6 +28,9 @@ body{
   text-align: center;
   padding: 20px 0;
   border-bottom: 1px solid silver;
+  font-family: "Poppins", sans-serif;
+  font-size: 30px;
+  font-weight: 500;
 }
 .center form{
   padding: 0 40px;
