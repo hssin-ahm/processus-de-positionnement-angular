@@ -8,6 +8,7 @@ import { Consultant } from './consultant';
   providedIn: 'root'
 })
 export class ConsultantService {
+  
   private apiServerUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient){}
@@ -30,5 +31,8 @@ export class ConsultantService {
 
   public getConsultant(id : number): Observable<Consultant> {
     return this.http.get<Consultant>(`${this.apiServerUrl}/consultant/find/${id}`);
+  }
+  public findByKeyword(key: string): Observable<Consultant[]> {
+    return this.http.get<Consultant[]>(`${this.apiServerUrl}/consultant/findBy/${key}`);
   }
 }

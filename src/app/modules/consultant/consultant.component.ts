@@ -36,6 +36,7 @@ export class ConsultantComponent implements OnInit {
         this.consultants = response;
       },
       (error: HttpErrorResponse) => {
+       
         alert(error.message);
       }
     );
@@ -56,20 +57,12 @@ export class ConsultantComponent implements OnInit {
   }
 
   public searchConsultants(key: string): void {
-    console.log(key);
-    const results: Consultant[] = [];
-    for (const consultant of this.consultants) {
-      if (consultant.nom.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      || consultant.prenom.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      || consultant.seniorite.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      || consultant.title.toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-        results.push(consultant);
+   
+    this.consultantService.findByKeyword(key).subscribe(
+      (response: Consultant[]) => {
+        this.consultants = response;
       }
-    }
-    this.consultants = results;
-    if (results.length === 0 || !key) {
-      this.getConsultants();
-    }
+    );
   }
 
   updateConsultant(id: number){
