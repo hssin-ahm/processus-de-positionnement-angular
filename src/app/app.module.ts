@@ -17,6 +17,8 @@ import { AdminModule } from './Layouts/admin/admin.module';
 import {MatIconModule} from '@angular/material/icon';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CvEnvoyeComponent } from './modules/cv-envoye/cv-envoye.component';
+import { ContactDialogComponent } from './contact-dialog/contact-dialog.component';
 
 @NgModule({
   declarations: [

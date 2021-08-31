@@ -24,8 +24,6 @@
                     </form>
 
                 </div>
-
-
             </div>
             <button mat-fab color="accent" style="color: white;" aria-label="Example icon button with a home icon" (click)="addConsultant()">
                 <mat-icon>add</mat-icon>
@@ -142,25 +140,4 @@
             </div>
         </div>
     </div>
-</div>
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-   <div class="modal-content">
-      <div class="modal-header">
-         <h5 class="modal-title" id="deleteModelLabel">Delete Consultant</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-         </button>
-      </div>
-      <div class="modal-body">
-         <p>Are you sure you want to delete Consultant {{deleteConsultant?.prenom}} {{deleteConsultant?.nom}}?</p>
-         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button (click)="onDeleteConsultant(deleteConsultant?.id)" class="btn btn-danger"
-               data-dismiss="modal">Yes</button>
-         </div>
-      </div>
-   </div>
 </div>

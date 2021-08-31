@@ -8,7 +8,7 @@ import { UserService } from '../../_services/user.service';
 })
 export class AdminComponent implements OnInit {
 
-  sideBarOpen = false;
+  sideBarOpen = true;
   constructor() { }
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@ import { UserAuthService } from '../_services/user-auth.service';
 
 @Injectable({providedIn: 'root'})
 export class UserService {
+  
   private apiServerUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient,
@@ -29,5 +30,9 @@ export class UserService {
   
   public deleteUser(userName: String): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/user/delete/${userName}`);
+  }
+
+  public findByKeyword(key: string): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiServerUrl}/findUserBy/${key}`);
   }
 }

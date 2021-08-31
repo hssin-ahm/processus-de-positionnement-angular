@@ -1,23 +1,24 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatConfirmDialogComponent } from '../mat-confirm-dialog/mat-confirm-dialog.component';
+import { ContactDialogComponent } from 'src/app/contact-dialog/contact-dialog.component';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DialogService {
+export class ContactDialogService {
 
   constructor(private dialog: MatDialog) { }
 
   public openConfirmDialog(msg){
-    return this.dialog.open(MatConfirmDialogComponent,{
-      width:"390px",
+    return this.dialog.open(ContactDialogComponent,{
+      width:"60%",
+      height: "600px",
       panelClass:'confirm-dialog-container',
       disableClose:true,
+      autoFocus:true,
       data :{
         message:msg
-      },
-      position: {top: '2%', left: '38%'}
+      }
     });
   }
 }

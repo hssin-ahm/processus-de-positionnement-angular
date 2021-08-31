@@ -182,22 +182,11 @@
                            placeholder="Add Email">
                      </div>
                      <div class="form-group">
-                        <!-- <label for="userPassword">Réinitialiser le mot de passe</label> -->
+                        
                         <input type="hidden" ngModel ngModel="{{editUser?.userPassword}}" name="userPassword"
                            class="form-control" id="userPassword" placeholder="Réinitialiser le mot de passe" required>
                      </div>
-                     <!-- <div class="form-group">
-                        <label for="">Role</label>
-                        <select class="form-select" size="2">
-                        <option value="Admin" id="adminOption" name="role">Admin</option>
-                        <option value="Super_Admin" id="SuperAdminOption">Super Admin</option>
-                     </select> 
-                        <input type="text"  class="form-control" id="role">
-                     </div> -->
-                     <!-- <select class="form-select" size="3" aria-label="size 3 select example">
-                     <option value="Admin">Admin</option>
-                     <option value="Super_Admin">Super Admin</option>
-                  </select> -->
+                     
                      <div class="modal-footer">
                         <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
                         <button (click)="onUpdateUser(editForm)" data-dismiss="modal" class="btn btn-primary">Save

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DialogService } from 'src/app/shared/dialog.service';
+import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
 import { UserAuthService } from 'src/app/_services/user-auth.service';
 import { Consultant } from './consultant';
 import { ConsultantService } from './consultant.service';
@@ -16,7 +16,8 @@ export class ConsultantComponent implements OnInit {
   public consultants: Consultant[];
   public deleteConsultant: Consultant;
   
-  constructor(private consultantService: ConsultantService, private router: Router, private dialogService: DialogService){}
+  constructor(private consultantService: ConsultantService, private router: Router, private dialogService: DialogService,
+    private userAuthService: UserAuthService){}
 
   ngOnInit() {
     this.getConsultants();
@@ -37,9 +38,13 @@ export class ConsultantComponent implements OnInit {
       },
       (error: HttpErrorResponse) => {
        
-        alert(error.message);
+        this.logout();
       }
     );
+  }
+  public logout(){
+    this.userAuthService.clear();
+    this.router.navigate(["/login"])
   }
   public onAddEmloyee(addForm: NgForm): void {
     document.getElementById('add-consultant-form').click();
@@ -50,7 +55,7 @@ export class ConsultantComponent implements OnInit {
         addForm.reset();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.logout();
         addForm.reset();
       }
     );
@@ -89,7 +94,7 @@ export class ConsultantComponent implements OnInit {
         this.getConsultants();
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.logout();
       }
     );
   }

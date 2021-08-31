@@ -71,19 +71,11 @@ export class SuperAdminComponent implements OnInit {
   }
 
   public searchUsers(key: string): void {
-    const results: User[] = [];
-    for (const user of this.users) {
-      if (user.userName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      || user.userFirstName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      || user.userLastName.toLowerCase().indexOf(key.toLowerCase()) !== -1
-      || user.userPassword.toString().toLowerCase().indexOf(key.toLowerCase()) !== -1) {
-        results.push(user);
+    this.userService.findByKeyword(key).subscribe(
+      (response: User[]) => {
+        this.users = response;
       }
-    }
-    this.users = results;
-    if (results.length === 0 || !key) {
-      this.getUsers();
-    }
+    );
   }
 
   public onOpenModal(user: User, mode: string): void {
