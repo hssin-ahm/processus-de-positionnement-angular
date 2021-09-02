@@ -202,13 +202,29 @@
         </section>
     </div>
 </div>
+
 </mat-tab>
-<mat-tab label="CV envoyé">
+
+
+<mat-tab *ngIf="id" label="CV envoyé">
     <app-cv-envoye></app-cv-envoye>
 </mat-tab>
-<mat-tab label="Positionements">
+<mat-tab *ngIf="id" label="Entretien / Test technique partenaire">
+    
+</mat-tab>
+<mat-tab *ngIf="id" label="Positionnement client">
+    
+</mat-tab>
+<mat-tab *ngIf="id" label="Briefing">
+    
+</mat-tab>
+<mat-tab *ngIf="id" label="Entretien / Test technique client">
+    
+</mat-tab>
+<mat-tab *ngIf="id" label="Briefing">
+    
+</mat-tab>
+<mat-tab *ngIf="id" label="Validation client">
     
 </mat-tab>
 </mat-tab-group>
-
-

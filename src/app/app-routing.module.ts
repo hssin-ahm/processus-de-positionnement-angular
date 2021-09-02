@@ -13,6 +13,7 @@ import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dial
 const routes: Routes = [
   { path: 'super-admin', component: SuperAdminComponent, canActivate: [AuthGuard], data: { roles: ['Super_Admin'] } },
   {path: 'consultant', component: ConsultantComponent}, 
+  
   {
     
     path: 'admin', component: AdminComponent, 
@@ -21,6 +22,7 @@ const routes: Routes = [
       { path: 'positionnement', component: PositionnementsComponent },
       { path: 'update/:id', component: UpdateConsultantComponent },
       { path: 'add', component: UpdateConsultantComponent },
+      { path: ':success', component: ConsultantComponent },
     ],
     canActivate: [AuthGuard], data: { roles: ['Admin'] }
   },

@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
 import { Consultant } from '../consultant/consultant';
 import { ConsultantService } from '../consultant/consultant.service';
 
@@ -16,8 +17,10 @@ export class UpdateConsultantComponent implements OnInit {
   buttonValue:string;
   obligatoire:string ="";
 
-  constructor(private route: ActivatedRoute,private router: Router,
-    private consultantService: ConsultantService) { }
+  constructor(private route: ActivatedRoute,
+    private router: Router,
+    private consultantService: ConsultantService
+    ) { }
 
   ngOnInit(): void {
     this.consultant = new Consultant();
@@ -29,7 +32,6 @@ export class UpdateConsultantComponent implements OnInit {
       this.consultantService.getConsultant(this.id)
       .subscribe(data => {
         this.consultant = data;
-        
       }, error => console.log(error));
     }else{
       this.panelTitle = "Create consultant";
@@ -45,7 +47,7 @@ export class UpdateConsultantComponent implements OnInit {
     if (consultant.id) {
       this.consultantService.updateConsultant(consultant).subscribe(
         (response: Consultant) => {
-          this.gotoList();
+          this.gotoList('us');
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -54,7 +56,7 @@ export class UpdateConsultantComponent implements OnInit {
     }else{
       this.consultantService.addConsultant(consultant).subscribe(
         (response: Consultant) => {
-          this.gotoList();
+          this.gotoList('as');
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
@@ -63,8 +65,9 @@ export class UpdateConsultantComponent implements OnInit {
     }
   }
 
-  gotoList() {
-    this.router.navigate(['/admin']);
+  gotoList(msg) {
+    this.router.navigate(['/admin', {success: 'as'}]);
+
   }
 }
 

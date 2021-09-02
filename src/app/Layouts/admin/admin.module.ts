@@ -22,11 +22,10 @@ import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { ContactDialogComponent } from 'src/app/contact-dialog/contact-dialog.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatConfirmDialogComponent } from 'src/app/mat-confirm-dialog/mat-confirm-dialog.component';
+import { SimpleNotificationsModule } from 'angular2-notifications';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -34,7 +33,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     PositionnementsComponent,
     UpdateConsultantComponent,
     CvEnvoyeComponent,
-    ContactDialogComponent
+    ContactDialogComponent,
+    MatConfirmDialogComponent
 
   
 
@@ -56,7 +56,9 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatFormFieldModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatDialogModule
+    MatDialogModule,
+    SimpleNotificationsModule.forRoot(),
+    BrowserAnimationsModule
     
   ],
   providers:[

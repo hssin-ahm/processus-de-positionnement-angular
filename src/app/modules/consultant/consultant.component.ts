@@ -1,11 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationsService } from 'angular2-notifications';
 import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
+import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
 import { UserAuthService } from 'src/app/_services/user-auth.service';
 import { Consultant } from './consultant';
 import { ConsultantService } from './consultant.service';
+
 @Component({
   selector: 'app-consultant',
   templateUrl: './consultant.component.html',
@@ -15,11 +18,18 @@ export class ConsultantComponent implements OnInit {
 
   public consultants: Consultant[];
   public deleteConsultant: Consultant;
+  success: string;
   
-  constructor(private consultantService: ConsultantService, private router: Router, private dialogService: DialogService,
-    private userAuthService: UserAuthService){}
+  constructor(private consultantService: ConsultantService, 
+    private router: Router,
+    private dialogService: DialogService,
+    private userAuthService: UserAuthService,
+    private notificationsService: notificationsService,
+    private route: ActivatedRoute
+    ){}
 
   ngOnInit() {
+    this.success = this.route.snapshot.params['success'];
     this.getConsultants();
   }
 
@@ -32,34 +42,45 @@ export class ConsultantComponent implements OnInit {
     return date;
   }
   public getConsultants(): void {
-    this.consultantService.getConsultants().subscribe(
-      (response: Consultant[]) => {
-        this.consultants = response;
-      },
-      (error: HttpErrorResponse) => {
-       
-        this.logout();
-      }
-    );
+    if (this.success == "as") {
+      this.router.navigate(['']).then(() => 
+      this.getConsultantss('Ajout réussi')
+      );
+    }else if (this.success == "us"){
+      this.router.navigate(['']).then(() => 
+      this.getConsultantss('Mise à jour avec succès')
+      );
+    }else{
+      this.consultantService.getConsultants().subscribe(
+        (response: Consultant[]) => {
+          this.consultants = response;
+        },
+        (error: HttpErrorResponse) => {
+          this.logout();
+        }
+      );
+    }
+    
   }
+  public getConsultantss(success?: any): void {
+  this.consultantService.getConsultants().subscribe(
+    (response: Consultant[]) => {
+      this.consultants = response;
+      this.notificationsService.onSuccess(success);
+      
+     
+    },
+    (error: HttpErrorResponse) => {
+     
+      this.logout();
+    }
+  );
+}
   public logout(){
     this.userAuthService.clear();
     this.router.navigate(["/login"])
   }
-  public onAddEmloyee(addForm: NgForm): void {
-    document.getElementById('add-consultant-form').click();
-    this.consultantService.addConsultant(addForm.value).subscribe(
-      (response: Consultant) => {
-        console.log(response);
-        this.getConsultants();
-        addForm.reset();
-      },
-      (error: HttpErrorResponse) => {
-        this.logout();
-        addForm.reset();
-      }
-    );
-  }
+ 
 
   public searchConsultants(key: string): void {
    
@@ -83,7 +104,10 @@ export class ConsultantComponent implements OnInit {
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer "+ consultant.prenom +" " + consultant.nom)
     .afterClosed().subscribe(res => {
       if (res) {
-        this.onDeleteConsultant(consultant.id);
+        //this.onDeleteConsultant(consultant.id);
+        this.router.navigate(['']).then(() =>
+        this.onDeleteConsultant(consultant.id)
+        );
       }
     });
   }
@@ -91,10 +115,11 @@ export class ConsultantComponent implements OnInit {
   public onDeleteConsultant(id: number): void {
     this.consultantService.deleteConsultant(id).subscribe(
       (response: void) => {
+        this.notificationsService.onSuccess("Supprimé avec succès");
         this.getConsultants();
       },
       (error: HttpErrorResponse) => {
-        this.logout();
+        this.notificationsService.onError("Quelque chose ne va pas");
       }
     );
   }
@@ -127,4 +152,5 @@ export class ConsultantComponent implements OnInit {
       } 
     }
   }
+  
 }

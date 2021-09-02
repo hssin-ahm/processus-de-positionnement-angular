@@ -25,8 +25,7 @@ import { ContactDialogComponent } from './contact-dialog/contact-dialog.componen
     AppComponent,
     SuperAdminComponent,
     ForbiddenComponent,
-    LoginComponent,
-    MatConfirmDialogComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,

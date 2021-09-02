@@ -1,28 +1,5 @@
- <!-- <div>
-
-    <div class="content-container">
-      <mat-icon id="close-icon" [mat-dialog-close]="false">close</mat-icon>
-    </div>
-    <mat-form-field appearance="fill">
-      <mat-label>Input</mat-label>
-      <input matInput>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Select</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Textarea</mat-label>
-      <textarea matInput></textarea>
-    </mat-form-field>
-      <button mat-flat-button id="yes-button" [mat-dialog-close]="true">OUI</button>
-      <button mat-flat-button id="no-button" [mat-dialog-close]="false">NON</button>
-  </div> -->
 <div class="container" id="container">
-  
+
   <div class="content-container">
     <mat-icon id="close-icon" [mat-dialog-close]="false">close</mat-icon>
   </div>
@@ -31,36 +8,47 @@
     <input type="hidden" name="id" #id="ngModel" [(ngModel)]="contact.idContact">
     <mat-label>Non de la contact: </mat-label>
     <div class="form-group">
-      <input name="nom" #nom="ngModel" [(ngModel)]="contact.nom" class="form-control" placeholder="Nom de la contact" required>
+      <input name="nom" #nom="ngModel" [(ngModel)]="contact.nom" class="form-control" placeholder="Nom de la contact"
+        required>
     </div>
     <br>
     <mat-label>Prenom de la contact:</mat-label>
     <div class="form-group">
-      <input name="prenom" #prenom="ngModel" [(ngModel)]="contact.prenom" class="form-control" placeholder="Prenom de la contact">
+      <input name="prenom" #prenom="ngModel" [(ngModel)]="contact.prenom" class="form-control"
+        placeholder="Prenom de la contact">
     </div>
     <br>
     <mat-label>Poste:</mat-label>
-      <div class="form-group">
-        <input name="poste" #poste="ngModel" [(ngModel)]="contact.poste" class="form-control" placeholder="poste de la contact">
-      </div>
+    <div class="form-group">
+      <input name="poste" #poste="ngModel" [(ngModel)]="contact.poste" class="form-control"
+        placeholder="poste de la contact">
+    </div>
     <br>
     <div class="form-row">
-      
+
       <mat-label>Mail:</mat-label>
       <div class="form-group">
-        <input name="mail" #mail="ngModel" [(ngModel)]="contact.mail" class="form-control" placeholder="mail de la contact">
+        <input name="mail" #mail="ngModel" [(ngModel)]="contact.mail" class="form-control"
+          placeholder="mail de la contact" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+          [class.is-invalid]="mail.invalid && mail.touched">
+
+        <div *ngIf="mail.errors && (mail.invalid && mail.touched) ">
+          <small class="text-danger" *ngIf="mail.errors.pattern">Entrez une adresse email valide</small>
+        </div>
       </div>
-      
+
       <br>
       <mat-label>Numéro de téléphone:</mat-label>
       <div class="form-group col-md-6">
-        <input name="telephone" #telephone="ngModel" [(ngModel)]="contact.telephone" class="form-control" placeholder="téléphone">
+        <input type="number" name="telephone" #telephone="ngModel" [(ngModel)]="contact.telephone" class="form-control"
+          placeholder="téléphone">
       </div>
     </div>
     <br>
     <br>
     <div class="form-group">
-      <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-block btn-info">Ajouter</button>
+      <button type="submit" [disabled]="form.invalid" class="btn btn-lg btn-block btn-info"
+        [mat-dialog-close]="true">Ajouter</button>
     </div>
 
   </form>

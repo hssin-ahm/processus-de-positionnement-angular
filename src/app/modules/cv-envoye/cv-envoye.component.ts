@@ -10,6 +10,8 @@ import { FormControl, NgForm } from '@angular/forms';
 import { ContactDialogService } from 'src/app/shared/dialog-service/contact-dialog.service';
 import { ContactService } from 'src/app/_services/contact/contact.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
+import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
 
 
 
@@ -29,16 +31,19 @@ export class CvEnvoyeComponent implements OnInit {
   toppings = new FormControl();
   toppingList: string[] = [];
 
-  columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques", "statut"]
+  columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques", "statut", "actions"]
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
+  cvForm: NgForm;
 
   constructor(private cvEnvoyeService: CvEnvoyeService, 
     private route: ActivatedRoute, 
     private contactDialogService:ContactDialogService,
-    private ContactService: ContactService
+    private ContactService: ContactService, 
+    private dialogService: DialogService,
+    private notificationsService: notificationsService
     ) { 
     
   }
@@ -55,8 +60,6 @@ export class CvEnvoyeComponent implements OnInit {
   getCvEnvoyeByConsultantId(){
     this.cvEnvoyeService.getCvEnvoyeByConsultantId(this.id).subscribe(
       response=>{
-        console.log(response);
-        
         this.cvEnvoyes = response;
         this.dataSource =  new MatTableDataSource(this.cvEnvoyes);
         this.dataSource.sort = this.sort;
@@ -84,10 +87,15 @@ export class CvEnvoyeComponent implements OnInit {
   getFirstContact(contact: Contact, row: any){
     
     if (contact[0]) {
-      return contact[0]['nom'];
+      return contact[0]['prenom'] + " " +contact[0]['nom'];
     }
     return "Pas de contact";
   
+   }
+
+   updateCvEnvoye(cvEnvoye: CvEnvoye){
+    this.cvEnvoye = cvEnvoye;
+    this.display();
    }
 
    display(){
@@ -99,6 +107,7 @@ export class CvEnvoyeComponent implements OnInit {
     }else {
       addCvEnvoye.style.display = "none";
       table.style.display = "block";
+      this.getCvEnvoyeByConsultantId();
     }
    
    }
@@ -126,23 +135,19 @@ export class CvEnvoyeComponent implements OnInit {
   refreshTheList(){
     this.getContacts();
   }
-  onUpdateCvEnvoye(editForm: NgForm){
-    console.log(editForm.value);
-    debugger
+  onUpdateCvEnvoye(cvForm: NgForm){
+    
     this.newContacts = [];
     this.contacts.forEach(element => {
-      editForm.value['contactName'].forEach(contactName => {
+      cvForm.value['contactName'].forEach(contactName => {
         if ((element.prenom + " " + element.nom) == contactName) {
           this.newContacts.push(element);
         }
       });
     });
-    console.log(this.newContacts);
-    this.cvEnvoye = editForm.value;
+    this.cvEnvoye = cvForm.value;
+    this.cvForm = cvForm;
     this.cvEnvoye.contact = this.newContacts
-    
-    console.log(this.cvEnvoye);
-    debugger
     this.onAddCvEnvoye(this.cvEnvoye);
     
   }
@@ -152,11 +157,46 @@ export class CvEnvoyeComponent implements OnInit {
         console.log(response);
         this.getCvEnvoyeByConsultantId();
         this.display();
+        this.notificationsService.onSuccess("Ajout réussi");
+        this.cvForm.reset();
       },
       (error: HttpErrorResponse) => {
-       alert(error.message);
+        this.notificationsService.onError("Quelque chose ne va pas");
       }
     );
   }
+  
+  public onOpenDeleteModal(cvEnvoye: CvEnvoye): void{
+
+
+    this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
+    .afterClosed().subscribe(res => {
+      if (res) {
+        this.onDeleteCvEnvoye(cvEnvoye.idcv);
+        this.notificationsService.onSuccess("Supprimé avec succès");
+      }
+    });
+  }
+  
+  public onDeleteCvEnvoye(id: number): void {
+    this.cvEnvoyeService.deleteCvEnvoye(id).subscribe(
+      (response: void) => {
+        this.getCvEnvoyeByConsultantId();
+      },
+      (error: HttpErrorResponse) => {
+        this.notificationsService.onError("Quelque chose ne va pas");
+      }
+    );
+  }
+  getIClass(statut: string){
+    switch(statut) { 
+     case "Cv en cours": { 
+        return "indicator bg-warning";
+     } 
+     default: { 
+        return "indicator bg-success";
+     } 
+   }
+  } 
   
 }

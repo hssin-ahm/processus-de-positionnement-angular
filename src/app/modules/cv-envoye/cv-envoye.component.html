@@ -14,7 +14,6 @@
   </div>
 
   <table mat-table [dataSource]="dataSource" matSort>
-
     <!-- Date de l’envoi Column -->
     <ng-container matColumnDef="dateEnvoi">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de l’envoi </th>
@@ -42,7 +41,7 @@
     <!-- TJM Column -->
     <ng-container matColumnDef="tjm">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> TJM </th>
-      <td mat-cell *matCellDef="let row"> {{row.tjm}} </td>
+      <td mat-cell *matCellDef="let row"> {{row.tjm}} € </td>
     </ng-container>
 
     <!-- Observation Column -->
@@ -54,10 +53,7 @@
     <!-- Statut actuel Column -->
     <ng-container matColumnDef="statut">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut actuel </th>
-      <div class="widget-26-job-category bg-soft-info">
-        <i class="indicator bg-info"></i>
-      <td mat-cell *matCellDef="let row" class="indicator bg-info"> {{row.statut}} </td>
-    </div>
+      <td mat-cell *matCellDef="let row"><i class="{{getIClass(row.statut)}}" style="border-radius: 50%; z-index: 1; font-size: small;"> &nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;&nbsp; {{row.statut}} </td>
     </ng-container>
 
     <ng-container matColumnDef="loading">
@@ -70,14 +66,26 @@
         No data.
       </mat-footer-cell>
     </ng-container>
+    <ng-container matColumnDef="actions">
+      
+     
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <td mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="updateCvEnvoye(row)" ><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button color="warn" (click) = "onOpenDeleteModal(row)"><mat-icon>delete_outline</mat-icon></button>
+        </td>
+     
+    </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
     <tr mat-row *matRowDef="let row; columns: columns;"></tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic rows">
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons aria-label="Select page of periodic rows">
   </mat-paginator>
 </div>
+<simple-notifications></simple-notifications>
 <div class="container" id="addCvEnvoye" style="display: none; background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
   <div class="content-panel" style="margin-left: 8%;">
     <form class="form-horizontal" #cvForm="ngForm">
@@ -97,7 +105,6 @@
               Champs obligatoires</small>
           </div>
         </div>
-
         <br>
         <div class="form-group">
           <label class="col-md-2 col-sm-3 col-xs-12 control-label">Partenaire / Client <span
@@ -120,7 +127,7 @@
               style="color: red;">*</span></label>
           <div class="col-md-10 col-sm-9 col-xs-12">
             <input type="text" class="form-control" ngModel="{{cvEnvoye?.nomSociete}}" name="nomSociete"
-              placeholder="nomSociete" required #nomSociete="ngModel"
+              placeholder="Nom de la société" required #nomSociete="ngModel"
               [class.is-invalid]="nomSociete.invalid && nomSociete.touched">
             <small class="text-danger" [class.d-none]="nomSociete.valid || nomSociete.untouched">Nom de la société est
               Champs obligatoires</small>
@@ -131,14 +138,13 @@
         <div class="form-group">
           <label class="col-md-2 col-sm-3 col-xs-12 control-label">TJM <span style="color: red;">*</span></label>
           <div class="col-md-10 col-sm-9 col-xs-12">
-            <input type="number" class="form-control" ngModel="{{cvEnvoye?.tjm}}" name="tjm" placeholder="TJM" required
+            <input type="number" class="form-control" ngModel="{{cvEnvoye?.tjm}}" name="tjm" placeholder="...€" required
               #tjm="ngModel" [class.is-invalid]="tjm.invalid && tjm.touched">
             <small class="text-danger" [class.d-none]="tjm.valid || tjm.untouched">TJM est
               Champs obligatoires</small>
           </div>
         </div>
         <br>
-
         <div class="form-group">
           <label class="col-md-2 col-sm-3 col-xs-12 control-label"> Statut<span style="color: red;">*</span></label>
           <div class="col-md-10 col-sm-9 col-xs-12">
@@ -160,12 +166,10 @@
             <textarea class="form-control" name="remarques" ngModel="{{cvEnvoye?.remarques}}"
               placeholder="Observations/remarques">
                 </textarea>
-
           </div>
         </div>
       </fieldset>
       <br>
-
       <fieldset class="fieldset">
       <h3 class="fieldset-title">Informations de contact</h3>
       <mat-form-field appearance="fill" >
@@ -178,24 +182,18 @@
       <button mat-icon-button color="black" style="float: right; margin-right: 16%;" (click)="refreshTheList()">
         <mat-icon>refresh</mat-icon>
       </button>
-    </fieldset>
-   
-    
+      </fieldset>
       <br>
       <br>
-      <div style="flex-direction: column;  align-content: space-between;">
-        <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm);"
+      <div style="flex-direction: column;  align-content: space-between; ">
+        <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm); "
         [disabled]="cvForm.invalid">
           <mat-icon>add</mat-icon>  Ajouter
         </button>
-
-        <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display()"
-         >
+        <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); cvForm.reset() ">
           <mat-icon>undo</mat-icon>  Retour
         </button>
       </div>
     </form>
-
-  </div>
-
+  </div >
 </div>

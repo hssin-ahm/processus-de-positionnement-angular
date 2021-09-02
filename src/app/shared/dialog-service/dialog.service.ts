@@ -16,8 +16,7 @@ export class DialogService {
       disableClose:true,
       data :{
         message:msg
-      },
-      position: {top: '2%', left: '38%'}
+      }
     });
   }
 }
