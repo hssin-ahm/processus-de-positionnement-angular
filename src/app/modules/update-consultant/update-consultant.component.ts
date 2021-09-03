@@ -66,7 +66,7 @@ export class UpdateConsultantComponent implements OnInit {
   }
 
   gotoList(msg) {
-    this.router.navigate(['/admin', {success: 'as'}]);
+    this.router.navigate(['/admin', {success: msg}]);
 
   }
 }

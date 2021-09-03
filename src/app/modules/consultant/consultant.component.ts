@@ -44,11 +44,11 @@ export class ConsultantComponent implements OnInit {
   public getConsultants(): void {
     if (this.success == "as") {
       this.router.navigate(['']).then(() => 
-      this.getConsultantss('Ajout réussi')
+      this.getConsultantsWithNotification('Ajout réussi')
       );
     }else if (this.success == "us"){
       this.router.navigate(['']).then(() => 
-      this.getConsultantss('Mise à jour avec succès')
+      this.getConsultantsWithNotification('Mise à jour avec succès')
       );
     }else{
       this.consultantService.getConsultants().subscribe(
@@ -62,11 +62,11 @@ export class ConsultantComponent implements OnInit {
     }
     
   }
-  public getConsultantss(success?: any): void {
+  public getConsultantsWithNotification(msg: any): void {
   this.consultantService.getConsultants().subscribe(
     (response: Consultant[]) => {
       this.consultants = response;
-      this.notificationsService.onSuccess(success);
+      this.notificationsService.onSuccess(msg);
       
      
     },

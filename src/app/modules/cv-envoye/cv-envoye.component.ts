@@ -12,6 +12,8 @@ import { ContactService } from 'src/app/_services/contact/contact.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
 import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
+import { ConsultantService } from '../consultant/consultant.service';
+import { Consultant } from '../consultant/consultant';
 
 
 
@@ -30,20 +32,24 @@ export class CvEnvoyeComponent implements OnInit {
 
   toppings = new FormControl();
   toppingList: string[] = [];
+  updateToppingList: string[] = [];
 
   columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques", "statut", "actions"]
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
-  cvForm: NgForm;
+  panelTitle: string;
+  consultant: Consultant;
+  
 
   constructor(private cvEnvoyeService: CvEnvoyeService, 
     private route: ActivatedRoute, 
     private contactDialogService:ContactDialogService,
     private ContactService: ContactService, 
     private dialogService: DialogService,
-    private notificationsService: notificationsService
+    private notificationsService: notificationsService,
+    private consultantService : ConsultantService
     ) { 
     
   }
@@ -70,7 +76,6 @@ export class CvEnvoyeComponent implements OnInit {
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];
     contacts.forEach(element => {
-      console.log(element.nom);
      
      this.toppingList.push(element.prenom + " " + element.nom);
     });
@@ -94,7 +99,14 @@ export class CvEnvoyeComponent implements OnInit {
    }
 
    updateCvEnvoye(cvEnvoye: CvEnvoye){
+     
+    this.panelTitle = "Modifier";
     this.cvEnvoye = cvEnvoye;
+    this.cvEnvoye.idcv = cvEnvoye.idcv;
+    this.addContactToTtoppingList(cvEnvoye.contact);
+    
+    cvEnvoye.contactName = this.toppingList;
+    this.getContacts();
     this.display();
    }
 
@@ -107,24 +119,78 @@ export class CvEnvoyeComponent implements OnInit {
     }else {
       addCvEnvoye.style.display = "none";
       table.style.display = "block";
+      
+      this.cvEnvoye = new CvEnvoye();
       this.getCvEnvoyeByConsultantId();
+
     }
    
    }
    public onOpenContactModal(): void{
-
-
-    this.contactDialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
-    .afterClosed().subscribe(res => {
-    
-    });
+    this.contactDialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ");
   }
   public getContacts(): void {
     this.ContactService.getContacts().subscribe(
       (response: Contact[]) => {
         this.contacts = response;
         this.addContactToTtoppingList(response);
-        console.log(this.contacts);
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+  public getConsultant(consultantId: number): void {
+    this.consultantService.getConsultant(consultantId).subscribe(
+      (response: Consultant) => {
+        this.cvEnvoye.consultant = response;
+        this.cvEnvoye.idcv = this.cvEnvoye.id;
+        delete this.cvEnvoye.id;
+        delete this.cvEnvoye.contactName;
+        delete this.cvEnvoye.consultantId;
+        
+        this.onModifyCvEnvoye(this.cvEnvoye);
+
+        
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
+  refreshTheList(){
+    this.getContacts();
+  }
+  onUpdateCvEnvoye(cvForm: NgForm){
+    this.newContacts = [];
+      this.contacts.forEach(element => {
+        cvForm.value['contactName'].forEach(contactName => {
+          if ((element.prenom + " " + element.nom) == contactName) {
+            this.newContacts.push(element);
+          }
+        });
+      });
+      this.cvEnvoye = cvForm.value;
+      this.cvEnvoye.contact = this.newContacts;
+    if (cvForm.value.id) {
+      this.getConsultant(this.id);
+    }else{
+      
+      
+      this.onAddCvEnvoye(cvForm);
+    debugger
+    }
+    
+  }
+  
+
+  public onModifyCvEnvoye(cvEnvoye: CvEnvoye): void {
+    console.log(this.cvEnvoye);
+    
+    this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
+      (response: CvEnvoye) => {
+        this.display();
+        this.notificationsService.onSuccess("Mise à jour avec succès");
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -132,33 +198,14 @@ export class CvEnvoyeComponent implements OnInit {
     );
   }
 
-  refreshTheList(){
-    this.getContacts();
-  }
-  onUpdateCvEnvoye(cvForm: NgForm){
-    
-    this.newContacts = [];
-    this.contacts.forEach(element => {
-      cvForm.value['contactName'].forEach(contactName => {
-        if ((element.prenom + " " + element.nom) == contactName) {
-          this.newContacts.push(element);
-        }
-      });
-    });
-    this.cvEnvoye = cvForm.value;
-    this.cvForm = cvForm;
-    this.cvEnvoye.contact = this.newContacts
-    this.onAddCvEnvoye(this.cvEnvoye);
-    
-  }
-  public onAddCvEnvoye(cvEnvoye: CvEnvoye): void {
-    this.cvEnvoyeService.addCvEnvoye(cvEnvoye, this.id).subscribe(
+  public onAddCvEnvoye(cvEnvoye: NgForm): void {
+    this.cvEnvoyeService.addCvEnvoye(cvEnvoye.value, this.id).subscribe(
       (response: CvEnvoye) => {
         console.log(response);
         this.getCvEnvoyeByConsultantId();
         this.display();
+        cvEnvoye.reset();
         this.notificationsService.onSuccess("Ajout réussi");
-        this.cvForm.reset();
       },
       (error: HttpErrorResponse) => {
         this.notificationsService.onError("Quelque chose ne va pas");

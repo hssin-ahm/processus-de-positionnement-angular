@@ -24,7 +24,6 @@ export class ContactDialogComponent implements OnInit {
   public onSubmit(addForm: NgForm): void {
     this.contactService.addContact(addForm.value).subscribe(
       (response: Contact) => {
-        
         addForm.reset();
       },
       (error: HttpErrorResponse) => {

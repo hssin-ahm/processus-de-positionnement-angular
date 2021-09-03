@@ -14,6 +14,7 @@
   </div>
 
   <table mat-table [dataSource]="dataSource" matSort>
+    
     <!-- Date de l’envoi Column -->
     <ng-container matColumnDef="dateEnvoi">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date de l’envoi </th>
@@ -90,7 +91,7 @@
   <div class="content-panel" style="margin-left: 8%;">
     <form class="form-horizontal" #cvForm="ngForm">
       <fieldset class="fieldset">
-        <h3 class="fieldset-title">Ajouter</h3>
+        <h3 class="fieldset-title">{{panelTitle ? panelTitle : 'Ajouter'}}</h3>
         <input type="hidden" ngModel="{{cvEnvoye?.idcv}}" name="id">
         <input type="hidden" ngModel="{{id}}" name="consultantId">
         <br>
@@ -188,7 +189,7 @@
       <div style="flex-direction: column;  align-content: space-between; ">
         <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm); "
         [disabled]="cvForm.invalid">
-          <mat-icon>add</mat-icon>  Ajouter
+          <mat-icon>add</mat-icon>  {{panelTitle ? panelTitle : 'Ajouter'}}
         </button>
         <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); cvForm.reset() ">
           <mat-icon>undo</mat-icon>  Retour
