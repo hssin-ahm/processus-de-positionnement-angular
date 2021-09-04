@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ContactDialogComponent } from 'src/app/contact-dialog/contact-dialog.component';
+import { Contact } from 'src/app/_services/contact/contact';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class ContactDialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  public openConfirmDialog(msg){
+  public openConfirmDialog(contact?: Contact){
     return this.dialog.open(ContactDialogComponent,{
       width:"60%",
       height: "600px",
@@ -17,7 +18,7 @@ export class ContactDialogService {
       disableClose:true,
       autoFocus:true,
       data :{
-        message:msg
+        contact:contact
       }
     });
   }

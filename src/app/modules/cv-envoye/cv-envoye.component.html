@@ -176,13 +176,15 @@
       <mat-form-field appearance="fill" >
         <mat-label>Contacts</mat-label>
         <mat-select  multiple name="contactName" [(ngModel)]="cvEnvoye.contactName">
-          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}}</mat-option>
+          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}} 
+            <button mat-icon-button color="black" style="float: right; margin-right: 16%;" (click)="onOpenContactModal(topping)">
+              <mat-icon>dehaze</mat-icon>
+            </button>
+          </mat-option>
         </mat-select>
       </mat-form-field>
-      <a  (click)="onOpenContactModal()" style="margin-left: 25px;">+Ajouter Contact</a>
-      <button mat-icon-button color="black" style="float: right; margin-right: 16%;" (click)="refreshTheList()">
-        <mat-icon>refresh</mat-icon>
-      </button>
+      <a  (click)="onOpenContactModal(undefined)" style="margin-left: 25px;">+Ajouter Contact</a>
+      
       </fieldset>
       <br>
       <br>

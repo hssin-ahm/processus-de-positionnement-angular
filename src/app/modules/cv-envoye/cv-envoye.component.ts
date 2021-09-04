@@ -126,8 +126,33 @@ export class CvEnvoyeComponent implements OnInit {
     }
    
    }
-   public onOpenContactModal(): void{
-    this.contactDialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ");
+   public onOpenContactModal(nomContact: String): void{
+    if (nomContact) {
+      var contact: Contact;
+      this.contacts.forEach(element => {
+          if ((element.prenom + " " + element.nom) == nomContact) {
+            contact = element;
+          }
+      });
+      
+    this.contactDialogService.openConfirmDialog(contact)
+    .afterClosed().subscribe(res => {
+      if (res) {
+        this.getContacts();
+       
+      }
+    });
+    }else{
+    this.contactDialogService.openConfirmDialog(null)
+    .afterClosed().subscribe(res => {
+      if (res) {
+        this.getContacts();
+       
+      }
+    });
+
+    }
+     
   }
   public getContacts(): void {
     this.ContactService.getContacts().subscribe(
@@ -178,7 +203,7 @@ export class CvEnvoyeComponent implements OnInit {
       
       
       this.onAddCvEnvoye(cvForm);
-    debugger
+    
     }
     
   }
