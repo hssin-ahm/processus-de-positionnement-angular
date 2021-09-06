@@ -91,7 +91,7 @@
   <div class="content-panel" style="margin-left: 8%;">
     <form class="form-horizontal" #cvForm="ngForm">
       <fieldset class="fieldset">
-        <h3 class="fieldset-title">{{panelTitle ? panelTitle : 'Ajouter'}}</h3>
+        <h3 class="fieldset-title">{{panelTitle}}</h3>
         <input type="hidden" ngModel="{{cvEnvoye?.idcv}}" name="id">
         <input type="hidden" ngModel="{{id}}" name="consultantId">
         <br>
@@ -177,9 +177,22 @@
         <mat-label>Contacts</mat-label>
         <mat-select  multiple name="contactName" [(ngModel)]="cvEnvoye.contactName">
           <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}} 
-            <button mat-icon-button color="black" style="float: right; margin-right: 16%;" (click)="onOpenContactModal(topping)">
+            <!-- <button mat-icon-button color="black" style="float: right; margin-right: 16%;" (click)="onOpenContactModal(topping)">
               <mat-icon>dehaze</mat-icon>
+            </button> -->
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="float: right;">
+              <mat-icon>more_horiz</mat-icon>
             </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onOpenContactModal(topping)">
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button mat-menu-item (click)="onOpenContactDeleteModal(topping)">
+                <mat-icon>delete_outline</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
           </mat-option>
         </mat-select>
       </mat-form-field>
@@ -191,7 +204,7 @@
       <div style="flex-direction: column;  align-content: space-between; ">
         <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm); "
         [disabled]="cvForm.invalid">
-          <mat-icon>add</mat-icon>  {{panelTitle ? panelTitle : 'Ajouter'}}
+          <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
         </button>
         <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); cvForm.reset() ">
           <mat-icon>undo</mat-icon>  Retour

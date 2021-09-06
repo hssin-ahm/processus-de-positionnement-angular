@@ -26,6 +26,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { MatConfirmDialogComponent } from 'src/app/mat-confirm-dialog/mat-confirm-dialog.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatMenuModule} from '@angular/material/menu';
+import { EntretienPartenaireComponent } from 'src/app/modules/entretien-partenaire/entretien-partenaire.component';
+import { PositionnementClientComponent } from 'src/app/modules/positionnement-client/positionnement-client.component';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -34,9 +37,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     UpdateConsultantComponent,
     CvEnvoyeComponent,
     ContactDialogComponent,
-    MatConfirmDialogComponent
-
-  
+    MatConfirmDialogComponent,
+    EntretienPartenaireComponent,
+    PositionnementClientComponent
 
   ],
   imports: [
@@ -58,7 +61,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatDatepickerModule,
     MatDialogModule,
     SimpleNotificationsModule.forRoot(),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatMenuModule
     
   ],
   providers:[

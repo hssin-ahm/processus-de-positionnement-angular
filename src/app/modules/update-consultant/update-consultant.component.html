@@ -1,4 +1,4 @@
-<mat-tab-group mat-align-tabs="start" backgroundColor="default">
+<mat-tab-group mat-align-tabs="start" backgroundColor="default" (selectedTabChange)="onClick($event)">
     <mat-tab label="Informations">
       
 <div class="container">
@@ -207,21 +207,18 @@
 
 
 <mat-tab *ngIf="id" label="CV envoyé">
-    <app-cv-envoye></app-cv-envoye>
+    <app-cv-envoye *ngIf="tab == 1"></app-cv-envoye>
 </mat-tab>
 <mat-tab *ngIf="id" label="Entretien / Test technique partenaire">
-    
+    <app-entretien-partenaire *ngIf="tab == 2"></app-entretien-partenaire>
 </mat-tab>
 <mat-tab *ngIf="id" label="Positionnement client">
-    
+    <app-positionnement-client *ngIf="tab == 3"></app-positionnement-client>
 </mat-tab>
 <mat-tab *ngIf="id" label="Briefing">
     
 </mat-tab>
 <mat-tab *ngIf="id" label="Entretien / Test technique client">
-    
-</mat-tab>
-<mat-tab *ngIf="id" label="Briefing">
     
 </mat-tab>
 <mat-tab *ngIf="id" label="Validation client">

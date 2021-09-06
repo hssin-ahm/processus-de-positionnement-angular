@@ -39,7 +39,7 @@ export class CvEnvoyeComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string;
+  panelTitle: string = "Ajouter";
   consultant: Consultant;
   
 
@@ -49,7 +49,8 @@ export class CvEnvoyeComponent implements OnInit {
     private ContactService: ContactService, 
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService : ConsultantService
+    private consultantService : ConsultantService,
+    private contactService: ContactService
     ) { 
     
   }
@@ -119,7 +120,7 @@ export class CvEnvoyeComponent implements OnInit {
     }else {
       addCvEnvoye.style.display = "none";
       table.style.display = "block";
-      
+      this.panelTitle = "Ajouter";
       this.cvEnvoye = new CvEnvoye();
       this.getCvEnvoyeByConsultantId();
 
@@ -139,7 +140,7 @@ export class CvEnvoyeComponent implements OnInit {
     .afterClosed().subscribe(res => {
       if (res) {
         this.getContacts();
-       
+        this.notificationsService.onSuccess("Mise à jour avec succès");
       }
     });
     }else{
@@ -248,6 +249,33 @@ export class CvEnvoyeComponent implements OnInit {
         this.notificationsService.onSuccess("Supprimé avec succès");
       }
     });
+  }
+  public onOpenContactDeleteModal(nomContact: string): void{
+    
+      var contact: Contact;
+      this.contacts.forEach(element => {
+          if ((element.prenom + " " + element.nom) == nomContact) {
+            contact = element;
+          }
+      });
+   
+      this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ce contact " + contact.prenom + " " + contact.nom)
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.onDeleteContact(contact.idContact);
+          this.notificationsService.onSuccess("Supprimé avec succès");
+        }
+      });  
+  }  
+  public onDeleteContact(id: number): void {
+    this.contactService.deleteContact(id).subscribe(
+      (response: void) => {
+        this.getContacts();
+      },
+      (error: HttpErrorResponse) => {
+        this.notificationsService.onError("Quelque chose ne va pas");
+      }
+    );
   }
   
   public onDeleteCvEnvoye(id: number): void {

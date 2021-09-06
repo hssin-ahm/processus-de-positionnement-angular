@@ -16,6 +16,7 @@ export class UpdateConsultantComponent implements OnInit {
   panelTitle : string;
   buttonValue:string;
   obligatoire:string ="";
+  tab: number;
 
   constructor(private route: ActivatedRoute,
     private router: Router,
@@ -68,6 +69,11 @@ export class UpdateConsultantComponent implements OnInit {
   gotoList(msg) {
     this.router.navigate(['/admin', {success: msg}]);
 
+  }
+
+  onClick(event){
+    this.tab = event.index;
+    
   }
 }
 

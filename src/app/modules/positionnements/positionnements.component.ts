@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Positionnement } from './positionnement';
-import { PositionnementService } from './positionnement.service';
+import { Positionnement } from 'src/app/_services/positionnement/positionnement';
+import { PositionnementService } from '../../_services/positionnement/positionnement.service';
 
 @Component({
   selector: 'app-positionnements',
@@ -34,7 +34,7 @@ export class PositionnementsComponent implements OnInit {
   }
   public onAddEmloyee(addForm: NgForm): void {
     document.getElementById('add-positionnement-form').click();
-    this.positionnementService.addPositionnement(addForm.value).subscribe(
+    this.positionnementService.addPositionnemen(addForm.value).subscribe(
       (response: Positionnement) => {
         console.log(response);
         this.getPositionnements();
