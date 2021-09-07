@@ -13,15 +13,16 @@ import { ConsultantService } from '../consultant/consultant.service';
 export class UpdateConsultantComponent implements OnInit {
   id: number;
   consultant: Consultant;
-  panelTitle : string;
-  buttonValue:string;
-  obligatoire:string ="";
+  panelTitle: string;
+  buttonValue: string;
+  obligatoire: string = "";
   tab: number;
+  iClass: string = "";
 
   constructor(private route: ActivatedRoute,
     private router: Router,
     private consultantService: ConsultantService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.consultant = new Consultant();
@@ -31,16 +32,18 @@ export class UpdateConsultantComponent implements OnInit {
       this.panelTitle = "Informations personnelles";
       this.buttonValue = "Enregistrer";
       this.consultantService.getConsultant(this.id)
-      .subscribe(data => {
-        this.consultant = data;
-      }, error => console.log(error));
-    }else{
+        .subscribe(data => {
+          this.consultant = data;
+          this.onChange(this.consultant.statut);
+
+        }, error => console.log(error));
+    } else {
       this.panelTitle = "Create consultant";
       this.buttonValue = "Create";
-      this.obligatoire="*"
+      this.obligatoire = "*"
     }
-    
-    
+
+
   }
 
   public onUpdateConsultant(consultant: Consultant): void {
@@ -54,7 +57,7 @@ export class UpdateConsultantComponent implements OnInit {
           alert(error.message);
         }
       );
-    }else{
+    } else {
       this.consultantService.addConsultant(consultant).subscribe(
         (response: Consultant) => {
           this.gotoList('as');
@@ -67,13 +70,30 @@ export class UpdateConsultantComponent implements OnInit {
   }
 
   gotoList(msg) {
-    this.router.navigate(['/admin', {success: msg}]);
+    this.router.navigate(['/admin', { success: msg }]);
 
   }
 
-  onClick(event){
+  onClick(event) {
     this.tab = event.index;
-    
+
+  }
+  onChange(deviceValue) {
+    switch (deviceValue) {
+      case "Sortie": {
+        this.iClass = "indicator bg-danger";
+        break;
+      }
+      case "En mission": {
+        this.iClass = "indicator bg-warning";
+        break;
+      }
+      default: {
+        this.iClass = "indicator bg-success";
+        break;
+      }
+
+    }
   }
 }
 

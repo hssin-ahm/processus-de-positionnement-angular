@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { CvEnvoyeService } from 'src/app/_services/cvEnvoye/cv-envoye.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from 'src/app/_services/contact/contact';
@@ -24,10 +24,10 @@ import { Consultant } from '../consultant/consultant';
 })
 export class CvEnvoyeComponent implements OnInit {
   dataSource: MatTableDataSource<CvEnvoye>;
-  cvEnvoyes : CvEnvoye[] = [];
+  cvEnvoyes: CvEnvoye[] = [];
   cvEnvoye: CvEnvoye = new CvEnvoye();
-  id : number;
-  contacts: Contact[]; 
+  id: number;
+  contacts: Contact[];
   newContacts: Contact[];
 
   toppings = new FormControl();
@@ -36,23 +36,24 @@ export class CvEnvoyeComponent implements OnInit {
 
   columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques", "statut", "actions"]
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   searchKey: string;
   panelTitle: string = "Ajouter";
   consultant: Consultant;
-  
+  iClass: string;
 
-  constructor(private cvEnvoyeService: CvEnvoyeService, 
-    private route: ActivatedRoute, 
-    private contactDialogService:ContactDialogService,
-    private ContactService: ContactService, 
+
+  constructor(private cvEnvoyeService: CvEnvoyeService,
+    private route: ActivatedRoute,
+    private contactDialogService: ContactDialogService,
+    private ContactService: ContactService,
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService : ConsultantService,
+    private consultantService: ConsultantService,
     private contactService: ContactService
-    ) { 
-    
+  ) {
+
   }
 
   ngOnInit(): void {
@@ -60,15 +61,15 @@ export class CvEnvoyeComponent implements OnInit {
     this.getCvEnvoyeByConsultantId();
 
     this.getContacts();
-    
-    
+
+
   }
 
-  getCvEnvoyeByConsultantId(){
+  getCvEnvoyeByConsultantId() {
     this.cvEnvoyeService.getCvEnvoyeByConsultantId(this.id).subscribe(
-      response=>{
+      response => {
         this.cvEnvoyes = response;
-        this.dataSource =  new MatTableDataSource(this.cvEnvoyes);
+        this.dataSource = new MatTableDataSource(this.cvEnvoyes);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
@@ -77,8 +78,8 @@ export class CvEnvoyeComponent implements OnInit {
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];
     contacts.forEach(element => {
-     
-     this.toppingList.push(element.prenom + " " + element.nom);
+
+      this.toppingList.push(element.prenom + " " + element.nom);
     });
   }
   onSearchClear() {
@@ -86,38 +87,39 @@ export class CvEnvoyeComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  applyFilter(event){
+  applyFilter(event) {
     this.searchKey = (event.target as HTMLInputElement).value;
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
-  getFirstContact(contact: Contact, row: any){
-    
+  getFirstContact(contact: Contact, row: any) {
+
     if (contact[0]) {
-      return contact[0]['prenom'] + " " +contact[0]['nom'];
+      return contact[0]['prenom'] + " " + contact[0]['nom'];
     }
     return "Pas de contact";
-  
-   }
 
-   updateCvEnvoye(cvEnvoye: CvEnvoye){
-     
+  }
+
+  updateCvEnvoye(cvEnvoye: CvEnvoye) {
+
     this.panelTitle = "Modifier";
     this.cvEnvoye = cvEnvoye;
     this.cvEnvoye.idcv = cvEnvoye.idcv;
     this.addContactToTtoppingList(cvEnvoye.contact);
-    
+
     cvEnvoye.contactName = this.toppingList;
     this.getContacts();
+    this.iClass = this.getIClass(this.cvEnvoye.statut);
     this.display();
-   }
+  }
 
-   display(){
+  display() {
     const table = document.getElementById('tableCv');
     const addCvEnvoye = document.getElementById('addCvEnvoye');
     if (table.style.display == "block") {
       table.style.display = "none";
       addCvEnvoye.style.display = "block";
-    }else {
+    } else {
       addCvEnvoye.style.display = "none";
       table.style.display = "block";
       this.panelTitle = "Ajouter";
@@ -125,35 +127,35 @@ export class CvEnvoyeComponent implements OnInit {
       this.getCvEnvoyeByConsultantId();
 
     }
-   
-   }
-   public onOpenContactModal(nomContact: String): void{
+
+  }
+  public onOpenContactModal(nomContact: String): void {
     if (nomContact) {
       var contact: Contact;
       this.contacts.forEach(element => {
-          if ((element.prenom + " " + element.nom) == nomContact) {
-            contact = element;
-          }
+        if ((element.prenom + " " + element.nom) == nomContact) {
+          contact = element;
+        }
       });
-      
-    this.contactDialogService.openConfirmDialog(contact)
-    .afterClosed().subscribe(res => {
-      if (res) {
-        this.getContacts();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      }
-    });
-    }else{
-    this.contactDialogService.openConfirmDialog(null)
-    .afterClosed().subscribe(res => {
-      if (res) {
-        this.getContacts();
-       
-      }
-    });
+
+      this.contactDialogService.openConfirmDialog(contact)
+        .afterClosed().subscribe(res => {
+          if (res) {
+            this.getContacts();
+            this.notificationsService.onSuccess("Mise à jour avec succès");
+          }
+        });
+    } else {
+      this.contactDialogService.openConfirmDialog(null)
+        .afterClosed().subscribe(res => {
+          if (res) {
+            this.getContacts();
+
+          }
+        });
 
     }
-     
+
   }
   public getContacts(): void {
     this.ContactService.getContacts().subscribe(
@@ -174,45 +176,45 @@ export class CvEnvoyeComponent implements OnInit {
         delete this.cvEnvoye.id;
         delete this.cvEnvoye.contactName;
         delete this.cvEnvoye.consultantId;
-        
+
         this.onModifyCvEnvoye(this.cvEnvoye);
 
-        
+
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
       }
     );
   }
-  refreshTheList(){
+  refreshTheList() {
     this.getContacts();
   }
-  onUpdateCvEnvoye(cvForm: NgForm){
+  onUpdateCvEnvoye(cvForm: NgForm) {
     this.newContacts = [];
-      this.contacts.forEach(element => {
-        cvForm.value['contactName'].forEach(contactName => {
-          if ((element.prenom + " " + element.nom) == contactName) {
-            this.newContacts.push(element);
-          }
-        });
+    this.contacts.forEach(element => {
+      cvForm.value['contactName'].forEach(contactName => {
+        if ((element.prenom + " " + element.nom) == contactName) {
+          this.newContacts.push(element);
+        }
       });
-      this.cvEnvoye = cvForm.value;
-      this.cvEnvoye.contact = this.newContacts;
+    });
+    this.cvEnvoye = cvForm.value;
+    this.cvEnvoye.contact = this.newContacts;
     if (cvForm.value.id) {
       this.getConsultant(this.id);
-    }else{
-      
-      
+    } else {
+
+
       this.onAddCvEnvoye(cvForm);
-    
+
     }
-    
+
   }
-  
+
 
   public onModifyCvEnvoye(cvEnvoye: CvEnvoye): void {
     console.log(this.cvEnvoye);
-    
+
     this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
       (response: CvEnvoye) => {
         this.display();
@@ -238,35 +240,35 @@ export class CvEnvoyeComponent implements OnInit {
       }
     );
   }
-  
-  public onOpenDeleteModal(cvEnvoye: CvEnvoye): void{
+
+  public onOpenDeleteModal(cvEnvoye: CvEnvoye): void {
 
 
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
-    .afterClosed().subscribe(res => {
-      if (res) {
-        this.onDeleteCvEnvoye(cvEnvoye.idcv);
-        this.notificationsService.onSuccess("Supprimé avec succès");
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.onDeleteCvEnvoye(cvEnvoye.idcv);
+          this.notificationsService.onSuccess("Supprimé avec succès");
+        }
+      });
+  }
+  public onOpenContactDeleteModal(nomContact: string): void {
+
+    var contact: Contact;
+    this.contacts.forEach(element => {
+      if ((element.prenom + " " + element.nom) == nomContact) {
+        contact = element;
       }
     });
-  }
-  public onOpenContactDeleteModal(nomContact: string): void{
-    
-      var contact: Contact;
-      this.contacts.forEach(element => {
-          if ((element.prenom + " " + element.nom) == nomContact) {
-            contact = element;
-          }
-      });
-   
-      this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ce contact " + contact.prenom + " " + contact.nom)
+
+    this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ce contact " + contact.prenom + " " + contact.nom)
       .afterClosed().subscribe(res => {
         if (res) {
           this.onDeleteContact(contact.idContact);
           this.notificationsService.onSuccess("Supprimé avec succès");
         }
-      });  
-  }  
+      });
+  }
   public onDeleteContact(id: number): void {
     this.contactService.deleteContact(id).subscribe(
       (response: void) => {
@@ -277,7 +279,7 @@ export class CvEnvoyeComponent implements OnInit {
       }
     );
   }
-  
+
   public onDeleteCvEnvoye(id: number): void {
     this.cvEnvoyeService.deleteCvEnvoye(id).subscribe(
       (response: void) => {
@@ -288,15 +290,26 @@ export class CvEnvoyeComponent implements OnInit {
       }
     );
   }
-  getIClass(statut: string){
-    switch(statut) { 
-     case "Cv en cours": { 
+  getIClass(statut: string) {
+    switch (statut) {
+      case "Cv en cours": {
         return "indicator bg-warning";
-     } 
-     default: { 
+      }
+      default: {
         return "indicator bg-success";
-     } 
-   }
-  } 
-  
+      }
+    }
+  }
+  onChange(deviceValue) {
+    switch (deviceValue) {
+      case "Cv en cours": {
+        this.iClass = "indicator bg-warning";
+        break;
+      }
+      default: {
+        this.iClass = "indicator bg-success";
+        break;
+      }
+    }
+  }
 }

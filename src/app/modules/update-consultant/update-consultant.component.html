@@ -85,13 +85,13 @@
                             </div>
                             <br>
                             <div class="form-group">
-                                <label class="col-md-2 col-sm-3 col-xs-12 control-label">Statut <span
+                                <i class="{{iClass}}"></i><label class="col-md-2 col-sm-3 col-xs-12 control-label">Statut <span
                                         style="color: red;">{{obligatoire}}</span></label>
                                 <div class="col-md-10 col-sm-9 col-xs-12">
                                     <select class="form-select" size="3" aria-label="size 3 select example"
                                         [(ngModel)]="consultant.statut" name="statut"
                                         required #statut="ngModel"
-                                        [class.is-invalid]="statut.invalid && statut.touched">
+                                        [class.is-invalid]="statut.invalid && statut.touched" (change)="onChange($event.target.value)">
                                     
                                         <option value="Intercontrat">Intercontrat</option>
                                         <option value="En mission">En mission</option>
@@ -216,7 +216,10 @@
     <app-positionnement-client *ngIf="tab == 3"></app-positionnement-client>
 </mat-tab>
 <mat-tab *ngIf="id" label="Briefing">
-    
+    <app-briefing *ngIf="tab == 4"></app-briefing>
+</mat-tab>
+<mat-tab *ngIf="id" label="Entretien Client">
+    <app-entretien-client *ngIf="tab == 5"></app-entretien-client>
 </mat-tab>
 <mat-tab *ngIf="id" label="Entretien / Test technique client">
     

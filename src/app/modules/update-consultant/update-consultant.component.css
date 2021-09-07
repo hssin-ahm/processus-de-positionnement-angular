@@ -581,3 +581,10 @@ color: #a2a6af
     display: inline-block
 }
 }
+.indicator {
+    width: 13px;
+    height: 13px;
+    margin-right: .5rem;
+    float: left;
+    border-radius: 50%;
+  }

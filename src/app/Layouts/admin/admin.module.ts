@@ -29,6 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule} from '@angular/material/menu';
 import { EntretienPartenaireComponent } from 'src/app/modules/entretien-partenaire/entretien-partenaire.component';
 import { PositionnementClientComponent } from 'src/app/modules/positionnement-client/positionnement-client.component';
+import { BriefingComponent } from 'src/app/modules/briefing/briefing.component';
+import { EntretienClientComponent } from 'src/app/modules/entretien-client/entretien-client.component';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -39,7 +41,9 @@ import { PositionnementClientComponent } from 'src/app/modules/positionnement-cl
     ContactDialogComponent,
     MatConfirmDialogComponent,
     EntretienPartenaireComponent,
-    PositionnementClientComponent
+    PositionnementClientComponent,
+    BriefingComponent,
+    EntretienClientComponent
 
   ],
   imports: [

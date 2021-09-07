@@ -46,3 +46,10 @@ mat-footer-row mat-footer-cell{
         margin-right: auto;
     }
 }
+.indicator {
+    width: 13px;
+    height: 13px;
+    margin-right: .5rem;
+    float: left;
+    border-radius: 50%;
+  }
