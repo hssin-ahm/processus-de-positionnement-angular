@@ -9,18 +9,18 @@ import { PositionnementsComponent } from './modules/positionnements/positionneme
 import { ConsultantComponent } from './modules/consultant/consultant.component';
 import { UpdateConsultantComponent } from './modules/update-consultant/update-consultant.component';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
+import { DirtycheckGuard } from './confirm-exit/dirtycheck.guard';
 
 const routes: Routes = [
   { path: 'super-admin', component: SuperAdminComponent, canActivate: [AuthGuard], data: { roles: ['Super_Admin'] } },
-  {path: 'consultant', component: ConsultantComponent}, 
-  
+  {path: 'consultant', component: ConsultantComponent},
   {
     
     path: 'admin', component: AdminComponent, 
     children: [
-      { path: '', component: ConsultantComponent },
+      { path: '', component: ConsultantComponent},
       { path: 'positionnement', component: PositionnementsComponent },
-      { path: 'update/:id', component: UpdateConsultantComponent },
+      { path: 'update/:id', component: UpdateConsultantComponent /* , canDeactivate: [DirtycheckGuard]*/ },
       { path: 'add', component: UpdateConsultantComponent },
       { path: ':success', component: ConsultantComponent },
     ],

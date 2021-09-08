@@ -24,7 +24,7 @@
                     </nav>
                 </div>
                 <div class="content-panel">
-                    <form class="form-horizontal" #editForm="ngForm">
+                    <form class="form-horizontal" #editForm="ngForm" (change)="isDirty = true">
                         <fieldset class="fieldset">
                             <h3 class="fieldset-title">{{panelTitle}}</h3>
                             <input type="hidden" ngModel="{{consultant?.id}}" name="id">
@@ -191,7 +191,7 @@
                         <br>
                         <div class="form-group">
                             <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
-                                <input class="btn btn-primary" (click)="onUpdateConsultant(editForm.value)"
+                                <input class="btn btn-primary" (click)="isDirty = false; onUpdateConsultant(editForm.value)"
                                     type="submit" value="{{buttonValue}}"
                                     [disabled]="editForm.invalid">
                             </div>
@@ -222,7 +222,7 @@
     <app-entretien-client *ngIf="tab == 5"></app-entretien-client>
 </mat-tab>
 <mat-tab *ngIf="id" label="Entretien / Test technique client">
-    
+    <app-test-technique-client *ngIf="tab == 6"></app-test-technique-client>
 </mat-tab>
 <mat-tab *ngIf="id" label="Validation client">
     

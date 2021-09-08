@@ -1,0 +1,127 @@
+<div class="container" id="tableCv" style="display: block;">
+    <br>
+    <div class="search-div">
+      <button mat-raised-button mat-fab color="info" style="color: black;" (click)="display()"
+        aria-label="Example icon button with a home icon">
+        <mat-icon>add</mat-icon>
+      </button>
+      <mat-form-field class="search-form-field" floatLabel="never">
+        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="on" (keyup)="applyFilter($event)">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  
+    <table mat-table [dataSource]="dataSource" matSort>
+      
+      <!-- Date Column -->
+      <ng-container matColumnDef="dateEntretien">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+        <td mat-cell *matCellDef="let row"> {{row.dateEntretien | slice:0:10}} </td>
+      </ng-container>
+  
+      <!--  Type Entretien -->
+      <ng-container matColumnDef="typeEntretien">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom du Client </th>
+        <td mat-cell *matCellDef="let row"> {{row.typeEntretien}} </td>
+      </ng-container>
+  
+      <!-- Observation Column -->
+      <ng-container matColumnDef="observations">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Observation </th>
+        <td mat-cell *matCellDef="let row"> {{row.observations}} </td>
+      </ng-container>
+  
+      <!-- Statut actuel Column -->
+      <ng-container matColumnDef="statut">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Statut actuel </th>
+        <td mat-cell *matCellDef="let row"><i class="indicator bg-success"></i>Test technique client </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <td mat-cell *matCellDef="let row">
+        <button mat-icon-button (click)="updateTestTechniqueClient(row)" ><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="warn" (click) = "onOpenDeleteModal(row)"><mat-icon>delete_outline</mat-icon></button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons aria-label="Select page of periodic rows">
+    </mat-paginator>
+  </div>
+  <simple-notifications></simple-notifications>
+  <div class="container" id="addTestTechniqueClient" style="display: none; background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+    <div class="content-panel" style="margin-left: 8%;">
+      <form class="form-horizontal" #EntForm="ngForm">
+        <fieldset class="fieldset">
+          <h3 class="fieldset-title">{{panelTitle}}</h3>
+          <input type="hidden" ngModel="{{testTechniqueClient?.idTestTechniqueClient}}" name="idTestTechniqueClient">
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date <span
+                style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="date" class="form-control" ngModel="{{testTechniqueClient?.dateEntretien | slice:0:10}}" name="dateEntretien"
+                placeholder="dateEntretien" required #dateEntretien="ngModel"
+                [class.is-invalid]="dateEntretien.invalid && dateEntretien.touched">
+              <small class="text-danger" [class.d-none]="dateEntretien.valid || dateEntretien.untouched">date est
+                Champs obligatoires</small>
+            </div>
+          </div>
+          <br>
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Type<span
+            style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <select class="form-select" size="2" aria-label="size 3 select example"
+              [(ngModel)]="testTechniqueClient.typeEntretien" name="typeEntretien" required #typeEntretien="ngModel"
+              [class.is-invalid]="typeEntretien.invalid && typeEntretien.touched">
+
+              <option value="Échange">Échange</option>
+              <option value="Test technique">Test technique</option>
+            </select>
+            <small class="text-danger" [class.d-none]="typeEntretien.valid || typeEntretien.untouched">Veuillez
+              sélectionner l'une des options suivantes</small>
+          </div>
+          
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Duré<span style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" class="form-control" ngModel="{{testTechniqueClient?.dure}}" name="dure" placeholder="Duré de la mission" required
+                #dure="ngModel" [class.is-invalid]="dure.invalid && dure.touched">
+              <small class="text-danger" [class.d-none]="dure.valid || dure.untouched">Duré de la mission est
+                Champs obligatoires</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <textarea class="form-control" name="observations" ngModel="{{testTechniqueClient?.observations}}"
+                placeholder="Observations">
+                  </textarea>
+            </div>
+          </div>
+        </fieldset>
+        <br>
+        
+        <br>
+        <br>
+        <div style="flex-direction: column;  align-content: space-between; ">
+          <button mat-raised-button color="primary" (click)="onUpdateTestTechniqueClient(EntForm); "
+          [disabled]="EntForm.invalid">
+            <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+          </button>
+          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); EntForm.reset() ">
+            <mat-icon>undo</mat-icon>  Retour
+          </button>
+        </div>
+      </form>
+    </div >
+  </div>

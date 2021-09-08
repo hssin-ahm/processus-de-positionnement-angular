@@ -7,62 +7,56 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
 import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
-import { CvEnvoyeService } from 'src/app/_services/cvEnvoye/cv-envoye.service';
-import { CvEnvoye } from 'src/app/_services/cvEnvoye/cvEnvoye';
-import { Positionnement } from 'src/app/_services/positionnement/positionnement';
-import { PositionnementService } from 'src/app/_services/positionnement/positionnement.service';
+import { TestTechniqueClientService } from 'src/app/_services/testTechniqueClient/test-technique-client.service';
+import { TestTechniqueClient } from 'src/app/_services/testTechniqueClient/testTechniqueClient';
 import { Consultant } from '../consultant/consultant';
 import { ConsultantService } from '../consultant/consultant.service';
 
 @Component({
-  selector: 'app-positionnement-client',
-  templateUrl: './positionnement-client.component.html',
-  styleUrls: ['./positionnement-client.component.css']
+  selector: 'app-test-technique-client',
+  templateUrl: './test-technique-client.component.html',
+  styleUrls: ['./test-technique-client.component.css']
 })
-export class PositionnementClientComponent implements OnInit {
+export class TestTechniqueClientComponent implements OnInit {
 
-  dataSource: MatTableDataSource<Positionnement>;
-  positionnements : Positionnement[] = [];
-  positionnement: Positionnement = new Positionnement();
+  dataSource: MatTableDataSource<TestTechniqueClient>;
+  testTechniqueClients : TestTechniqueClient[] = [];
+  testTechniqueClient: TestTechniqueClient = new TestTechniqueClient();
   id : number;
 
   toppings = new FormControl();
   toppingList: string[] = [];
   updateToppingList: string[] = [];
-  cvEnvoyes: CvEnvoye[];
 
-  columns: string[] = ["date", "nomDuClient","intituleDuPoste", "tjm", "remarques", "statut", "actions"]
+  columns: string[] = ["dateEntretien", "typeEntretien", "observations", "statut", "actions"]
 
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
   panelTitle: string = "Ajouter";
-  consultant: Consultant;
-  tjm: number;
   
 
   constructor(
-    private positionnementService: PositionnementService, 
+    private testTechniqueClientService: TestTechniqueClientService, 
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService : ConsultantService,
-    private cvEnvoyeService : CvEnvoyeService
+    private consultantService : ConsultantService
     ) { 
     
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
-    this.getPositionnementsByConsultantId();
+    this.getTestTechniqueClientsByConsultantId();
     
   }
 
-  getPositionnementsByConsultantId(){
-    this.positionnementService.getPositionnementsByConsId(this.id).subscribe(
+  getTestTechniqueClientsByConsultantId(){
+    this.testTechniqueClientService.getTestTechniqueClientsByConsId(this.id).subscribe(
       response=>{
-        this.positionnements = response;
-        this.dataSource =  new MatTableDataSource(this.positionnements);
+        this.testTechniqueClients = response;
+        this.dataSource =  new MatTableDataSource(this.testTechniqueClients);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       }
@@ -79,27 +73,25 @@ export class PositionnementClientComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  updatePositionnement(positionnement: Positionnement){
+  updateTestTechniqueClient(testTechniqueClient: TestTechniqueClient){
   this.panelTitle = "Modifier";
-  this.positionnement = positionnement;
+  this.testTechniqueClient = testTechniqueClient;
   this.display();
   }
   
   display(){
     const table = document.getElementById('tableCv');
-    const addEntretien = document.getElementById('addPositionnement');
+    const addEntretien = document.getElementById('addTestTechniqueClient');
     if (table.style.display == "block") {
       table.style.display = "none";
       addEntretien.style.display = "block";
-      if (!this.positionnement.idPositionnement) {
-        this.getCvEnvoyeByConsultantId();
-      }
+     
     }else {
       addEntretien.style.display = "none";
       table.style.display = "block";
       this.panelTitle = "Ajouter";
-      this.positionnement = new Positionnement();
-      this.getPositionnementsByConsultantId();
+      this.testTechniqueClient = new TestTechniqueClient();
+      this.getTestTechniqueClientsByConsultantId();
 
     }
   }
@@ -108,32 +100,30 @@ export class PositionnementClientComponent implements OnInit {
   public getConsultant(consultantId: number): void {
     this.consultantService.getConsultant(consultantId).subscribe(
       (response: Consultant) => {
-        this.positionnement.consultant = response;
-        delete this.positionnement.consultantId;
-        this.onModifyPositionnement(this.positionnement);
+        this.testTechniqueClient.consultant = response;
+        delete this.testTechniqueClient.consultantId;
+        this.onModifyTestTechniqueClient(this.testTechniqueClient);
       },
       (error: HttpErrorResponse) => {
         this.notificationsService.onError("Quelque chose ne va pas");
       }
     );
   }
-  onUpdatePositionnement(entForm: NgForm){
-    this.positionnement = entForm.value;
-    if (entForm.value.idPositionnement) {
+  onUpdateTestTechniqueClient(entForm: NgForm){
+    this.testTechniqueClient = entForm.value;
+    if (entForm.value.idTestTechniqueClient) {
       this.getConsultant(this.id);
       
     }else{
-      this.onAddPositionnement(this.positionnement);
+      this.onAddTestTechniqueClient(this.testTechniqueClient);
       entForm.reset();
     }
   }
   
 
-  public onModifyPositionnement(positionnement: Positionnement): void {
-    console.log(positionnement);
-    debugger
-    this.positionnementService.updatePositionnement(positionnement).subscribe(
-      (response: Positionnement) => {
+  public onModifyTestTechniqueClient(testTechniqueClient: TestTechniqueClient): void {
+    this.testTechniqueClientService.updateTestTechniqueClient(testTechniqueClient).subscribe(
+      (response: TestTechniqueClient) => {
         this.display();
         this.notificationsService.onSuccess("Mise à jour avec succès");
       },
@@ -143,12 +133,12 @@ export class PositionnementClientComponent implements OnInit {
     );
   }
 
-  public onAddPositionnement(positionnement: Positionnement): void {
+  public onAddTestTechniqueClient(testTechniqueClient: TestTechniqueClient): void {
     
-    this.positionnementService.addPositionnement(this.positionnement, this.id).subscribe(
-      (response: Positionnement) => {
+    this.testTechniqueClientService.addTestTechniqueClient(this.testTechniqueClient, this.id).subscribe(
+      (response: TestTechniqueClient) => {
         console.log(response);
-        this.getPositionnementsByConsultantId();
+        this.getTestTechniqueClientsByConsultantId();
         this.display();
         this.notificationsService.onSuccess("Ajout réussi");
       },
@@ -158,11 +148,11 @@ export class PositionnementClientComponent implements OnInit {
     );
   }
   
-  public onOpenDeleteModal(positionnement: Positionnement): void{
+  public onOpenDeleteModal(testTechniqueClient: TestTechniqueClient): void{
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
     .afterClosed().subscribe(res => {
       if (res) {
-        this.onDeleteEntretien(positionnement.idPositionnement);
+        this.onDeleteTestTechniqueClient(testTechniqueClient.idTestTechniqueClient);
         this.notificationsService.onSuccess("Supprimé avec succès");
       }
     });
@@ -170,10 +160,10 @@ export class PositionnementClientComponent implements OnInit {
   
   
   
-  public onDeleteEntretien(id: number): void {
-    this.positionnementService.deletePositionnement(id).subscribe(
+  public onDeleteTestTechniqueClient(id: number): void {
+    this.testTechniqueClientService.deleteTestTechniqueClient(id).subscribe(
       (response: void) => {
-        this.getPositionnementsByConsultantId();
+        this.getTestTechniqueClientsByConsultantId();
       },
       (error: HttpErrorResponse) => {
         this.notificationsService.onError("Quelque chose ne va pas");
@@ -181,24 +171,5 @@ export class PositionnementClientComponent implements OnInit {
     );
   }
   
-  getCvEnvoyeByConsultantId(){
-    this.cvEnvoyeService.getCvEnvoyeByConsultantId(this.id).subscribe(
-      response=>{
-        this.cvEnvoyes = response;
-        this.getMoyenOfTjm();
-        
-      }
-    )
-  }
   
-   getMoyenOfTjm(){
-     var tjms = 0;
-     if (this.cvEnvoyes) {
-       this.cvEnvoyes.forEach(element => {
-         tjms += element.tjm;
-       });
-       this.tjm = tjms/this.cvEnvoyes.length;
-     }
-     this.positionnement.tjm = Math.trunc(this.tjm);
-    }
 }

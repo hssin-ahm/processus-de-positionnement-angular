@@ -1,7 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
+import { Observable } from 'rxjs';
+import { ComponentCanDeactivate } from 'src/app/confirm-exit/component-can-deactivate';
 import { Consultant } from '../consultant/consultant';
 import { ConsultantService } from '../consultant/consultant.service';
 
@@ -10,7 +11,10 @@ import { ConsultantService } from '../consultant/consultant.service';
   templateUrl: './update-consultant.component.html',
   styleUrls: ['./update-consultant.component.css']
 })
-export class UpdateConsultantComponent implements OnInit {
+export class UpdateConsultantComponent implements OnInit, ComponentCanDeactivate {
+  canDeactivate(): boolean {
+    return this.isDirty;
+  }
   id: number;
   consultant: Consultant;
   panelTitle: string;
@@ -18,15 +22,15 @@ export class UpdateConsultantComponent implements OnInit {
   obligatoire: string = "";
   tab: number;
   iClass: string = "";
-
+  isDirty = false;
   constructor(private route: ActivatedRoute,
     private router: Router,
     private consultantService: ConsultantService
   ) { }
 
   ngOnInit(): void {
+    
     this.consultant = new Consultant();
-
     this.id = this.route.snapshot.params['id'];
     if (this.id) {
       this.panelTitle = "Informations personnelles";
@@ -57,6 +61,7 @@ export class UpdateConsultantComponent implements OnInit {
           alert(error.message);
         }
       );
+
     } else {
       this.consultantService.addConsultant(consultant).subscribe(
         (response: Consultant) => {

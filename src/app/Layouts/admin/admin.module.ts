@@ -31,6 +31,7 @@ import { EntretienPartenaireComponent } from 'src/app/modules/entretien-partenai
 import { PositionnementClientComponent } from 'src/app/modules/positionnement-client/positionnement-client.component';
 import { BriefingComponent } from 'src/app/modules/briefing/briefing.component';
 import { EntretienClientComponent } from 'src/app/modules/entretien-client/entretien-client.component';
+import { TestTechniqueClientComponent } from 'src/app/modules/test-technique-client/test-technique-client.component';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -43,7 +44,8 @@ import { EntretienClientComponent } from 'src/app/modules/entretien-client/entre
     EntretienPartenaireComponent,
     PositionnementClientComponent,
     BriefingComponent,
-    EntretienClientComponent
+    EntretienClientComponent,
+    TestTechniqueClientComponent
 
   ],
   imports: [

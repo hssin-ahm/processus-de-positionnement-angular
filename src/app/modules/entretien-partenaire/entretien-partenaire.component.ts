@@ -214,7 +214,7 @@ export class EntretienPartenaireComponent implements OnInit {
       });
       this.tjm = tjms / this.cvEnvoyes.length;
     }
-    this.entretien.tjm = this.tjm;
+    this.entretien.tjm = Math.trunc(this.tjm);
   }
   onChange(deviceValue) {
     switch (deviceValue) {

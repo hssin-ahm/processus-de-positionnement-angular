@@ -37,8 +37,8 @@ export class ConsultantComponent implements OnInit {
     let d = new Date();
     var d1 = Date.parse(date);
     if (d1 < d.getTime()) {
-        return "Immédiate";
-      }
+      return "Immédiate";
+    }
     return date;
   }
   public getConsultants(): void {
@@ -99,12 +99,9 @@ export class ConsultantComponent implements OnInit {
   }
 
   public onOpenDeleteModal(consultant: Consultant): void{
-
-
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer "+ consultant.prenom +" " + consultant.nom)
     .afterClosed().subscribe(res => {
       if (res) {
-        //this.onDeleteConsultant(consultant.id);
         this.router.navigate(['']).then(() =>
         this.onDeleteConsultant(consultant.id)
         );

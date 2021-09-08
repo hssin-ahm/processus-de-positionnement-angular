@@ -51,16 +51,7 @@
         <td mat-cell *matCellDef="let row"><i class="indicator bg-success"></i> Entretien Client </td>
       </ng-container>
   
-      <ng-container matColumnDef="loading">
-        <mat-footer-cell *matFooterCellDef colspan="6">
-          Loading data...
-        </mat-footer-cell>
-      </ng-container>
-      <ng-container matColumnDef="noData">
-        <mat-footer-cell *matFooterCellDef colspan="6">
-          No data.
-        </mat-footer-cell>
-      </ng-container>
+      
       <ng-container matColumnDef="actions">
         
        
@@ -99,6 +90,7 @@
                 Champs obligatoires</small>
             </div>
           </div>
+          <br>
           <div class="form-group">
             <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nom du Client <span style="color: red;">*</span></label>
             <div class="col-md-10 col-sm-9 col-xs-12">
@@ -140,11 +132,12 @@
           <div class="form-group">
             <label class="col-md-2  col-sm-3 col-xs-12 control-label">Lieu</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
-              <textarea class="form-control" name="lieu" ngModel="{{entretien?.lieu}}"
-                placeholder="Observations / lieu">
-                  </textarea>
+              <input class="form-control" name="lieu" ngModel="{{entretien?.lieu}}"
+                placeholder="Lieu">
+                  
             </div>
           </div>
+          <br>
           <div class="form-group">
             <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations / remarques</label>
             <div class="col-md-10 col-sm-9 col-xs-12">
