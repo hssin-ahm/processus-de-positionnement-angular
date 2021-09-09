@@ -33,6 +33,7 @@ import { BriefingComponent } from 'src/app/modules/briefing/briefing.component';
 import { EntretienClientComponent } from 'src/app/modules/entretien-client/entretien-client.component';
 import { TestTechniqueClientComponent } from 'src/app/modules/test-technique-client/test-technique-client.component';
 import { ValidationComponent } from 'src/app/modules/validation/validation.component';
+import { ContactsComponent } from 'src/app/modules/contacts/contacts.component';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -47,7 +48,8 @@ import { ValidationComponent } from 'src/app/modules/validation/validation.compo
     BriefingComponent,
     EntretienClientComponent,
     TestTechniqueClientComponent,
-    ValidationComponent
+    ValidationComponent,
+    ContactsComponent
 
   ],
   imports: [

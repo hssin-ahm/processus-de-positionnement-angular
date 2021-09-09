@@ -70,10 +70,20 @@ export class BriefingComponent implements OnInit {
         this.dataSource =  new MatTableDataSource(this.briefings);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
-        console.log(response);
-        
+        if (response.length == 0) {
+          this.warn();
+        }
       }
     )
+  }
+  warn(){
+    return new Promise((resolve , reject) => {
+      setTimeout(() => {
+          this.notificationsService.onWarn("pas de briefing de ce consultant")
+        resolve("function done");
+      }, 500);
+    });
+   
   }
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];

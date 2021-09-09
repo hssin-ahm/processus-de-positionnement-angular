@@ -19,6 +19,8 @@ export class ConsultantComponent implements OnInit {
   public consultants: Consultant[];
   public deleteConsultant: Consultant;
   success: string;
+  page: any;
+  numPage: number;
   
   constructor(private consultantService: ConsultantService, 
     private router: Router,
@@ -29,6 +31,7 @@ export class ConsultantComponent implements OnInit {
     ){}
 
   ngOnInit() {
+    this.page = this.route.snapshot.params['num'];
     this.success = this.route.snapshot.params['success'];
     this.getConsultants();
   }
@@ -65,6 +68,7 @@ export class ConsultantComponent implements OnInit {
   public getConsultantsWithNotification(msg: any): void {
   this.consultantService.getConsultants().subscribe(
     (response: Consultant[]) => {
+      
       this.consultants = response;
       this.notificationsService.onSuccess(msg);
       

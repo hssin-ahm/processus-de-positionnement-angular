@@ -59,8 +59,21 @@ export class ValidationComponent implements OnInit {
         this.dataSource =  new MatTableDataSource(this.validations);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.iClass = "";
+        if (response.length == 0) {
+          this.warn();
+        }
       }
     )
+  }
+  warn(){
+    return new Promise((resolve , reject) => {
+      setTimeout(() => {
+          this.notificationsService.onWarn("pas de validation de ce consultant")
+        resolve("function done");
+      }, 500);
+    });
+   
   }
   
   onSearchClear() {

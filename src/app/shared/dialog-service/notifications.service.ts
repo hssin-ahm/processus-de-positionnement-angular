@@ -25,4 +25,13 @@ export class notificationsService {
       pauseOnHover: true
     });
   }
+  public onWarn(message){
+    this.notificationsService.warn('Attention', message, {
+      possition: ['top', 'right'],
+      timeOut: 3000,
+      animate:'fade',
+      showProgressBar: true,
+      pauseOnHover: true
+    });
+  }
 }

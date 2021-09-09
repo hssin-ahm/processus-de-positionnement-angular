@@ -72,9 +72,23 @@ export class CvEnvoyeComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.cvEnvoyes);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.iClass = "";
+        if (response.length == 0) {
+          this.warn();
+        }
       }
     )
   }
+  warn(){
+    return new Promise((resolve , reject) => {
+      setTimeout(() => {
+          this.notificationsService.onWarn("pas d'envoi CV de ce consultant")
+        resolve("function done");
+      }, 500);
+    });
+   
+  }
+  
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];
     contacts.forEach(element => {
@@ -151,6 +165,7 @@ export class CvEnvoyeComponent implements OnInit {
           if (res) {
             this.getContacts();
 
+            this.notificationsService.onSuccess("Ajout réussi");
           }
         });
 
@@ -203,8 +218,6 @@ export class CvEnvoyeComponent implements OnInit {
     if (cvForm.value.id) {
       this.getConsultant(this.id);
     } else {
-
-
       this.onAddCvEnvoye(cvForm);
 
     }
@@ -213,8 +226,6 @@ export class CvEnvoyeComponent implements OnInit {
 
 
   public onModifyCvEnvoye(cvEnvoye: CvEnvoye): void {
-    console.log(this.cvEnvoye);
-
     this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
       (response: CvEnvoye) => {
         this.display();

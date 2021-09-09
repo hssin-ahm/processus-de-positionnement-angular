@@ -16,8 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminModule } from './Layouts/admin/admin.module';
 import {MatIconModule} from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TestTechniqueClientComponent } from './modules/test-technique-client/test-technique-client.component';
-import { ValidationComponent } from './modules/validation/validation.component';
 
 @NgModule({
   declarations: [

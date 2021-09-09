@@ -6,16 +6,17 @@
   <h1 class="display-4">{{pannelTitle}} Contact</h1>
   <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
     <input type="hidden" name="id" #id="ngModel" [(ngModel)]="contact.idContact">
-    <mat-label>Non de la contact: </mat-label>
-    <div class="form-group">
-      <input name="nom" #nom="ngModel" [(ngModel)]="contact.nom" class="form-control" placeholder="Nom de la contact"
-        required>
-    </div>
-    <br>
+    
     <mat-label>Prenom de la contact:</mat-label>
     <div class="form-group">
       <input name="prenom" #prenom="ngModel" [(ngModel)]="contact.prenom" class="form-control"
         placeholder="Prenom de la contact">
+    </div>
+    <br>
+    <mat-label>Non de la contact: </mat-label>
+    <div class="form-group">
+      <input name="nom" #nom="ngModel" [(ngModel)]="contact.nom" class="form-control" placeholder="Nom de la contact"
+        required>
     </div>
     <br>
     <mat-label>Poste:</mat-label>

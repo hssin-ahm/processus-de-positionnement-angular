@@ -10,6 +10,7 @@ import { ConsultantComponent } from './modules/consultant/consultant.component';
 import { UpdateConsultantComponent } from './modules/update-consultant/update-consultant.component';
 import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 import { DirtycheckGuard } from './confirm-exit/dirtycheck.guard';
+import { ContactsComponent } from './modules/contacts/contacts.component';
 
 const routes: Routes = [
   { path: 'super-admin', component: SuperAdminComponent, canActivate: [AuthGuard], data: { roles: ['Super_Admin'] } },
@@ -19,10 +20,12 @@ const routes: Routes = [
     path: 'admin', component: AdminComponent, 
     children: [
       { path: '', component: ConsultantComponent},
+      { path: 'page/:num', component: ConsultantComponent},
+      { path: 'contacts', component: ContactsComponent },
       { path: 'positionnement', component: PositionnementsComponent },
       { path: 'update/:id', component: UpdateConsultantComponent /* , canDeactivate: [DirtycheckGuard]*/ },
       { path: 'add', component: UpdateConsultantComponent },
-      { path: ':success', component: ConsultantComponent },
+      { path: ':success', component: ConsultantComponent }
     ],
     canActivate: [AuthGuard], data: { roles: ['Admin'] }
   },

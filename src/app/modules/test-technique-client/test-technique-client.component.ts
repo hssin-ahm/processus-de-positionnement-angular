@@ -59,8 +59,20 @@ export class TestTechniqueClientComponent implements OnInit {
         this.dataSource =  new MatTableDataSource(this.testTechniqueClients);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        if (response.length == 0) {
+          this.sayHello();
+        }
       }
     )
+  }
+  sayHello(){
+    return new Promise((resolve , reject) => {
+      setTimeout(() => {
+          this.notificationsService.onWarn("pas de test tachnique de ce consultant")
+        resolve("function done");
+      }, 500);
+    });
+   
   }
   
   onSearchClear() {
