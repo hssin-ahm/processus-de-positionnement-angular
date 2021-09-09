@@ -19,7 +19,6 @@ const routes: Routes = [
     
     path: 'admin', component: AdminComponent, 
     children: [
-      { path: '', component: ConsultantComponent},
       { path: 'page/:num', component: ConsultantComponent},
       { path: 'contacts', component: ContactsComponent },
       { path: 'positionnement', component: PositionnementsComponent },

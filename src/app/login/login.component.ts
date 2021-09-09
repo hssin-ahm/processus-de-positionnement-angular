@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       if (userRoles[0].roleName === 'Super_Admin') {
         this.router.navigate(['/super-admin']);
       }else{
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/admin/page/1']);
       }
     }
   }
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
         if (role === "Super_Admin") {
           this.router.navigate(['/super-admin']);
         }else{
-          this.router.navigate(['/admin']).then(() => {
+          this.router.navigate(['/admin/page/1']).then(() => {
             window.location.reload();
           });
   

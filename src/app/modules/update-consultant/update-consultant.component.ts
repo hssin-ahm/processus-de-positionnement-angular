@@ -12,6 +12,7 @@ import { ConsultantService } from '../consultant/consultant.service';
   styleUrls: ['./update-consultant.component.css']
 })
 export class UpdateConsultantComponent implements OnInit, ComponentCanDeactivate {
+
   canDeactivate(): boolean {
     return this.isDirty;
   }
@@ -75,7 +76,7 @@ export class UpdateConsultantComponent implements OnInit, ComponentCanDeactivate
   }
 
   gotoList(msg) {
-    this.router.navigate(['/admin', { success: msg }]);
+    this.router.navigate(['/admin/page/1', { success: msg}]);
 
   }
 

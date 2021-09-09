@@ -16,11 +16,13 @@ import { ConsultantService } from './consultant.service';
 })
 export class ConsultantComponent implements OnInit {
 
-  public consultants: Consultant[];
+  public consultants: Consultant[] = [];
   public deleteConsultant: Consultant;
   success: string;
-  page: any;
-  numPage: number;
+  page: number = 1;
+  numPages: number;
+  numConsParPAge = 3;
+  consultantsLength: number;
   
   constructor(private consultantService: ConsultantService, 
     private router: Router,
@@ -33,7 +35,37 @@ export class ConsultantComponent implements OnInit {
   ngOnInit() {
     this.page = this.route.snapshot.params['num'];
     this.success = this.route.snapshot.params['success'];
-    this.getConsultants();
+    this.getConsultants(this.page);
+  }
+  createRange(length: number){
+    return Array.from({length}, (_, i) => i + 1);
+  }
+  navigate(page: number){ 
+    var p = document.getElementById("previous");
+    var n = document.getElementById("next");
+    var i = document.getElementById("iId" + page).parentElement;
+    var pI = document.querySelector(".active").classList;
+    
+    pI.remove("active");
+    i.classList.add("active");
+    this.router.navigate(['/admin/page/' + page]);
+    if (page >= 4) {
+      i.style.display ="block";
+    }
+    if (page == 1) {
+      p.style.display = "none";
+      n.style.display = "block";
+      page = 1;
+    }else if (page == this.numPages) {
+      n.style.display = "none";
+      p.style.display = "block";
+      page = this.numPages;
+    }else{
+      p.style.display = "block";
+      n.style.display = "block";
+    }
+    this.page = page;
+    this.getConsultants(page);
   }
 
   public getDate(date : any){
@@ -44,42 +76,43 @@ export class ConsultantComponent implements OnInit {
     }
     return date;
   }
-  public getConsultants(): void {
+  public getConsultants(page?: number): void {
     if (this.success == "as") {
       this.router.navigate(['']).then(() => 
-      this.getConsultantsWithNotification('Ajout réussi')
+      this.getConsultantsWithPaginated('Ajout réussi', page)
       );
     }else if (this.success == "us"){
       this.router.navigate(['']).then(() => 
-      this.getConsultantsWithNotification('Mise à jour avec succès')
+      this.getConsultantsWithPaginated('Mise à jour avec succès', page)
       );
     }else{
-      this.consultantService.getConsultants().subscribe(
-        (response: Consultant[]) => {
-          this.consultants = response;
-        },
-        (error: HttpErrorResponse) => {
-          this.logout();
-        }
-      );
+     this.getConsultantsWithPaginated(null, page)
     }
     
   }
-  public getConsultantsWithNotification(msg: any): void {
-  this.consultantService.getConsultants().subscribe(
-    (response: Consultant[]) => {
-      
-      this.consultants = response;
-      this.notificationsService.onSuccess(msg);
-      
-     
-    },
-    (error: HttpErrorResponse) => {
-     
-      this.logout();
-    }
-  );
-}
+  public getConsultantsWithPaginated(msg?: any, page?:number): void {
+    this.consultantService.getConsultants().subscribe(
+      (response: Consultant[]) => {
+        this.consultantsLength = response.length;
+        this.numPages = Math.ceil(response.length / this.numConsParPAge);
+        var leng = page * this.numConsParPAge - this.numConsParPAge <= response.length ? page * this.numConsParPAge - this.numConsParPAge : response.length - this.numConsParPAge ;
+        if (msg) {
+          this.notificationsService.onSuccess(msg);
+        }
+        this.consultants = [];
+        for (let i = leng; i < leng + this.numConsParPAge; i++) {
+          if (response[i]) {
+          this.consultants.push(response[i]);
+          }else{
+            break
+          }
+        }
+      },
+      (error: HttpErrorResponse) => {
+        this.logout();
+      }
+    );
+  }
   public logout(){
     this.userAuthService.clear();
     this.router.navigate(["/login"])
