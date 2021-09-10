@@ -121,11 +121,15 @@ export class ConsultantComponent implements OnInit {
 
   public searchConsultants(key: string): void {
    
-    this.consultantService.findByKeyword(key).subscribe(
-      (response: Consultant[]) => {
-        this.consultants = response;
-      }
-    );
+    if (key != "") {
+      this.consultantService.findByKeyword(key).subscribe(
+        (response: Consultant[]) => {
+          this.consultants = response;
+        }
+      );
+    }else{
+      this.getConsultantsWithPaginated(null, 1)
+    }
   }
 
   updateConsultant(id: number){

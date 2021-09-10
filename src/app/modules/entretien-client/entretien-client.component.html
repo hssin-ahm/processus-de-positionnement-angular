@@ -152,11 +152,11 @@
         <br>
         <br>
         <div style="flex-direction: column;  align-content: space-between; ">
-          <button mat-raised-button color="primary" (click)="onUpdateEntretien(cvForm); "
+          <button mat-raised-button color="primary" (click)="onUpdateEntretien(cvForm); " style="margin-bottom: 10px;"
           [disabled]="cvForm.invalid">
             <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
           </button>
-          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); cvForm.reset() ">
+          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%; margin-bottom: 10px;" (click)="display(); cvForm.reset() ">
             <mat-icon>undo</mat-icon>  Retour
           </button>
         </div>

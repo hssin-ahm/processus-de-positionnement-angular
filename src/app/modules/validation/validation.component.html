@@ -116,11 +116,11 @@
         <br>
         <br>
         <div style="flex-direction: column;  align-content: space-between; ">
-          <button mat-raised-button color="primary" (click)="onUpdateValidation(validForm); "
+          <button mat-raised-button color="primary" (click)="onUpdateValidation(validForm); " style="margin-bottom: 10px;"
           [disabled]="validForm.invalid">
             <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
           </button>
-          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); validForm.reset() ">
+          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%; margin-bottom: 10px;" (click)="display(); validForm.reset() ">
             <mat-icon>undo</mat-icon>  Retour
           </button>
         </div>

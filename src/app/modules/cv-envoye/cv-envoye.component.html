@@ -88,7 +88,7 @@
   </mat-paginator>
 </div>
 <simple-notifications></simple-notifications>
-<div class="container" id="addCvEnvoye" style="display: none; background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+<div class="container form" id="addCvEnvoye" style="display: none; background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
   <div class="content-panel" style="margin-left: 8%;">
     <form class="form-horizontal" #cvForm="ngForm">
       <fieldset class="fieldset">
@@ -197,17 +197,17 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <a  (click)="onOpenContactModal(undefined)" style="margin-left: 25px;">+Ajouter Contact</a>
+      <a  (click)="onOpenContactModal(undefined)" style="margin-left: 25px;" id="ajoutContact">+Ajouter Contact</a>
       
       </fieldset>
       <br>
       <br>
       <div style="flex-direction: column;  align-content: space-between; ">
-        <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm); "
+        <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm); " style="margin-bottom: 10px;" 
         [disabled]="cvForm.invalid">
           <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
         </button>
-        <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); cvForm.reset() ">
+        <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%; margin-bottom: 10px;" (click)="display(); cvForm.reset() ">
           <mat-icon>undo</mat-icon>  Retour
         </button>
       </div>

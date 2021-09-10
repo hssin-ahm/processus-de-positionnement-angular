@@ -139,9 +139,7 @@
           <mat-label>Contacts</mat-label>
           <mat-select  multiple name="contactName" [(ngModel)]="briefing.contactName">
             <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}} 
-              <!-- <button mat-icon-button color="black" style="float: right; margin-right: 16%;" (click)="onOpenContactModal(topping)">
-                <mat-icon>dehaze</mat-icon>
-              </button> -->
+              
               <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="float: right;">
                 <mat-icon>more_horiz</mat-icon>
               </button>
@@ -158,17 +156,17 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <a  (click)="onOpenContactModal(undefined)" style="margin-left: 25px;">+Ajouter Contact</a>
+        <a  (click)="onOpenContactModal(undefined)" id="ajoutContact" style="margin-left: 25px;">+Ajouter Contact</a>
         
         </fieldset>
         <br>
         <br>
         <div style="flex-direction: column;  align-content: space-between; ">
-          <button mat-raised-button color="primary" (click)="onUpdateBriefing(cvForm); "
+          <button mat-raised-button color="primary" (click)="onUpdateBriefing(cvForm); " style="margin-bottom: 10px;"
           [disabled]="cvForm.invalid">
             <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
           </button>
-          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%;" (click)="display(); cvForm.reset() ">
+          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%; margin-bottom: 10px;" (click)="display(); cvForm.reset() ">
             <mat-icon>undo</mat-icon>  Retour
           </button>
         </div>
