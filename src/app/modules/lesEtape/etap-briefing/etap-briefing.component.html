@@ -1,0 +1,94 @@
+<div class="container" id="addBriefing" style="background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+  <div class="content-panel" style="margin-left: 8%;">
+    <form class="form-horizontal" #cvForm="ngForm">
+      <fieldset class="fieldset">
+        <h3 class="fieldset-title">{{panelTitle}}</h3>
+        <input type="hidden" ngModel="{{briefing?.idBriefing}}" name="idBriefing">
+        <input type="hidden" ngModel="{{id}}" name="consultantId">
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date<span
+              style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" ngModel="{{briefing?.dateBriefing | slice:0:10}}" name="dateBriefing"
+              placeholder="dateBriefing" required #dateBriefing="ngModel"
+              [class.is-invalid]="dateBriefing.invalid && dateBriefing.touched">
+            <small class="text-danger" [class.d-none]="dateBriefing.valid || dateBriefing.untouched">Date est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Type <span
+              style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <select class="form-select" size="2" aria-label="size 3 select example"
+              [(ngModel)]="briefing.type" name="type" required #type="ngModel"
+              [class.is-invalid]="type.invalid && type.touched">
+
+              <option value="Lieu">Lieu</option>
+              <option value="Par visioconférence">Par visioconférence</option>
+            </select>
+            <small class="text-danger" [class.d-none]="type.valid || type.untouched">Veuillez
+              sélectionner l'une des options suivantes</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Duré</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{briefing?.dure}}" name="dure" placeholder="Duré" 
+              #dure="ngModel" >
+            
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2  col-sm-3 col-xs-12 control-label">Remarques</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <textarea class="form-control" name="remarque" ngModel="{{briefing?.remarque}}"
+              placeholder="Observations/remarque">
+                </textarea>
+          </div>
+        </div>
+      </fieldset>
+      <br>
+      <fieldset class="fieldset">
+      <h3 class="fieldset-title">Informations de contact</h3>
+      <mat-form-field appearance="fill" >
+        <mat-label>Contacts</mat-label>
+        <mat-select  multiple name="contactName" [(ngModel)]="briefing.contactName">
+          <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}} 
+            
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="float: right;">
+              <mat-icon>more_horiz</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onOpenContactModal(topping)">
+                <mat-icon>edit</mat-icon>
+                <span>Modifier</span>
+              </button>
+              <button mat-menu-item (click)="onOpenContactDeleteModal(topping)">
+                <mat-icon>delete_outline</mat-icon>
+                <span>Supprimer</span>
+              </button>
+            </mat-menu>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <a  (click)="onOpenContactModal(undefined)" id="ajoutContact" style="margin-left: 25px;">+Ajouter Contact</a>
+      
+      </fieldset>
+      <br>
+      <br>
+      <div style="flex-direction: column;  align-content: space-between; ">
+        <button mat-raised-button color="primary" (click)="onUpdateBriefing(cvForm); " style="margin-bottom: 10px;"
+        [disabled]="cvForm.invalid">
+          <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+        </button>
+       
+      </div>
+    </form>
+  </div >
+</div>
+<simple-notifications></simple-notifications>

@@ -32,4 +32,10 @@ export class EntretienClientService {
   public getAllEntretiensByConsultantId(entretienId: number): Observable<EntretienClient[]> {
     return this.http.get<EntretienClient[]>(`${this.apiServerUrl}/entretienClient/get-all-Entretiens/${entretienId}`);
   }
+  public getEntretienClientsByCvId(cvid: number): Observable<EntretienClient> {
+    return this.http.get<EntretienClient>(`${this.apiServerUrl}/entretienClient/getEntretienClientByCvId/${cvid}`);
+  }
+  public updateEntretienClient(entretienClient: Entretien, cvId: number, consId: number): Observable<Entretien> {
+    return this.http.put<Entretien>(`${this.apiServerUrl}/entretienClient/modifyEntretienClient/${cvId}/${consId}`, entretienClient);
+  }
 }

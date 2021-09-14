@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminComponent } from './admin.component';
-import { RouterModule } from '@angular/router';
-import { PositionnementsComponent } from 'src/app/modules/positionnements/positionnements.component';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { EntretienPartenaireComponent } from '../../entretien-partenaire/entretien-partenaire.component';
+import { EtapCvEnvoyeeComponent } from '../etap-cv-envoyee/etap-cv-envoyee.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { ConsultantComponent } from 'src/app/modules/consultant/consultant.component';
 import {MatDividerModule} from '@angular/material/divider';
@@ -27,50 +25,34 @@ import { MatConfirmDialogComponent } from 'src/app/mat-confirm-dialog/mat-confir
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatMenuModule} from '@angular/material/menu';
-import { EntretienPartenaireComponent } from 'src/app/modules/entretien-partenaire/entretien-partenaire.component';
 import { PositionnementClientComponent } from 'src/app/modules/positionnement-client/positionnement-client.component';
 import { BriefingComponent } from 'src/app/modules/briefing/briefing.component';
 import { EntretienClientComponent } from 'src/app/modules/entretien-client/entretien-client.component';
 import { TestTechniqueClientComponent } from 'src/app/modules/test-technique-client/test-technique-client.component';
+import { ValidationComponent } from 'src/app/modules/validation/validation.component';
 import { ContactsComponent } from 'src/app/modules/contacts/contacts.component';
-import { EntrPartenaireComponent } from 'src/app/modules/entr-partenaire/entr-partenaire.component';
 import { LesEtapesComponent } from 'src/app/modules/lesEtape/les-etapes/les-etapes.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import { EtapCvEnvoyeeComponent } from 'src/app/modules/lesEtape/etap-cv-envoyee/etap-cv-envoyee.component';
-import { EtapEntretienPartenaireComponent } from 'src/app/modules/lesEtape/etap-entretien-partenaire/etap-entretien-partenaire.component';
-import { EtapPositionnementClientComponent } from 'src/app/modules/lesEtape/etap-positionnement-client/etap-positionnement-client.component';
-import { EtapBriefingComponent } from 'src/app/modules/lesEtape/etap-briefing/etap-briefing.component';
-import { EtapEntretienClientComponent } from 'src/app/modules/lesEtape/etap-entretien-client/etap-entretien-client.component';
-import { EtapTestTechniqueComponent } from 'src/app/modules/lesEtape/etap-test-technique/etap-test-technique.component';
-import { ValidationComponent  } from 'src/app/modules/validation/validation.component';
-import { ValidationComponent as etapValidationComponent } from 'src/app/modules/lesEtape/etap-validation/validation.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RouterModule } from '@angular/router';
+import { EtapEntretienPartenaireComponent } from '../etap-entretien-partenaire/etap-entretien-partenaire.component';
+import { EtapPositionnementClientComponent } from '../etap-positionnement-client/etap-positionnement-client.component';
+import { EtapBriefingComponent } from '../etap-briefing/etap-briefing.component';
+import { EtapEntretienClientComponent } from '../etap-entretien-client/etap-entretien-client.component';
+import { EtapTestTechniqueComponent } from '../etap-test-technique/etap-test-technique.component';
+
 
 @NgModule({
   declarations: [
-    AdminComponent,
-    ConsultantComponent,
-    PositionnementsComponent,
-    UpdateConsultantComponent,
-    CvEnvoyeComponent,
-    ContactDialogComponent,
-    MatConfirmDialogComponent,
-    EntretienPartenaireComponent,
-    PositionnementClientComponent,
-    BriefingComponent,
-    EntretienClientComponent,
-    TestTechniqueClientComponent,
-    ValidationComponent,
-    ContactsComponent,
-    EntrPartenaireComponent,
     LesEtapesComponent,
+    EntretienPartenaireComponent,
     EtapCvEnvoyeeComponent,
     EtapEntretienPartenaireComponent,
     EtapPositionnementClientComponent,
     EtapBriefingComponent,
     EtapEntretienClientComponent,
-    EtapTestTechniqueComponent,
-    etapValidationComponent
-
+    EtapTestTechniqueComponent
+    
   ],
   imports: [
     CommonModule,
@@ -95,10 +77,6 @@ import { ValidationComponent as etapValidationComponent } from 'src/app/modules/
     MatMenuModule,
     MatCheckboxModule,
     ReactiveFormsModule
-    
-  ],
-  providers:[
-    CvEnvoyeService
   ]
 })
-export class AdminModule { }
+export class LesEtapesModule { }

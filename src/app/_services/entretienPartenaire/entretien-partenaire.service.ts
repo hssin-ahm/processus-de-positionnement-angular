@@ -21,8 +21,8 @@ export class EntretienPartenaireService {
     return this.http.post<Entretien>(`${this.apiServerUrl}/entretien/ajouterEntretien/${consultantId}`, entretien);
   }
 
-  public updateEntretien(entretien: Entretien): Observable<Entretien> {
-    return this.http.put<Entretien>(`${this.apiServerUrl}/entretien/modifyidEntretien`, entretien);
+  public updateEntretien(entretien: Entretien, cvId: number, consId: number): Observable<Entretien> {
+    return this.http.put<Entretien>(`${this.apiServerUrl}/entretien/modifyidEntretien/${cvId}/${consId}`, entretien);
   }
 
   public deleteEntretien(entretienId: number): Observable<void> {
@@ -30,5 +30,8 @@ export class EntretienPartenaireService {
   }
   public getAllEntretiensByConsultantId(entretienId: number): Observable<Entretien[]> {
     return this.http.get<Entretien[]>(`${this.apiServerUrl}/entretien/get-all-Entretiens/${entretienId}`);
+  }
+  public getEntretiensByCvId(cvid: number): Observable<Entretien> {
+    return this.http.get<Entretien>(`${this.apiServerUrl}/entretien/getEntretienByCvId/${cvid}`);
   }
 }

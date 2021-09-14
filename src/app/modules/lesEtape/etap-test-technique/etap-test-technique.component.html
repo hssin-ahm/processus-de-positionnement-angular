@@ -1,0 +1,67 @@
+<div class="container" id="addTestTechniqueClient" style="background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+  <div class="content-panel" style="margin-left: 8%;">
+    <form class="form-horizontal" #EntForm="ngForm">
+      <fieldset class="fieldset">
+        <h3 class="fieldset-title">{{panelTitle}}</h3>
+        <input type="hidden" ngModel="{{testTechniqueClient?.idTestTechniqueClient}}" name="idTestTechniqueClient">
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date <span
+              style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" ngModel="{{testTechniqueClient?.dateEntretien | slice:0:10}}" name="dateEntretien"
+              placeholder="dateEntretien" required #dateEntretien="ngModel"
+              [class.is-invalid]="dateEntretien.invalid && dateEntretien.touched">
+            <small class="text-danger" [class.d-none]="dateEntretien.valid || dateEntretien.untouched">date est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <label class="col-md-2 col-sm-3 col-xs-12 control-label">Type<span
+          style="color: red;">*</span></label>
+        <div class="col-md-10 col-sm-9 col-xs-12">
+          <select class="form-select" size="2" aria-label="size 3 select example"
+            [(ngModel)]="testTechniqueClient.typeEntretien" name="typeEntretien" required #typeEntretien="ngModel"
+            [class.is-invalid]="typeEntretien.invalid && typeEntretien.touched">
+
+            <option value="Échange">Échange</option>
+            <option value="Test technique">Test technique</option>
+          </select>
+          <small class="text-danger" [class.d-none]="typeEntretien.valid || typeEntretien.untouched">Veuillez
+            sélectionner l'une des options suivantes</small>
+        </div>
+        
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Duré<span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{testTechniqueClient?.dure}}" name="dure" placeholder="Duré de la mission" required
+              #dure="ngModel" [class.is-invalid]="dure.invalid && dure.touched">
+            <small class="text-danger" [class.d-none]="dure.valid || dure.untouched">Duré de la mission est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <textarea class="form-control" name="observations" ngModel="{{testTechniqueClient?.observations}}"
+              placeholder="Observations">
+                </textarea>
+          </div>
+        </div>
+      </fieldset>
+      <br>
+      
+      <br>
+      <br>
+      <div style="flex-direction: column;  align-content: space-between; ">
+        <button mat-raised-button color="primary" (click)="onUpdateTestTechniqueClient(EntForm); " style="margin-bottom: 10px;"
+        [disabled]="EntForm.invalid">
+          <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+        </button>
+      </div>
+    </form>
+  </div >
+</div>
+<simple-notifications></simple-notifications>

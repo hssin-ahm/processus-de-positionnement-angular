@@ -1,0 +1,24 @@
+
+  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectedIndexChange($event)">
+    <mat-tab label="CV envoyé">
+        <app-etap-cv-envoyee></app-etap-cv-envoyee>
+    </mat-tab>
+    <mat-tab label="Entretien / Test technique partenaire">
+        <app-etap-entretien-partenaire></app-etap-entretien-partenaire>
+    </mat-tab>
+    <mat-tab label="Positionnement client">
+        <app-etap-positionnement-client></app-etap-positionnement-client>
+    </mat-tab>
+    <mat-tab label="Briefing">
+        <app-etap-briefing></app-etap-briefing>
+    </mat-tab>
+    <mat-tab label="Entretien Client">
+        <app-etap-entretien-client></app-etap-entretien-client>
+    </mat-tab>
+    <mat-tab label="Entretien / Test technique client">
+        <app-etap-test-technique></app-etap-test-technique>
+    </mat-tab>
+    <mat-tab label="Validation client">
+        <app-etap-validation></app-etap-validation>
+    </mat-tab>
+</mat-tab-group> 

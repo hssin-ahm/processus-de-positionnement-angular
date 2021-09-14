@@ -35,4 +35,11 @@ export class BriefingService {
   public getBriefingByConsultantId(id : number): Observable<Briefing[]> {
     return this.http.get<Briefing[]>(`${this.apiServerUrl}/Briefing/getBriefingsByConsId/${id}`);
   }
+  public updateBriefingOfcv(briefing: Briefing, cvId: number, consId: number): Observable<Briefing> {
+    return this.http.put<Briefing>(`${this.apiServerUrl}/Briefing/modifyidEntretien/${cvId}/${consId}`, briefing);
+  }
+  public getBriefingsByCvId(cvid: number): Observable<Briefing> {
+    return this.http.get<Briefing>(`${this.apiServerUrl}/Briefing/getBirefingByCvId/${cvid}`);
+  }
+
 }

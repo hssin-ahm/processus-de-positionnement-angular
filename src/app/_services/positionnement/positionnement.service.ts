@@ -26,7 +26,9 @@ export class PositionnementService {
   public updatePositionnement(positionnement: Positionnement): Observable<Positionnement> {
     return this.http.put<Positionnement>(`${this.apiServerUrl}/positionnement/modifyidPositionnement`, positionnement);
   }
-  
+  public updatePosition(positionnement: Positionnement, cvId: number, consId: number): Observable<Positionnement> {
+    return this.http.put<Positionnement>(`${this.apiServerUrl}/positionnement/modifyidPositionnement/${cvId}/${consId}`, positionnement);
+  }
   public deletePositionnement(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiServerUrl}/positionnement/deletep/${id}`);
   }
@@ -39,5 +41,8 @@ export class PositionnementService {
   }
   public getPositionnementsByConsId(id: number): Observable<Positionnement[]> {
     return this.http.get<Positionnement[]>(`${this.apiServerUrl}/positionnement/get-all-Positionnements/${id}`);
+  }
+  public getPositionnementsByCvId(cvid: number): Observable<Positionnement> {
+    return this.http.get<Positionnement>(`${this.apiServerUrl}/positionnement/getPositionnementByCvId/${cvid}`);
   }
 }

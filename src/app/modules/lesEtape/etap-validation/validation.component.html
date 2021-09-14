@@ -1,0 +1,69 @@
+<div class="container" id="addValidation" style="background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+  <div class="content-panel" style="margin-left: 8%;">
+    <form class="form-horizontal" #validForm="ngForm">
+      <fieldset class="fieldset">
+        <h3 class="fieldset-title">{{panelTitle}}</h3>
+        <input type="hidden" ngModel="{{validation?.idValidation}}" name="idValidation">
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date <span
+              style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" ngModel="{{validation?.date | slice:0:10}}" name="date"
+              placeholder="date" required #date="ngModel"
+              [class.is-invalid]="date.invalid && date.touched">
+            <small class="text-danger" [class.d-none]="date.valid || date.untouched">date est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Démarrage mission<span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{validation?.demarrageMission}}" name="demarrageMission" placeholder="Duré de la mission" required
+              #demarrageMission="ngModel" [class.is-invalid]="demarrageMission.invalid && demarrageMission.touched">
+            <small class="text-danger" [class.d-none]="demarrageMission.valid || demarrageMission.untouched">Duré de la mission est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        
+        <br>
+        <div class="form-group">
+          <i class="{{iClass}}"></i><label class="col-md-2 col-sm-3 col-xs-12 control-label"> Feedback <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <select class="form-select" size="3" aria-label="size 3 select example"
+              [(ngModel)]="validation.feedback" name="feedback" required #feedback="ngModel"
+              [class.is-invalid]="feedback.invalid && feedback.touched" (change)="onChange($event.target.value)">
+
+              <option value="Consultant retenu">Consultant retenu</option>
+              <option value="Non retenu">Non retenu</option>
+              <option value="En attente">En attente</option>
+            </select>
+            <small class="text-danger" [class.d-none]="feedback.valid || feedback.untouched">Veuillez
+              sélectionner l'une des options suivantes</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <textarea class="form-control" name="remarque" ngModel="{{validation?.remarque}}"
+              placeholder="remarque">
+                </textarea>
+          </div>
+        </div>
+      </fieldset>
+      <br>
+      
+      <br>
+      <br>
+      <div style="flex-direction: column;  align-content: space-between; ">
+        <button mat-raised-button color="primary" (click)="onUpdateValidation(validForm); " style="margin-bottom: 10px;"
+        [disabled]="validForm.invalid">
+          <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+        </button>
+      </div>
+    </form>
+  </div >
+</div>
+<simple-notifications></simple-notifications>

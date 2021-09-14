@@ -1,0 +1,123 @@
+<div class="container form" id="addCvEnvoye" style=" background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+    <div class="content-panel" style="margin-left: 8%;">
+      <form class="form-horizontal" #cvForm="ngForm">
+        <fieldset class="fieldset">
+          <h3 class="fieldset-title">{{panelTitle}}</h3>
+          <input type="hidden" ngModel="{{cvEnvoye?.idcv}}" name="id">
+          <input type="hidden" ngModel="{{id}}" name="consultantId">
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date de l’envoi <span
+                style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="date" class="form-control" ngModel="{{cvEnvoye?.dateEnvoi | slice:0:10}}" name="dateEnvoi"
+                placeholder="dateEnvoi" required #dateEnvoi="ngModel"
+                [class.is-invalid]="dateEnvoi.invalid && dateEnvoi.touched">
+              <small class="text-danger" [class.d-none]="dateEnvoi.valid || dateEnvoi.untouched">dateEnvoi est
+                Champs obligatoires</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Partenaire / Client <span
+                style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <select class="form-select" size="2" aria-label="size 3 select example"
+                [(ngModel)]="cvEnvoye.partenairClient" name="partenairClient" required #partenairClient="ngModel"
+                [class.is-invalid]="partenairClient.invalid && partenairClient.touched">
+  
+                <option value="Partenaire">Partenaire</option>
+                <option value="Client">Client</option>
+              </select>
+              <small class="text-danger" [class.d-none]="partenairClient.valid || partenairClient.untouched">Veuillez
+                sélectionner l'une des options suivantes</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nom de la société <span
+                style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" class="form-control" ngModel="{{cvEnvoye?.nomSociete}}" name="nomSociete"
+                placeholder="Nom de la société" required #nomSociete="ngModel"
+                [class.is-invalid]="nomSociete.invalid && nomSociete.touched">
+              <small class="text-danger" [class.d-none]="nomSociete.valid || nomSociete.untouched">Nom de la société est
+                Champs obligatoires</small>
+            </div>
+          </div>
+  
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">TJM <span style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="number" class="form-control" ngModel="{{cvEnvoye?.tjm}}" name="tjm" placeholder="...€" required
+                #tjm="ngModel" [class.is-invalid]="tjm.invalid && tjm.touched">
+              <small class="text-danger" [class.d-none]="tjm.valid || tjm.untouched">TJM est
+                Champs obligatoires</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <i class="{{iClass}}"></i> <label class="col-md-2 col-sm-3 col-xs-12 control-label"> Statut<span style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <select class="form-select" size="2" aria-label="size 3 select example"
+                [(ngModel)]="cvEnvoye.statut" name="statut" required #statut="ngModel"
+                [class.is-invalid]="statut.invalid && statut.touched" (change)="onChange($event.target.value)">
+  
+                <option value="Cv en cours">Cv en cours</option>
+                <option value="Envoyé">Envoyé</option>
+              </select>
+              <small class="text-danger" [class.d-none]="statut.valid || statut.untouched">Veuillez
+                sélectionner l'une des options suivantes</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations/remarques</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <textarea class="form-control" name="remarques" ngModel="{{cvEnvoye?.remarques}}"
+                placeholder="Observations/remarques">
+                  </textarea>
+            </div>
+          </div>
+        </fieldset>
+        <br>
+        <fieldset class="fieldset">
+        <h3 class="fieldset-title">Informations de contact</h3>
+        <mat-form-field appearance="fill" >
+          <mat-label>Contacts</mat-label>
+          <mat-select  multiple name="contactName" [(ngModel)]="cvEnvoye.contactName">
+            <mat-option *ngFor="let topping of toppingList" [value]="topping">{{topping}} 
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" style="float: right;">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="onOpenContactModal(topping)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Modifier</span>
+                </button>
+                <button mat-menu-item (click)="onOpenContactDeleteModal(topping)">
+                  <mat-icon>delete_outline</mat-icon>
+                  <span>Supprimer</span>
+                </button>
+              </mat-menu>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <a  (click)="onOpenContactModal(undefined)" style="margin-left: 25px;" id="ajoutContact">+Ajouter Contact</a>
+        
+        </fieldset>
+        <br>
+        <br>
+        <div style="flex-direction: column;  align-content: space-between; ">
+          <button mat-raised-button color="primary" (click)="onUpdateCvEnvoye(cvForm); " style="margin-bottom: 10px;" 
+          [disabled]="cvForm.invalid">
+            <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+          </button>
+          
+        </div>
+      </form>
+    </div >
+  </div>
+  
+<simple-notifications></simple-notifications>

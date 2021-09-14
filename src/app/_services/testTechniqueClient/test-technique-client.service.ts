@@ -41,4 +41,10 @@ export class TestTechniqueClientService {
   public getTestTechniqueClientsByConsId(id: number): Observable<TestTechniqueClient[]> {
     return this.http.get<TestTechniqueClient[]>(`${this.apiServerUrl}/testTechniqueClient/get-all-TestTechniqueClients/${id}`);
   }
+  public getTestTechniqueClientsByCvId(cvid: number): Observable<TestTechniqueClient> {
+    return this.http.get<TestTechniqueClient>(`${this.apiServerUrl}/testTechniqueClient/getTestTechniqueByCvId/${cvid}`);
+  }
+  public updateTestTechniqueClientCv(testTechniqueClient: TestTechniqueClient, cvId: number, consId: number): Observable<TestTechniqueClient> {
+    return this.http.put<TestTechniqueClient>(`${this.apiServerUrl}/testTechniqueClient/modifyidTestTechnique/${cvId}/${consId}`, testTechniqueClient);
+  }
 }

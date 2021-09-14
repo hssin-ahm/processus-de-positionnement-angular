@@ -31,7 +31,7 @@ export class CvEnvoyeService {
   }
 
   public getCvEnvoye(id : number): Observable<CvEnvoye> {
-    return this.http.get<CvEnvoye>(`${this.apiServerUrl}/cvEnvoyee/find/${id}`);
+    return this.http.get<CvEnvoye>(`${this.apiServerUrl}/cvEnvoyee/cvs/${id}`);
   }
 
   public getCvEnvoyeByConsultantId(id : number): Observable<CvEnvoye[]> {

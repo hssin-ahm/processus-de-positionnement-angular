@@ -1,0 +1,86 @@
+  <div class="container" id="addEntretien" style="background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+    <div class="content-panel" style="margin-left: 8%;">
+      <form class="form-horizontal" #cvForm="ngForm">
+        <fieldset class="fieldset">
+          <h3 class="fieldset-title">{{panelTitle}}</h3>
+          <input type="hidden" ngModel="{{entretien?.idEntretien}}" name="idEntretien">
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date <span
+                style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="date" class="form-control" ngModel="{{entretien?.dateEntretien | slice:0:10}}" name="dateEntretien"
+                placeholder="dateEntretien" required #dateEntretien="ngModel"
+                [class.is-invalid]="dateEntretien.invalid && dateEntretien.touched">
+              <small class="text-danger" [class.d-none]="dateEntretien.valid || dateEntretien.untouched">date est
+                Champs obligatoires</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Type de l’entretien <span
+                style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <select class="form-select" size="3" aria-label="size 3 select example"
+                [(ngModel)]="entretien.typeEntretien" name="typeEntretien" required #typeEntretien="ngModel"
+                [class.is-invalid]="typeEntretien.invalid && typeEntretien.touched">
+  
+                <option value="Entretien téléphonique">Entretien téléphonique</option>
+                <option value="Visioconférence">Visioconférence</option>
+                <option value="Test exercice technique">Test exercice technique</option>
+              </select>
+              <small class="text-danger" [class.d-none]="typeEntretien.valid || typeEntretien.untouched">Veuillez
+                sélectionner l'une des options suivantes</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">TJM <span style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="number" class="form-control" ngModel="{{entretien?.tjm}}" name="tjm" placeholder="...€" required
+                #tjm="ngModel" [class.is-invalid]="tjm.invalid && tjm.touched">
+              <small class="text-danger" [class.d-none]="tjm.valid || tjm.untouched">TJM est
+                Champs obligatoires</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <i class="{{iClass}}"></i><label class="col-md-2 col-sm-3 col-xs-12 control-label"> Statut<span style="color: red;">*</span></label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <select class="form-select" size="3" aria-label="size 3 select example"
+                [(ngModel)]="entretien.statut" name="statut" required #statut="ngModel"
+                [class.is-invalid]="statut.invalid && statut.touched" (change)="onChange($event.target.value)">
+  
+                <option value="Qualifié">Qualifié</option>
+                <option value="En attente">En attente</option>
+                <option value="Disqualifié">Disqualifié</option>
+              </select>
+              <small class="text-danger" [class.d-none]="statut.valid || statut.untouched">Veuillez
+                sélectionner l'une des options suivantes</small>
+            </div>
+          </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations / remarques</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <textarea class="form-control" name="remarque" ngModel="{{entretien?.remarque}}"
+                placeholder="Observations / Remarque">
+                  </textarea>
+            </div>
+          </div>
+        </fieldset>
+        <br>
+       
+        <br>
+        <br>
+        <div style="flex-direction: column;  align-content: space-between; ">
+          <button mat-raised-button color="primary" (click)="onUpdateEntretien(cvForm); " style="margin-bottom: 10px;"
+          [disabled]="cvForm.invalid">
+            <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+          </button>
+          
+        </div>
+      </form>
+    </div >
+  </div>
+<simple-notifications></simple-notifications>

@@ -1,0 +1,113 @@
+<div class="container" id="addPositionnement" style="background-color: rgb(255, 255, 255); margin-top: 15PX; width: auto;" >
+  <div class="content-panel" style="margin-left: 8%;">
+    <form class="form-horizontal" #posForm="ngForm">
+      <fieldset class="fieldset">
+        <h3 class="fieldset-title">{{panelTitle}}</h3>
+        <input type="hidden" ngModel="{{positionnement?.idPositionnement}}" name="idPositionnement">
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Date <span
+              style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="date" class="form-control" ngModel="{{positionnement?.date | slice:0:10}}" name="date"
+              placeholder="date" required #date="ngModel"
+              [class.is-invalid]="date.invalid && date.touched">
+            <small class="text-danger" [class.d-none]="date.valid || date.untouched">date est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Nom du Client <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{positionnement?.nomDuClient}}" name="nomDuClient" placeholder="Nom du Client" required
+              #nomDuClient="ngModel" [class.is-invalid]="nomDuClient.invalid && nomDuClient.touched">
+            <small class="text-danger" [class.d-none]="nomDuClient.valid || nomDuClient.untouched">Nom Du Client est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Secteur d'activité <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{positionnement?.secteurActivite}}" name="secteurActivite" placeholder="Secteur d'activité" required
+              #secteurActivite="ngModel" [class.is-invalid]="secteurActivite.invalid && secteurActivite.touched">
+            <small class="text-danger" [class.d-none]="secteurActivite.valid || secteurActivite.untouched">Secteur d'Activite est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Duré de la mission <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{positionnement?.duredeLaMission}}" name="duredeLaMission" placeholder="Duré de la mission" required
+              #duredeLaMission="ngModel" [class.is-invalid]="duredeLaMission.invalid && duredeLaMission.touched">
+            <small class="text-danger" [class.d-none]="duredeLaMission.valid || duredeLaMission.untouched">Duré de la mission est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Lieu de la mission <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{positionnement?.lieuDeLaMission}}" name="lieuDeLaMission" placeholder="Lieu de la mission" required
+              #lieuDeLaMission="ngModel" [class.is-invalid]="lieuDeLaMission.invalid && lieuDeLaMission.touched">
+            <small class="text-danger" [class.d-none]="lieuDeLaMission.valid || lieuDeLaMission.untouched">Lieu de la mission est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">Intitulé du poste <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="text" class="form-control" ngModel="{{positionnement?.intituleDuPoste}}" name="intituleDuPoste" placeholder="Intitulé du poste" required
+              #intituleDuPoste="ngModel" [class.is-invalid]="intituleDuPoste.invalid && intituleDuPoste.touched">
+            <small class="text-danger" [class.d-none]="intituleDuPoste.valid || intituleDuPoste.untouched">Intitulé du poste est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2 col-sm-3 col-xs-12 control-label">TJM <span style="color: red;">*</span></label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <input type="number" class="form-control" ngModel="{{positionnement?.tjm}}" name="tjm" placeholder="...€" required
+              #tjm="ngModel" [class.is-invalid]="tjm.invalid && tjm.touched">
+            <small class="text-danger" [class.d-none]="tjm.valid || tjm.untouched">TJM est
+              Champs obligatoires</small>
+          </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label class="col-md-2  col-sm-3 col-xs-12 control-label">Descriptif de la mission</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <textarea class="form-control" name="remarque" ngModel="{{positionnement?.remarque}}"
+              placeholder="Descriptif de la mission">
+                </textarea>
+          </div>
+        </div>
+        <br>
+        
+        <div class="form-group">
+          <label class="col-md-2  col-sm-3 col-xs-12 control-label">Observations / remarques</label>
+          <div class="col-md-10 col-sm-9 col-xs-12">
+            <textarea class="form-control" name="remarque" ngModel="{{positionnement?.remarque}}"
+              placeholder="Observations / Remarque">
+                </textarea>
+          </div>
+        </div>
+      </fieldset>
+      <br>
+      
+      <br>
+      <br>
+      <div style="flex-direction: column;  align-content: space-between; ">
+        <button mat-raised-button color="primary" (click)="onUpdatePositionnement(posForm); " style="margin-bottom: 10px;"
+        [disabled]="posForm.invalid">
+          <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
+        </button> 
+      </div>
+    </form>
+  </div >
+</div>
+<simple-notifications></simple-notifications>

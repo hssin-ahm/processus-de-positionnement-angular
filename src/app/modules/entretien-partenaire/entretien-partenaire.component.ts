@@ -27,9 +27,6 @@ export class EntretienPartenaireComponent implements OnInit {
   entretien: Entretien = new Entretien();
   id: number;
 
-  toppings = new FormControl();
-  toppingList: string[] = [];
-  updateToppingList: string[] = [];
   cvEnvoyes: CvEnvoye[];
 
   columns: string[] = ["dateEntretien", "typeEntretien", "tjm", "remarque", "statut", "actions"]
@@ -147,7 +144,7 @@ export class EntretienPartenaireComponent implements OnInit {
 
   public onModifyEntretien(entretien: Entretien): void {
     console.log(this.entretien);
-    this.entretienPartenaireService.updateEntretien(entretien).subscribe(
+    this.entretienPartenaireService.updateEntretien(entretien, null, null).subscribe(
       (response: Entretien) => {
         this.display();
         this.notificationsService.onSuccess("Mise à jour avec succès");
