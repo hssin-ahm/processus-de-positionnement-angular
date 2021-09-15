@@ -1,24 +1,35 @@
 
-  <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selectedIndexChange($event)">
+  <mat-tab-group [selectedIndex]="selected.value" backgroundColor="primary" mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4" (selectedIndexChange)="selectedIndexChange($event)">
     <mat-tab label="CV envoyé">
-        <app-etap-cv-envoyee></app-etap-cv-envoyee>
+        <app-etap-cv-envoyee (event) = "receiveMessage($event)"></app-etap-cv-envoyee>
     </mat-tab>
-    <mat-tab label="Entretien / Test technique partenaire">
-        <app-etap-entretien-partenaire></app-etap-entretien-partenaire>
+    <mat-tab label="Entretien / Test technique partenaire" *ngIf = "tabs.indexOf(1) !== -1">
+        <app-etap-entretien-partenaire (event) = "receiveMessage($event)" [tjm] = "tjm"></app-etap-entretien-partenaire>
     </mat-tab>
-    <mat-tab label="Positionnement client">
-        <app-etap-positionnement-client></app-etap-positionnement-client>
+    <mat-tab label="Positionnement client" *ngIf = "tabs.indexOf(2) !== -1">
+        <app-etap-positionnement-client (event) = "receiveMessage($event)" [tjm] = "tjm" ></app-etap-positionnement-client>
     </mat-tab>
-    <mat-tab label="Briefing">
-        <app-etap-briefing></app-etap-briefing>
+    <mat-tab label="Briefing" *ngIf = "tabs.indexOf(3) !== -1">
+        <app-etap-briefing (event) = "receiveMessage($event)"  ></app-etap-briefing>
     </mat-tab>
-    <mat-tab label="Entretien Client">
-        <app-etap-entretien-client></app-etap-entretien-client>
+    <mat-tab label="Entretien Client" *ngIf = "tabs.indexOf(4) !== -1">
+        <app-etap-entretien-client (event) = "receiveMessage($event)" [tjm] = "tjm" ></app-etap-entretien-client>
     </mat-tab>
-    <mat-tab label="Entretien / Test technique client">
-        <app-etap-test-technique></app-etap-test-technique>
+    <mat-tab label="Entretien / Test technique client" *ngIf = "tabs.indexOf(5) !== -1">
+        <app-etap-test-technique  (event) = "receiveMessage($event)" ></app-etap-test-technique>
     </mat-tab>
-    <mat-tab label="Validation client">
-        <app-etap-validation></app-etap-validation>
+    <mat-tab label="Validation client" *ngIf = "tabs.indexOf(6) !== -1" >
+        <app-etap-validation (event) = "receiveMessage($event)" ></app-etap-validation>
     </mat-tab>
 </mat-tab-group> 
+
+
+
+
+
+<app-etap-entretien-partenaire style="display: none;" (event) = "receiveMessage($event)"></app-etap-entretien-partenaire>
+<app-etap-positionnement-client style="display: none;" (event) = "receiveMessage($event)"></app-etap-positionnement-client>
+<app-etap-briefing style="display: none;" (event) = "receiveMessage($event)"></app-etap-briefing>
+<app-etap-entretien-client style="display: none;" (event) = "receiveMessage($event)"></app-etap-entretien-client>
+<app-etap-test-technique style="display: none;" (event) = "receiveMessage($event)"></app-etap-test-technique>
+<app-etap-validation style="display: none;" (event) = "receiveMessage($event)"></app-etap-validation>

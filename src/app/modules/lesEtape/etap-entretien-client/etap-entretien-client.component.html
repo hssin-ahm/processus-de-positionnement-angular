@@ -82,6 +82,9 @@
           [disabled]="cvForm.invalid">
             <mat-icon *ngIf = "panelTitle == 'Ajouter'">add</mat-icon>  {{panelTitle}}
           </button>
+          <button mat-raised-button class="return-btn" style="float: right; margin-right: 17%; margin-bottom: 10px;" (click) = "nextEtape()" >
+            Next étape <mat-icon>play_arrow</mat-icon>
+         </button>
         </div>
       </form>
     </div >

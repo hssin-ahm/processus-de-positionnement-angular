@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
@@ -12,15 +12,18 @@ import { PositionnementService } from 'src/app/_services/positionnement/position
   styleUrls: ['./etap-positionnement-client.component.css']
 })
 export class EtapPositionnementClientComponent implements OnInit {
-
+  @Input() tjm : number;
+  @Output() event = new EventEmitter<number>()
   positionnements: Positionnement[] = [];
   positionnement: Positionnement = new Positionnement();
   id: number;
  
 
+  nextEtape(){
+    this.event.emit(3);
+  }
   searchKey: string;
-  panelTitle: string = "Modifier"; 
-  tjm: number;
+  panelTitle: string = "Modifier";  
   iClass: string;
   consId: any;
 
@@ -37,7 +40,7 @@ export class EtapPositionnementClientComponent implements OnInit {
     
     this.consId = this.route.snapshot.queryParamMap.get('constId');
     console.log(this.id);
- 
+    
     this.getPositionnementById(); 
   }
 
@@ -46,6 +49,13 @@ export class EtapPositionnementClientComponent implements OnInit {
     this.positionnementService.getPositionnementsByCvId(this.id).subscribe(
       response => {
         this.positionnement = response;
+        if (response == null) {
+          this.positionnement = new Positionnement();
+          this.positionnement.tjm = this.tjm;
+          this.panelTitle = "Ajouter";
+        }else{
+          this.event.emit(2);
+        }
       }
     )
   } 

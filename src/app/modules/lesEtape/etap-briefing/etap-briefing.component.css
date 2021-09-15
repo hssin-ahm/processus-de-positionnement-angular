@@ -1,0 +1,26 @@
+/* mat-table */
+mat-footer-row mat-footer-cell{
+    justify-content: center;
+    font-style: italic;
+}
+.fieldset-title {
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eaeaf1;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: #616670;
+    font-size: 16px
+    }
+@media (max-width:770px) {
+    .return-btn{
+        float: none; 
+        margin-right: auto;
+    }
+}
+.indicator {
+    width: 13px;
+    height: 13px;
+    margin-right: .5rem;
+    float: left;
+    border-radius: 50%;
+  }

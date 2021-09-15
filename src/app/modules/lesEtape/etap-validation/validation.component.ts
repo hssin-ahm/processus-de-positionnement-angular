@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
@@ -23,7 +23,7 @@ export class ValidationComponent implements OnInit {
   tjm: number;
   iClass: string;
   consId: any;
-
+  @Output() event = new EventEmitter<number>()
 
   constructor(
     private validationService: ValidationService,
@@ -46,7 +46,13 @@ export class ValidationComponent implements OnInit {
     this.validationService.getValidationsByCvId(this.id).subscribe(
       response => {
         this.validation = response;
-        this.iClass = this.getIClass(this.validation.feedback);
+        if (response == null) {
+          this.validation = new Validation();
+          this.panelTitle = "Ajouter";
+        }else{
+          this.iClass = this.getIClass(this.validation.feedback); 
+          this.event.emit(6);
+        }
       }
     )
   } 
@@ -77,7 +83,11 @@ export class ValidationComponent implements OnInit {
     
     this.validationService.updateValidationCv(validation, this.id, this.consId).subscribe(
       (response: Validation) => {
-        this.notificationsService.onSuccess("Mise à jour avec succès");
+        if (this.panelTitle == "Ajouter") {
+          this.notificationsService.onSuccess("Ajout réussi");
+        }else{
+          this.notificationsService.onSuccess("Mise à jour avec succès");
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

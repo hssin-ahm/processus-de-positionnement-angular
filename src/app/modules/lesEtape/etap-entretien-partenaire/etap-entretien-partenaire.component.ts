@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
@@ -17,6 +18,9 @@ import { ConsultantService } from '../../consultant/consultant.service';
   styleUrls: ['./etap-entretien-partenaire.component.css']
 })
 export class EtapEntretienPartenaireComponent implements OnInit {
+  @Input() tjm : number;
+  @Output() event = new EventEmitter<number>()
+
   entretiens: Entretien[] = [];
   entretien: Entretien = new Entretien();
   id: number;
@@ -27,7 +31,6 @@ export class EtapEntretienPartenaireComponent implements OnInit {
   searchKey: string;
   panelTitle: string = "Modifier";
   consultant: Consultant;
-  tjm: number;
   iClass: string;
   consId: any;
 
@@ -35,18 +38,14 @@ export class EtapEntretienPartenaireComponent implements OnInit {
   constructor(
     private entretienPartenaireService: EntretienPartenaireService,
     private route: ActivatedRoute,
-    private notificationsService: notificationsService,
-    private consultantService: ConsultantService,
-    private cvEnvoyeService: CvEnvoyeService
+    private notificationsService: notificationsService, 
   ) {
 
   }
   ngOnInit(): void {
-    this.id = this.route.snapshot.params['idcv'];
-    
+    this.id = this.route.snapshot.params['idcv']; 
     this.consId = this.route.snapshot.queryParamMap.get('constId');
-    console.log(this.id);
- 
+    
     this.getEntretienById(); 
   }
 
@@ -55,12 +54,21 @@ export class EtapEntretienPartenaireComponent implements OnInit {
     this.entretienPartenaireService.getEntretiensByCvId(this.id).subscribe(
       response => {
         this.entretien = response;
-        this.iClass = this.getIClass(this.entretien.statut);
-        //this.cvEnvoye = this.entretien.cvEnvoyee;
+        if (response == null) {
+          this.entretien = new Entretien();
+          this.entretien.tjm = this.tjm;
+          this.panelTitle = "Ajouter";
+        }else{ 
+          this.iClass = this.getIClass(this.entretien.statut);
+          this.event.emit(1);
+        }
       }
     )
   } 
 
+  nextEtape(){
+    this.event.emit(2);
+  }
  
   onUpdateEntretien(entForm: NgForm) {
     this.entretien = entForm.value;
@@ -72,11 +80,14 @@ export class EtapEntretienPartenaireComponent implements OnInit {
 
   public onModifyEntretien(entretien: Entretien): void {
     entretien.cvEnvoyee = this.cvEnvoye;
-    console.log(entretien);
     
     this.entretienPartenaireService.updateEntretien(entretien, this.id, this.consId).subscribe(
       (response: Entretien) => {
-        this.notificationsService.onSuccess("Mise à jour avec succès");
+        if (this.panelTitle == "Ajouter") {
+          this.notificationsService.onSuccess("Ajout réussi");
+        }else{
+          this.notificationsService.onSuccess("Mise à jour avec succès");
+        }
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -104,26 +115,7 @@ export class EtapEntretienPartenaireComponent implements OnInit {
       }
     }
   }
-  getCvEnvoyeByConsultantId() {
-    this.cvEnvoyeService.getCvEnvoyeByConsultantId(this.consId).subscribe(
-      response => {
-        this.cvEnvoyes = response;
-        this.getMoyenOfTjm();
-
-      }
-    )
-  }
-
-  getMoyenOfTjm() {
-    var tjms = 0;
-    if (this.cvEnvoyes) {
-      this.cvEnvoyes.forEach(element => {
-        tjms += element.tjm;
-      });
-      this.tjm = tjms / this.cvEnvoyes.length;
-    }
-    this.entretien.tjm = Math.trunc(this.tjm);
-  }
+ 
   onChange(deviceValue) {
     switch (deviceValue) {
       case "Qualifié": {

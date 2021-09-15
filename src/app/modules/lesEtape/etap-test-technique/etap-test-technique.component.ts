@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
@@ -18,6 +18,7 @@ export class EtapTestTechniqueComponent implements OnInit {
   id: number;
  
 
+  @Output() event = new EventEmitter<number>()
   searchKey: string;
   panelTitle: string = "Modifier"; 
   tjm: number;
@@ -46,11 +47,20 @@ export class EtapTestTechniqueComponent implements OnInit {
     this.testTechniqueClientService.getTestTechniqueClientsByCvId(this.id).subscribe(
       response => {
         this.testTechniqueClient = response;
+        if (response == null) {
+          this.testTechniqueClient = new TestTechniqueClient();
+          this.panelTitle = "Ajouter";
+        }else{
+          this.event.emit(5)
+        }
       }
     )
   } 
 
   
+  nextEtape(){
+    this.event.emit(6);
+  }
   onUpdateTestTechniqueClient(entForm: NgForm) {
     this.testTechniqueClient = entForm.value;
     this.onModifyTestTechniqueClient(this.testTechniqueClient);

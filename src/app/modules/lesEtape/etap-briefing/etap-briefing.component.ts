@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContactDialogService } from 'src/app/shared/dialog-service/contact-dialog.service';
@@ -17,6 +17,7 @@ import { ContactService } from 'src/app/_services/contact/contact.service';
 })
 export class EtapBriefingComponent implements OnInit {
 
+  @Output() event = new EventEmitter<number>()
   id: number;
   briefing: Briefing = new Briefing();
   panelTitle: string = "Modifier";
@@ -42,14 +43,23 @@ export class EtapBriefingComponent implements OnInit {
     this.consId = this.route.snapshot.queryParamMap.get('constId');
     this.getBriefingByCvId(); 
   }
-
+  nextEtape(){
+    this.event.emit(4);
+  }
   getBriefingByCvId() {
     this.briefingService.getBriefingsByCvId(this.id).subscribe(
       response => {
         this.briefing = response;
-        this.addContactToTtoppingList(this.briefing.contact);
-        this.briefing.contactName = this.toppingList;
-        this.getContacts();
+        if (response == null) {
+          this.briefing = new Briefing();
+          this.panelTitle = "Ajouter";
+        }else{
+          this.addContactToTtoppingList(this.briefing.contact);
+          this.briefing.contactName = this.toppingList;
+          this.getContacts();
+          this.event.emit(3);
+
+        }
       }
     )
   }

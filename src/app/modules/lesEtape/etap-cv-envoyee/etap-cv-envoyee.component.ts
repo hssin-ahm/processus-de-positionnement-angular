@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContactDialogService } from 'src/app/shared/dialog-service/contact-dialog.service';
@@ -8,7 +8,7 @@ import { notificationsService } from 'src/app/shared/dialog-service/notification
 import { Contact } from 'src/app/_services/contact/contact';
 import { ContactService } from 'src/app/_services/contact/contact.service';
 import { CvEnvoyeService } from 'src/app/_services/cvEnvoye/cv-envoye.service';
-import { CvEnvoye } from 'src/app/_services/cvEnvoye/cvEnvoye';
+import { CvEnvoye } from 'src/app/_services/cvEnvoye/cvEnvoye'; 
 import { Consultant } from '../../consultant/consultant';
 import { ConsultantService } from '../../consultant/consultant.service';
 
@@ -29,6 +29,7 @@ export class EtapCvEnvoyeeComponent implements OnInit {
   toppings = new FormControl();
   toppingList: string[] = [];
   consId: any;
+  selected: number;
 
   constructor(
     private cvEnvoyeService: CvEnvoyeService,
@@ -41,11 +42,12 @@ export class EtapCvEnvoyeeComponent implements OnInit {
     private contactService: ContactService
   ) { }
 
+  @Output() event = new EventEmitter<number>()
   ngOnInit(): void {
     this.id = this.route.snapshot.params['idcv'];
     this.consId = this.route.snapshot.queryParamMap.get('constId');
     console.log(this.id);
- 
+    
     this.getCvEnvoyeById(); 
   }
 
@@ -67,7 +69,9 @@ export class EtapCvEnvoyeeComponent implements OnInit {
       this.toppingList.push(element.prenom + " " + element.nom);
     });
   }
-
+  nextEtape(){
+    this.event.emit(1);
+  }
 
 
  

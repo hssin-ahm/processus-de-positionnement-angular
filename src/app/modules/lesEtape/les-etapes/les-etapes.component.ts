@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CvEnvoyeService } from 'src/app/_services/cvEnvoye/cv-envoye.service';
+import { CvEnvoye } from 'src/app/_services/cvEnvoye/cvEnvoye';
 
 @Component({
   selector: 'app-les-etapes',
@@ -9,19 +11,43 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LesEtapesComponent implements OnInit {
   id: any;
-
+  consId: string;
+  cvEnvoye: CvEnvoye;
+  tjm: number = 5;
   constructor(
     private route: ActivatedRoute,
+    private cvEnvoyeService: CvEnvoyeService,
   ) { }
 
   ngOnInit(): void {
-
+    this.id = this.route.snapshot.params['idcv'];
+    this.consId = this.route.snapshot.queryParamMap.get('constId');
+ 
+    this.getCvEnvoyeById(); 
   }
-  tabs = ['cv-envoye', 'entretien-partenaire', 'positionnement-client', 'briefing', 'entretien-client', 'test-technique-client', 'validation'];
-  selected = new FormControl(0);
 
+  getCvEnvoyeById() {
+    this.cvEnvoyeService.getCvEnvoye(this.id).subscribe(
+      response => {
+        this.cvEnvoye = response;
+        this.tjm = response.tjm;
+        
+      }
+    )
+  }
+
+  tabs = [0];
+  selected = new FormControl([0]);
+
+  receiveMessage($event){
+    if (this.tabs.indexOf($event) == -1) {
+      this.tabs.push($event)
+    }
+    console.log(this.tabs);
+    this.selected.setValue($event);
+  }
   addTab(selectAfterAdding: boolean) {
-    this.tabs.push('New');
+    //this.tabs.push('New');
 
     if (selectAfterAdding) {
       this.selected.setValue(this.tabs.length - 1);
@@ -32,8 +58,7 @@ export class LesEtapesComponent implements OnInit {
     this.tabs.splice(index, 1);
   }
   selectedIndexChange($event){
-    this.selected.setValue($event);
-    console.log(this.selected.value);
+    console.log($event);
     
   }
 }

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
@@ -12,7 +12,8 @@ import { EntretienClient } from 'src/app/_services/entretienClient/entretienClie
   styleUrls: ['./etap-entretien-client.component.css']
 })
 export class EtapEntretienClientComponent implements OnInit {
-
+  @Input() tjm : number;
+  @Output() event = new EventEmitter<number>()
   entretienClients: EntretienClient[] = [];
   entretienClient: EntretienClient = new EntretienClient();
   id: number;
@@ -20,7 +21,6 @@ export class EtapEntretienClientComponent implements OnInit {
 
   searchKey: string;
   panelTitle: string = "Modifier"; 
-  tjm: number;
   iClass: string;
   consId: any;
 
@@ -41,10 +41,20 @@ export class EtapEntretienClientComponent implements OnInit {
   }
 
   
+  nextEtape(){
+    this.event.emit(5);
+  }
   getEntretienClientById() {
     this.entretienClientService.getEntretienClientsByCvId(this.id).subscribe(
       response => {
         this.entretienClient = response;
+        if (response == null) {
+          this.entretienClient = new EntretienClient();
+          this.entretienClient.tjm = this.tjm;
+          this.panelTitle = "Ajouter";
+        }else{
+          this.event.emit(4);
+        }
       }
     )
   } 
