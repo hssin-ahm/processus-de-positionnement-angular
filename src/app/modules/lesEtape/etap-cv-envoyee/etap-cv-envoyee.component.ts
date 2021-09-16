@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ContactDialogService } from 'src/app/shared/dialog-service/contact-dialog.service';
@@ -18,6 +18,7 @@ import { ConsultantService } from '../../consultant/consultant.service';
   styleUrls: ['./etap-cv-envoyee.component.css']
 })
 export class EtapCvEnvoyeeComponent implements OnInit {
+  
   id: number;
   cvEnvoye: CvEnvoye = new CvEnvoye();
   iClass: string;
@@ -30,6 +31,8 @@ export class EtapCvEnvoyeeComponent implements OnInit {
   toppingList: string[] = [];
   consId: any;
   selected: number;
+  lesEtapes : string[];
+  etapeActuel: string;
 
   constructor(
     private cvEnvoyeService: CvEnvoyeService,
@@ -41,24 +44,37 @@ export class EtapCvEnvoyeeComponent implements OnInit {
     private consultantService: ConsultantService,
     private contactService: ContactService
   ) { }
+  @Input() tabs : [];
+  @Output() event = new EventEmitter<number>();
 
-  @Output() event = new EventEmitter<number>()
   ngOnInit(): void {
     this.id = this.route.snapshot.params['idcv'];
-    this.consId = this.route.snapshot.queryParamMap.get('constId');
-    console.log(this.id);
+    this.consId = this.route.snapshot.queryParamMap.get('constId'); 
+    if (this.tabs) {
+      this.lesEtapes = ["CV envoyé", "Entretien / Test technique partenaire", "Positionnement client", "Briefing", "Entretien Client", "Entretien / Test technique client", "Validation client"]
+      
+      if (this.cvEnvoye.partenairClient == "Client") {
+        this.cvEnvoye.etapeActuel = this.lesEtapes[this.tabs.length - 2];
+      }else{
+        this.cvEnvoye.etapeActuel = this.lesEtapes[this.tabs.length - 1];
+      }
+     
+    }
+    console.log(this.cvEnvoye.etapeActuel);
+    this.getCvEnvoyeById(this.cvEnvoye.etapeActuel);
     
-    this.getCvEnvoyeById(); 
   }
 
-  getCvEnvoyeById() {
+  getCvEnvoyeById(etapeActuel: string) {
     this.cvEnvoyeService.getCvEnvoye(this.id).subscribe(
       response => {
         this.cvEnvoye = response;
         this.iClass = this.getIClass(this.cvEnvoye.statut);
         this.addContactToTtoppingList(this.cvEnvoye.contact);
         this.cvEnvoye.contactName = this.toppingList;
+        this.cvEnvoye.etapeActuel =  etapeActuel;
         this.getContacts();
+        this.addEtapeActuel(this.cvEnvoye);
       }
     )
   }
@@ -68,12 +84,27 @@ export class EtapCvEnvoyeeComponent implements OnInit {
     contacts.forEach(element => {
       this.toppingList.push(element.prenom + " " + element.nom);
     });
+    
   }
   nextEtape(){
-    this.event.emit(1);
+    if (this.cvEnvoye.partenairClient == "Client") {
+      this.event.emit(2);  
+    }else{
+      this.event.emit(1);
+    }
   }
 
-
+  public addEtapeActuel(cvEnvoye: CvEnvoye): void {
+    this.cvEnvoyeService.updateCvEnvoye(cvEnvoye).subscribe(
+      (response: CvEnvoye) => {
+        this.cvEnvoye.etapeActuel = response.etapeActuel;
+        this.etapeActuel = response.etapeActuel;
+      },
+      (error: HttpErrorResponse) => {
+        alert(error.message);
+      }
+    );
+  }
  
  
   public onOpenContactModal(nomContact: String): void {
@@ -156,11 +187,10 @@ export class EtapCvEnvoyeeComponent implements OnInit {
 
 
   public onModifyCvEnvoye(cvEnvoye: CvEnvoye): void {
-    console.log(cvEnvoye);
-    debugger
     this.cvEnvoyeService.updateCvEnvoye(cvEnvoye).subscribe(
       (response: CvEnvoye) => {
         this.notificationsService.onSuccess("Mise à jour avec succès");
+        this.getCvEnvoyeById(this.cvEnvoye.etapeActuel)
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

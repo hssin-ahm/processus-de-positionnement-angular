@@ -80,6 +80,14 @@
                   </textarea>
             </div>
           </div>
+          <br>
+          <div class="form-group">
+            <label class="col-md-2 col-sm-3 col-xs-12 control-label">Etat actuel</label>
+            <div class="col-md-10 col-sm-9 col-xs-12">
+              <input type="text" class="form-control" ngModel="{{partenairClient.value == 'Client' ? lesEtapes[tabs.length] : lesEtapes[tabs.length - 1]}}" name="etapeActuel" disabled>
+              
+            </div>
+          </div>
         </fieldset>
         <br>
         <fieldset class="fieldset">

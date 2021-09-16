@@ -75,7 +75,13 @@ export class EtapTestTechniqueComponent implements OnInit {
     
     this.testTechniqueClientService.updateTestTechniqueClientCv(TestTechniqueClient, this.id, this.consId).subscribe(
       (response: TestTechniqueClient) => {
-        this.notificationsService.onSuccess("Mise à jour avec succès");
+        if (this.panelTitle == "Ajouter") {
+          this.notificationsService.onSuccess("Ajout réussi");
+          this.panelTitle = "Modifier"
+        }else{
+          this.notificationsService.onSuccess("Mise à jour avec succès");
+        }
+        this.getTestTechniqueClientById();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

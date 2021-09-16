@@ -75,7 +75,13 @@ export class EtapPositionnementClientComponent implements OnInit {
     
     this.positionnementService.updatePosition(Positionnement, this.id, this.consId).subscribe(
       (response: Positionnement) => {
-        this.notificationsService.onSuccess("Mise à jour avec succès");
+        if (this.panelTitle == "Ajouter") {
+          this.notificationsService.onSuccess("Ajout réussi");
+          this.panelTitle = "Modifier"
+        }else{
+          this.notificationsService.onSuccess("Mise à jour avec succès");
+        }
+        this.getPositionnementById();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

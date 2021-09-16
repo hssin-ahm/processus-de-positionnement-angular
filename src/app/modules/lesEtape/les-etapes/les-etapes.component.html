@@ -1,13 +1,15 @@
 
   <mat-tab-group [selectedIndex]="selected.value" backgroundColor="primary" mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4" (selectedIndexChange)="selectedIndexChange($event)">
     <mat-tab label="CV envoyé">
-        <app-etap-cv-envoyee (event) = "receiveMessage($event)"></app-etap-cv-envoyee>
+        <app-etap-cv-envoyee (event) = "receiveMessage($event)" [tabs] = "tabs" ></app-etap-cv-envoyee>
     </mat-tab>
     <mat-tab label="Entretien / Test technique partenaire" *ngIf = "tabs.indexOf(1) !== -1">
         <app-etap-entretien-partenaire (event) = "receiveMessage($event)" [tjm] = "tjm"></app-etap-entretien-partenaire>
+
     </mat-tab>
     <mat-tab label="Positionnement client" *ngIf = "tabs.indexOf(2) !== -1">
         <app-etap-positionnement-client (event) = "receiveMessage($event)" [tjm] = "tjm" ></app-etap-positionnement-client>
+
     </mat-tab>
     <mat-tab label="Briefing" *ngIf = "tabs.indexOf(3) !== -1">
         <app-etap-briefing (event) = "receiveMessage($event)"  ></app-etap-briefing>
@@ -21,6 +23,7 @@
     <mat-tab label="Validation client" *ngIf = "tabs.indexOf(6) !== -1" >
         <app-etap-validation (event) = "receiveMessage($event)" ></app-etap-validation>
     </mat-tab>
+    <app-etap-cv-envoyee style="display: none;" [tabs] = "tabs"></app-etap-cv-envoyee>
 </mat-tab-group> 
 
 

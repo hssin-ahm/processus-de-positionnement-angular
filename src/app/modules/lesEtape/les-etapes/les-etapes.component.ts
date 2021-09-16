@@ -14,6 +14,7 @@ export class LesEtapesComponent implements OnInit {
   consId: string;
   cvEnvoye: CvEnvoye;
   tjm: number = 5;
+  index: number;
   constructor(
     private route: ActivatedRoute,
     private cvEnvoyeService: CvEnvoyeService,
@@ -46,19 +47,11 @@ export class LesEtapesComponent implements OnInit {
     console.log(this.tabs);
     this.selected.setValue($event);
   }
-  addTab(selectAfterAdding: boolean) {
-    //this.tabs.push('New');
-
-    if (selectAfterAdding) {
-      this.selected.setValue(this.tabs.length - 1);
-    }
-  }
-
-  removeTab(index: number) {
-    this.tabs.splice(index, 1);
-  }
+ 
+  
   selectedIndexChange($event){
-    console.log($event);
+    this.index = $event;
+    //this.selected.setValue($event);
     
   }
 }

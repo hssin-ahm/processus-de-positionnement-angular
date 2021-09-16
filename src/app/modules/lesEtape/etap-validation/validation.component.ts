@@ -85,9 +85,11 @@ export class ValidationComponent implements OnInit {
       (response: Validation) => {
         if (this.panelTitle == "Ajouter") {
           this.notificationsService.onSuccess("Ajout réussi");
+          this.panelTitle = "Modifier"
         }else{
           this.notificationsService.onSuccess("Mise à jour avec succès");
         }
+        this.getValidationById();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

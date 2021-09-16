@@ -41,7 +41,8 @@ export class EtapBriefingComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['idcv'];
     this.consId = this.route.snapshot.queryParamMap.get('constId');
-    this.getBriefingByCvId(); 
+    this.getBriefingByCvId();
+    this.refreshTheList()
   }
   nextEtape(){
     this.event.emit(4);
@@ -140,7 +141,13 @@ export class EtapBriefingComponent implements OnInit {
   public onModifyBriefing(Briefing: Briefing): void {
     this.briefingService.updateBriefingOfcv(Briefing, this.id, this.consId).subscribe(
       (response: Briefing) => {
-        this.notificationsService.onSuccess("Mise à jour avec succès");
+        if (this.panelTitle == "Ajouter") {
+          this.notificationsService.onSuccess("Ajout réussi");
+          this.panelTitle = "Modifier"
+        }else{
+          this.notificationsService.onSuccess("Mise à jour avec succès");
+        }
+        this.getBriefingByCvId();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

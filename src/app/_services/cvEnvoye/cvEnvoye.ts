@@ -14,6 +14,7 @@ export class CvEnvoye {
     consultantId: number;
     consultant ?: Consultant;
     contactName ?: String[];
+    etapeActuel ?: string;
 
   }
 	
