@@ -33,7 +33,7 @@ export class TestTechniqueClientComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string = "Ajouter";
+  panelTitle: string = "Détails";
   
 
   constructor(
@@ -60,12 +60,12 @@ export class TestTechniqueClientComponent implements OnInit {
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         if (response.length == 0) {
-          this.sayHello();
+          this.warn();
         }
       }
     )
   }
-  sayHello(){
+  warn(){
     return new Promise((resolve , reject) => {
       setTimeout(() => {
           this.notificationsService.onWarn("pas de test tachnique de ce consultant")
@@ -86,7 +86,6 @@ export class TestTechniqueClientComponent implements OnInit {
   }
 
   updateTestTechniqueClient(testTechniqueClient: TestTechniqueClient){
-  this.panelTitle = "Modifier";
   this.testTechniqueClient = testTechniqueClient;
   this.display();
   }
@@ -101,7 +100,6 @@ export class TestTechniqueClientComponent implements OnInit {
     }else {
       addEntretien.style.display = "none";
       table.style.display = "block";
-      this.panelTitle = "Ajouter";
       this.testTechniqueClient = new TestTechniqueClient();
       this.getTestTechniqueClientsByConsultantId();
 
@@ -109,56 +107,7 @@ export class TestTechniqueClientComponent implements OnInit {
   }
   
   
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.testTechniqueClient.consultant = response;
-        delete this.testTechniqueClient.consultantId;
-        this.onModifyTestTechniqueClient(this.testTechniqueClient);
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
-  onUpdateTestTechniqueClient(entForm: NgForm){
-    this.testTechniqueClient = entForm.value;
-    if (entForm.value.idTestTechniqueClient) {
-      this.getConsultant(this.id);
-      
-    }else{
-      this.onAddTestTechniqueClient(this.testTechniqueClient);
-      entForm.reset();
-    }
-  }
-  
-
-  public onModifyTestTechniqueClient(testTechniqueClient: TestTechniqueClient): void {
-    this.testTechniqueClientService.updateTestTechniqueClient(testTechniqueClient).subscribe(
-      (response: TestTechniqueClient) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
-
-  public onAddTestTechniqueClient(testTechniqueClient: TestTechniqueClient): void {
-    
-    this.testTechniqueClientService.addTestTechniqueClient(this.testTechniqueClient, this.id).subscribe(
-      (response: TestTechniqueClient) => {
-        console.log(response);
-        this.getTestTechniqueClientsByConsultantId();
-        this.display();
-        this.notificationsService.onSuccess("Ajout réussi");
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
+ 
   
   public onOpenDeleteModal(testTechniqueClient: TestTechniqueClient): void{
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminComponent } from './admin.component';
 import { RouterModule } from '@angular/router';
-import { PositionnementsComponent } from 'src/app/modules/positionnements/positionnements.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { ConsultantComponent } from 'src/app/modules/consultant/consultant.component';
@@ -32,8 +31,7 @@ import { PositionnementClientComponent } from 'src/app/modules/positionnement-cl
 import { BriefingComponent } from 'src/app/modules/briefing/briefing.component';
 import { EntretienClientComponent } from 'src/app/modules/entretien-client/entretien-client.component';
 import { TestTechniqueClientComponent } from 'src/app/modules/test-technique-client/test-technique-client.component';
-import { ContactsComponent } from 'src/app/modules/contacts/contacts.component';
-import { EntrPartenaireComponent } from 'src/app/modules/entr-partenaire/entr-partenaire.component';
+import { ContactsComponent } from 'src/app/modules/contacts/contacts.component'; 
 import { LesEtapesComponent } from 'src/app/modules/lesEtape/les-etapes/les-etapes.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { EtapCvEnvoyeeComponent } from 'src/app/modules/lesEtape/etap-cv-envoyee/etap-cv-envoyee.component';
@@ -49,7 +47,6 @@ import { ValidationComponent as etapValidationComponent } from 'src/app/modules/
   declarations: [
     AdminComponent,
     ConsultantComponent,
-    PositionnementsComponent,
     UpdateConsultantComponent,
     CvEnvoyeComponent,
     ContactDialogComponent,
@@ -60,8 +57,7 @@ import { ValidationComponent as etapValidationComponent } from 'src/app/modules/
     EntretienClientComponent,
     TestTechniqueClientComponent,
     ValidationComponent,
-    ContactsComponent,
-    EntrPartenaireComponent,
+    ContactsComponent, 
     LesEtapesComponent,
     EtapCvEnvoyeeComponent,
     EtapEntretienPartenaireComponent,

@@ -36,7 +36,7 @@ export class PositionnementClientComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string = "Ajouter";
+  panelTitle: string = "Détails";
   consultant: Consultant;
   tjm: number;
   
@@ -45,8 +45,7 @@ export class PositionnementClientComponent implements OnInit {
     private positionnementService: PositionnementService, 
     private route: ActivatedRoute,
     private dialogService: DialogService,
-    private notificationsService: notificationsService,
-    private consultantService : ConsultantService,
+    private notificationsService: notificationsService, 
     private cvEnvoyeService : CvEnvoyeService
     ) { 
     
@@ -91,8 +90,7 @@ export class PositionnementClientComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  updatePositionnement(positionnement: Positionnement){
-  this.panelTitle = "Modifier";
+  updatePositionnement(positionnement: Positionnement){ 
   this.positionnement = positionnement;
   this.display();
   }
@@ -108,67 +106,13 @@ export class PositionnementClientComponent implements OnInit {
       }
     }else {
       addEntretien.style.display = "none";
-      table.style.display = "block";
-      this.panelTitle = "Ajouter";
+      table.style.display = "block"; 
       this.positionnement = new Positionnement();
       this.getPositionnementsByConsultantId();
 
     }
   }
   
-  
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.positionnement.consultant = response;
-        delete this.positionnement.consultantId;
-        this.onModifyPositionnement(this.positionnement);
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
-  onUpdatePositionnement(entForm: NgForm){
-    this.positionnement = entForm.value;
-    if (entForm.value.idPositionnement) {
-      this.getConsultant(this.id);
-      
-    }else{
-      this.onAddPositionnement(this.positionnement);
-      entForm.reset();
-    }
-  }
-  
-
-  public onModifyPositionnement(positionnement: Positionnement): void {
-    console.log(positionnement);
-    debugger
-    this.positionnementService.updatePositionnement(positionnement).subscribe(
-      (response: Positionnement) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
-
-  public onAddPositionnement(positionnement: Positionnement): void {
-    
-    this.positionnementService.addPositionnement(this.positionnement, this.id).subscribe(
-      (response: Positionnement) => {
-        console.log(response);
-        this.getPositionnementsByConsultantId();
-        this.display();
-        this.notificationsService.onSuccess("Ajout réussi");
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
   
   public onOpenDeleteModal(positionnement: Positionnement): void{
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")

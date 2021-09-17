@@ -37,7 +37,7 @@ export class EntretienClientComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string = "Ajouter";
+  panelTitle: string = "Détails";
   consultant: Consultant;
   tjm: number;
   iClass: string;
@@ -96,7 +96,6 @@ export class EntretienClientComponent implements OnInit {
   }
 
   updateEntretien(entretien: EntretienClient) {
-    this.panelTitle = "Modifier";
     this.entretien = entretien;
     this.display();
   }
@@ -113,66 +112,12 @@ export class EntretienClientComponent implements OnInit {
     } else {
       addEntretien.style.display = "none";
       table.style.display = "block";
-      this.panelTitle = "Ajouter";
       this.entretien = new EntretienClient();
       this.getEntretiensByConsultantId();
 
     }
   }
-
-
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.entretien.consultant = response;
-        delete this.entretien.consultantId;
-        this.onModifyEntretien(this.entretien);
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
-  onUpdateEntretien(entForm: NgForm) {
-    this.entretien = entForm.value;
-    if (entForm.value.idEntretienClient) {
-      this.getConsultant(this.id);
-
-    } else {
-      this.onAddEntretien(this.entretien);
-      entForm.reset();
-    }
-  }
-
-
-  public onModifyEntretien(entretien: EntretienClient): void {
-    console.log(this.entretien);
-    this.entretienClientService.updateEntretien(entretien).subscribe(
-      (response: EntretienClient) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
-
-  public onAddEntretien(entretien: EntretienClient): void {
-    console.log(entretien);
-
-    this.entretienClientService.addEntretien(this.entretien, this.id).subscribe(
-      (response: EntretienClient) => {
-        console.log(response);
-        this.getEntretiensByConsultantId();
-        this.display();
-        this.notificationsService.onSuccess("Ajout réussi");
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
+ 
 
   public onOpenDeleteModal(entretien: EntretienClient): void {
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")

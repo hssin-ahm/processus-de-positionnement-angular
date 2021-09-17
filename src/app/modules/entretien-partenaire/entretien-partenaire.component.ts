@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core'; 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,8 +11,6 @@ import { CvEnvoye } from 'src/app/_services/cvEnvoye/cvEnvoye';
 import { Entretien } from 'src/app/_services/entretienPartenaire/entretien';
 import { EntretienPartenaireService } from 'src/app/_services/entretienPartenaire/entretien-partenaire.service';
 import { Consultant } from '../consultant/consultant';
-import { ConsultantService } from '../consultant/consultant.service';
-import { CvEnvoyeComponent } from '../cv-envoye/cv-envoye.component';
 
 @Component({
   selector: 'app-entretien-partenaire',
@@ -34,7 +31,7 @@ export class EntretienPartenaireComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string = "Ajouter";
+  panelTitle: string = "Détails";
   consultant: Consultant;
   tjm: number;
   iClass: string;
@@ -45,7 +42,6 @@ export class EntretienPartenaireComponent implements OnInit {
     private route: ActivatedRoute,
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService: ConsultantService,
     private cvEnvoyeService: CvEnvoyeService
   ) {
 
@@ -71,14 +67,14 @@ export class EntretienPartenaireComponent implements OnInit {
       }
     )
   }
-  warn(){
-    return new Promise((resolve , reject) => {
+  warn() {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
-          this.notificationsService.onWarn("pas d'entrtien partenaire de ce consultant")
+        this.notificationsService.onWarn("pas d'entrtien partenaire de ce consultant")
         resolve("function done");
       }, 500);
     });
-   
+
   }
 
   onSearchClear() {
@@ -91,8 +87,7 @@ export class EntretienPartenaireComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  updateEntretien(entretien: Entretien) {
-    this.panelTitle = "Modifier";
+  updateEntretien(entretien: Entretien) { 
     this.entretien = entretien;
     this.iClass = this.getIClass(this.entretien.statut);
     this.display();
@@ -109,8 +104,7 @@ export class EntretienPartenaireComponent implements OnInit {
       }
     } else {
       addEntretien.style.display = "none";
-      table.style.display = "block";
-      this.panelTitle = "Ajouter";
+      table.style.display = "block"; 
       this.entretien = new Entretien();
       this.getEntretiensByConsultantId();
 
@@ -118,67 +112,15 @@ export class EntretienPartenaireComponent implements OnInit {
   }
 
 
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.entretien.consultant = response;
-        delete this.entretien.consultantId;
-        this.onModifyEntretien(this.entretien);
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
-  onUpdateEntretien(entForm: NgForm) {
-    this.entretien = entForm.value;
-    if (entForm.value.idEntretien) {
-      this.getConsultant(this.id);
-
-    } else {
-      this.onAddEntretien(this.entretien);
-      entForm.reset();
-    }
-  }
-
-
-  public onModifyEntretien(entretien: Entretien): void {
-    console.log(this.entretien);
-    this.entretienPartenaireService.updateEntretien(entretien, null, null).subscribe(
-      (response: Entretien) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
-
-  public onAddEntretien(entretien: Entretien): void {
-    console.log(entretien);
-
-    this.entretienPartenaireService.addEntretien(this.entretien, this.id).subscribe(
-      (response: Entretien) => {
-        console.log(response);
-        this.getEntretiensByConsultantId();
-        this.display();
-        this.notificationsService.onSuccess("Ajout réussi");
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
 
   public onOpenDeleteModal(entretien: Entretien): void {
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
-      .afterClosed().subscribe(res => {
-        if (res) {
-          this.onDeleteEntretien(entretien.idEntretien);
-          this.notificationsService.onSuccess("Supprimé avec succès");
-        }
-      });
+    .afterClosed().subscribe(res => {
+      if (res) {
+        this.onDeleteEntretien(entretien.idEntretien);
+        this.notificationsService.onSuccess("Supprimé avec succès");
+      }
+    });
   }
 
 

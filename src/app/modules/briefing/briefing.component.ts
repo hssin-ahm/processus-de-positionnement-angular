@@ -23,10 +23,10 @@ import { ConsultantService } from '../consultant/consultant.service';
 export class BriefingComponent implements OnInit {
 
   dataSource: MatTableDataSource<Briefing>;
-  briefings : Briefing[] = [];
+  briefings: Briefing[] = [];
   briefing: Briefing = new Briefing();
-  id : number;
-  contacts: Contact[]; 
+  id: number;
+  contacts: Contact[];
   newContacts: Contact[];
 
   toppings = new FormControl();
@@ -35,23 +35,23 @@ export class BriefingComponent implements OnInit {
 
   columns: string[] = ["dateBriefing", "type", "contact", "remarque", "statut", "actions"]
 
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string = "Ajouter";
+  panelTitle: string = "Détails";
   consultant: Consultant;
-  
 
-  constructor(private briefingService: BriefingService, 
-    private route: ActivatedRoute, 
-    private contactDialogService:ContactDialogService,
-    private ContactService: ContactService, 
+
+  constructor(private briefingService: BriefingService,
+    private route: ActivatedRoute,
+    private contactDialogService: ContactDialogService,
+    private ContactService: ContactService,
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService : ConsultantService,
+    private consultantService: ConsultantService,
     private contactService: ContactService
-    ) { 
-    
+  ) {
+
   }
 
   ngOnInit(): void {
@@ -59,15 +59,15 @@ export class BriefingComponent implements OnInit {
     this.getBriefingByConsultantId();
 
     this.getContacts();
-    
-    
+
+
   }
 
-  getBriefingByConsultantId(){
+  getBriefingByConsultantId() {
     this.briefingService.getBriefingByConsultantId(this.id).subscribe(
-      response=>{
+      response => {
         this.briefings = response;
-        this.dataSource =  new MatTableDataSource(this.briefings);
+        this.dataSource = new MatTableDataSource(this.briefings);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
         if (response.length == 0) {
@@ -76,20 +76,20 @@ export class BriefingComponent implements OnInit {
       }
     )
   }
-  warn(){
-    return new Promise((resolve , reject) => {
+  warn() {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
-          this.notificationsService.onWarn("pas de briefing de ce consultant")
+        this.notificationsService.onWarn("pas de briefing de ce consultant")
         resolve("function done");
       }, 500);
     });
-   
+
   }
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];
     contacts.forEach(element => {
-     
-     this.toppingList.push(element.prenom + " " + element.nom);
+
+      this.toppingList.push(element.prenom + " " + element.nom);
     });
   }
   onSearchClear() {
@@ -97,73 +97,71 @@ export class BriefingComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  applyFilter(event){
+  applyFilter(event) {
     this.searchKey = (event.target as HTMLInputElement).value;
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
-  getFirstContact(contact: Contact, row: any){
-    
+  getFirstContact(contact: Contact, row: any) {
+
     if (contact[0]) {
-      return contact[0]['prenom'] + " " +contact[0]['nom'];
+      return contact[0]['prenom'] + " " + contact[0]['nom'];
     }
     return "Pas de contact";
-  
-   }
 
-   updateBriefing(briefing: Briefing){
-     
-    this.panelTitle = "Modifier";
+  }
+
+  updateBriefing(briefing: Briefing) {
+ 
     this.briefing = briefing;
     this.addContactToTtoppingList(briefing.contact);
-    
+
     briefing.contactName = this.toppingList;
     this.getContacts();
     this.display();
-   }
+  }
 
-   display(){
+  display() {
     const table = document.getElementById('tableCv');
     const addBriefing = document.getElementById('addBriefing');
     if (table.style.display == "block") {
       table.style.display = "none";
       addBriefing.style.display = "block";
-    }else {
+    } else {
       addBriefing.style.display = "none";
-      table.style.display = "block";
-      this.panelTitle = "Ajouter";
+      table.style.display = "block"; 
       this.briefing = new Briefing();
       this.getBriefingByConsultantId();
 
     }
-   
-   }
-   public onOpenContactModal(nomContact: String): void{
+
+  }
+  public onOpenContactModal(nomContact: String): void {
     if (nomContact) {
       var contact: Contact;
       this.contacts.forEach(element => {
-          if ((element.prenom + " " + element.nom) == nomContact) {
-            contact = element;
-          }
-      });
-      
-      this.contactDialogService.openConfirmDialog(contact)
-      .afterClosed().subscribe(res => {
-        if (res) {
-          this.getContacts();
-          this.notificationsService.onSuccess("Mise à jour avec succès");
+        if ((element.prenom + " " + element.nom) == nomContact) {
+          contact = element;
         }
       });
-    }else{
-    this.contactDialogService.openConfirmDialog(null)
-    .afterClosed().subscribe(res => {
-      if (res) {
-        this.getContacts();
-        this.notificationsService.onSuccess("Ajout réussi");
-      }
-    });
+
+      this.contactDialogService.openConfirmDialog(contact)
+        .afterClosed().subscribe(res => {
+          if (res) {
+            this.getContacts();
+            this.notificationsService.onSuccess("Mise à jour avec succès");
+          }
+        });
+    } else {
+      this.contactDialogService.openConfirmDialog(null)
+        .afterClosed().subscribe(res => {
+          if (res) {
+            this.getContacts();
+            this.notificationsService.onSuccess("Ajout réussi");
+          }
+        });
 
     }
-     
+
   }
   public getContacts(): void {
     this.ContactService.getContacts().subscribe(
@@ -176,101 +174,40 @@ export class BriefingComponent implements OnInit {
       }
     );
   }
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.briefing.consultant = response;
-        delete this.briefing.contactName;
-        delete this.briefing.consultantId;
-        
-        this.onModifyBriefing(this.briefing);
-
-        
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
-  refreshTheList(){
+ 
+  refreshTheList() {
     this.getContacts();
   }
-  onUpdateBriefing(cvForm: NgForm){
-    this.newContacts = [];
-      this.contacts.forEach(element => {
-        cvForm.value['contactName'].forEach(contactName => {
-          if ((element.prenom + " " + element.nom) == contactName) {
-            this.newContacts.push(element);
-          }
-        });
-      });
-      this.briefing = cvForm.value;
-      this.briefing.contact = this.newContacts;
-    if (cvForm.value.idBriefing) {
-      this.getConsultant(this.id);
-    }else{
-      this.onAddBriefing(cvForm);
-    
-    }
-    
-  }
-  
 
-  public onModifyBriefing(briefing: Briefing): void {
-    this.briefingService.updateBriefing(this.briefing).subscribe(
-      (response: Briefing) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
 
-  public onAddBriefing(briefing: NgForm): void {
-    this.briefingService.addBriefing(briefing.value, this.id).subscribe(
-      (response: Briefing) => {
-        console.log(response);
-        this.getBriefingByConsultantId();
-        this.display();
-        briefing.reset();
-        this.notificationsService.onSuccess("Ajout réussi");
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
-  
-  public onOpenDeleteModal(briefing: Briefing): void{
+  public onOpenDeleteModal(briefing: Briefing): void {
 
 
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
-    .afterClosed().subscribe(res => {
-      if (res) {
-        this.onDeleteBriefing(briefing.idBriefing);
-        this.notificationsService.onSuccess("Supprimé avec succès");
-      }
-    });
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.onDeleteBriefing(briefing.idBriefing);
+          this.notificationsService.onSuccess("Supprimé avec succès");
+        }
+      });
   }
-  public onOpenContactDeleteModal(nomContact: string): void{
-    
+  public onOpenContactDeleteModal(nomContact: string): void {
+
     var contact: Contact;
     this.contacts.forEach(element => {
-        if ((element.prenom + " " + element.nom) == nomContact) {
-          contact = element;
-        }
-    });
-  
-    this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ce contact " + contact.prenom + " " + contact.nom)
-    .afterClosed().subscribe(res => {
-      if (res) {
-        this.onDeleteContact(contact.idContact);
-        this.notificationsService.onSuccess("Supprimé avec succès");
+      if ((element.prenom + " " + element.nom) == nomContact) {
+        contact = element;
       }
-    });  
-  }  
+    });
+
+    this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ce contact " + contact.prenom + " " + contact.nom)
+      .afterClosed().subscribe(res => {
+        if (res) {
+          this.onDeleteContact(contact.idContact);
+          this.notificationsService.onSuccess("Supprimé avec succès");
+        }
+      });
+  }
   public onDeleteContact(id: number): void {
     this.contactService.deleteContact(id).subscribe(
       (response: void) => {
@@ -281,7 +218,7 @@ export class BriefingComponent implements OnInit {
       }
     );
   }
-  
+
   public onDeleteBriefing(id: number): void {
     this.briefingService.deleteBriefing(id).subscribe(
       (response: void) => {
@@ -292,5 +229,5 @@ export class BriefingComponent implements OnInit {
       }
     );
   }
-  
+
 }

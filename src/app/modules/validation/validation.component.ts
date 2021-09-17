@@ -33,7 +33,7 @@ export class ValidationComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, { static: true}) paginator: MatPaginator;
   searchKey: string;
-  panelTitle: string = "Ajouter";
+  panelTitle: string = "Détails";
   
 
   constructor(
@@ -86,8 +86,7 @@ export class ValidationComponent implements OnInit {
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
 
-  updateValidation(validation: Validation){
-  this.panelTitle = "Modifier";
+  updateValidation(validation: Validation){ 
   this.validation = validation;
   this.iClass = this.getIClass(this.validation.feedback);
   this.display();
@@ -103,7 +102,6 @@ export class ValidationComponent implements OnInit {
     }else {
       addEntretien.style.display = "none";
       table.style.display = "block";
-      this.panelTitle = "Ajouter";
       this.validation = new Validation();
       this.getValidationByConsultantId();
 
@@ -124,56 +122,7 @@ export class ValidationComponent implements OnInit {
   }
   
   
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.validation.consultant = response;
-        delete this.validation.consultantId;
-        this.onModifyValidation(this.validation);
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
-  onUpdateValidation(entForm: NgForm){
-    this.validation = entForm.value;
-    if (entForm.value.idValidation) {
-      this.getConsultant(this.id);
-      
-    }else{
-      this.onAddValidation(this.validation);
-      entForm.reset();
-    }
-  }
   
-
-  public onModifyValidation(validation: Validation): void {
-    this.validationService.updateValidation(validation).subscribe(
-      (response: Validation) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
-
-  public onAddValidation(validation: Validation): void {
-    
-    this.validationService.addValidation(this.validation, this.id).subscribe(
-      (response: Validation) => {
-        console.log(response);
-        this.getValidationByConsultantId();
-        this.display();
-        this.notificationsService.onSuccess("Ajout réussi");
-      },
-      (error: HttpErrorResponse) => {
-        this.notificationsService.onError("Quelque chose ne va pas");
-      }
-    );
-  }
   
   public onOpenDeleteModal(validation: Validation): void{
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")

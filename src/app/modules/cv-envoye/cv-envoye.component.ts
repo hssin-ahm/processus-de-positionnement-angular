@@ -34,7 +34,7 @@ export class CvEnvoyeComponent implements OnInit {
   toppingList: string[] = [];
   updateToppingList: string[] = [];
 
-  columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques",  "etapeActuel", "actions"]
+  columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques", "etapeActuel", "actions"]
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -79,16 +79,16 @@ export class CvEnvoyeComponent implements OnInit {
       }
     )
   }
-  warn(){
-    return new Promise((resolve , reject) => {
+  warn() {
+    return new Promise((resolve, reject) => {
       setTimeout(() => {
-          this.notificationsService.onWarn("pas d'envoi CV de ce consultant")
+        this.notificationsService.onWarn("pas d'envoi CV de ce consultant")
         resolve("function done");
       }, 500);
     });
-   
+
   }
-  
+
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];
     contacts.forEach(element => {
@@ -183,24 +183,7 @@ export class CvEnvoyeComponent implements OnInit {
       }
     );
   }
-  public getConsultant(consultantId: number): void {
-    this.consultantService.getConsultant(consultantId).subscribe(
-      (response: Consultant) => {
-        this.cvEnvoye.consultant = response;
-        this.cvEnvoye.idcv = this.cvEnvoye.id;
-        delete this.cvEnvoye.id;
-        delete this.cvEnvoye.contactName;
-        delete this.cvEnvoye.consultantId;
 
-        this.onModifyCvEnvoye(this.cvEnvoye);
-
-
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
   refreshTheList() {
     this.getContacts();
   }
@@ -214,31 +197,18 @@ export class CvEnvoyeComponent implements OnInit {
       });
     });
     this.cvEnvoye = cvForm.value;
-    
+
     this.cvEnvoye.contact = this.newContacts;
-    if (cvForm.value.id) {
-      this.getConsultant(this.id);
-    } else {
-      
-      cvForm.value.etapeActuel = cvForm.value.statut;
-      this.onAddCvEnvoye(cvForm);
 
-    }
+    cvForm.value.etapeActuel = cvForm.value.statut;
+    this.onAddCvEnvoye(cvForm);
+
+
 
   }
 
 
-  public onModifyCvEnvoye(cvEnvoye: CvEnvoye): void {
-    this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
-      (response: CvEnvoye) => {
-        this.display();
-        this.notificationsService.onSuccess("Mise à jour avec succès");
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
+
 
   public onAddCvEnvoye(cvEnvoye: NgForm): void {
     cvEnvoye.value.etapeActuel = cvEnvoye.value.statut;

@@ -16,13 +16,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminModule } from './Layouts/admin/admin.module';
 import {MatIconModule} from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { EtapCvEnvoyeeComponent } from './modules/lesEtape/etap-cv-envoyee/etap-cv-envoyee.component';
-import { EtapEntretienPartenaireComponent } from './modules/lesEtape/etap-entretien-partenaire/etap-entretien-partenaire.component';
-import { EtapPositionnementClientComponent } from './modules/lesEtape/etap-positionnement-client/etap-positionnement-client.component';
-import { EtapBriefingComponent } from './modules/lesEtape/etap-briefing/etap-briefing.component';
-import { EtapEntretienClientComponent } from './modules/lesEtape/etap-entretien-client/etap-entretien-client.component';
-import { EtapTestTechniqueComponent } from './modules/lesEtape/etap-test-technique/etap-test-technique.component';
-
 @NgModule({
   declarations: [
     AppComponent,
