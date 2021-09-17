@@ -12,6 +12,6 @@ export class Consultant {
     niveauAnglais:string;
     niveauFrancais: string;
     consultantCode:string;
-
+  
   }
 

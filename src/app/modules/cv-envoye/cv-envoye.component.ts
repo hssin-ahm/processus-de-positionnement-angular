@@ -34,7 +34,7 @@ export class CvEnvoyeComponent implements OnInit {
   toppingList: string[] = [];
   updateToppingList: string[] = [];
 
-  columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques", "statut", "actions"]
+  columns: string[] = ["dateEnvoi", "partenairClient", "nomSociete", "contact", "tjm", "remarques",  "etapeActuel", "actions"]
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -214,10 +214,13 @@ export class CvEnvoyeComponent implements OnInit {
       });
     });
     this.cvEnvoye = cvForm.value;
+    
     this.cvEnvoye.contact = this.newContacts;
     if (cvForm.value.id) {
       this.getConsultant(this.id);
     } else {
+      
+      cvForm.value.etapeActuel = cvForm.value.statut;
       this.onAddCvEnvoye(cvForm);
 
     }
@@ -238,6 +241,7 @@ export class CvEnvoyeComponent implements OnInit {
   }
 
   public onAddCvEnvoye(cvEnvoye: NgForm): void {
+    cvEnvoye.value.etapeActuel = cvEnvoye.value.statut;
     this.cvEnvoyeService.addCvEnvoye(cvEnvoye.value, this.id).subscribe(
       (response: CvEnvoye) => {
         console.log(response);

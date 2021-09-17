@@ -60,9 +60,7 @@ export class EtapCvEnvoyeeComponent implements OnInit {
       }
      
     }
-    console.log(this.cvEnvoye.etapeActuel);
     this.getCvEnvoyeById(this.cvEnvoye.etapeActuel);
-    
   }
 
   getCvEnvoyeById(etapeActuel: string) {
@@ -74,7 +72,6 @@ export class EtapCvEnvoyeeComponent implements OnInit {
         this.cvEnvoye.contactName = this.toppingList;
         this.cvEnvoye.etapeActuel =  etapeActuel;
         this.getContacts();
-        this.addEtapeActuel(this.cvEnvoye);
       }
     )
   }
@@ -93,18 +90,38 @@ export class EtapCvEnvoyeeComponent implements OnInit {
       this.event.emit(1);
     }
   }
-
-  public addEtapeActuel(cvEnvoye: CvEnvoye): void {
-    this.cvEnvoyeService.updateCvEnvoye(cvEnvoye).subscribe(
-      (response: CvEnvoye) => {
-        this.cvEnvoye.etapeActuel = response.etapeActuel;
-        this.etapeActuel = response.etapeActuel;
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-      }
-    );
-  }
+  // addEtapeActuel(cvEnvoye : CvEnvoye){
+  //   console.log(cvEnvoye.etapeActuel);
+    
+  //   return new Promise((resolve , reject) => {
+  //     setTimeout(() => {
+  //       this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
+  //         (response: CvEnvoye) => {
+  //           this.cvEnvoye.etapeActuel = response.etapeActuel;
+  //           this.etapeActuel = response.etapeActuel;
+  //         },
+  //         (error: HttpErrorResponse) => {
+  //           alert(error.message);
+  //         }
+  //       );
+  //       resolve("function done");
+  //     }, 2000);
+  //   });
+   
+  // }
+  // public addEtapveActuel(etapeActuel: string): void {
+  //   console.log(etapeActuel);
+  //   debugger
+  //   this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
+  //     (response: CvEnvoye) => {
+  //       this.cvEnvoye.etapeActuel = response.etapeActuel;
+  //       this.etapeActuel = response.etapeActuel;
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       alert(error.message);
+  //     }
+  //   );
+  // }
  
  
   public onOpenContactModal(nomContact: String): void {
@@ -169,6 +186,12 @@ export class EtapCvEnvoyeeComponent implements OnInit {
     this.getContacts();
   }
   onUpdateCvEnvoye(cvForm: NgForm) {
+    if (this.cvEnvoye.partenairClient == "Client" && this.tabs.length > 1) {
+      this.cvEnvoye.etapeActuel = this.lesEtapes[this.tabs.length];
+    }else{
+      this.cvEnvoye.etapeActuel = this.lesEtapes[this.tabs.length - 1];
+    }
+    cvForm.value.etapeActuel = this.cvEnvoye.etapeActuel;
     this.newContacts = [];
     this.contacts.forEach(element => {
       cvForm.value['contactName'].forEach(contactName => {
@@ -179,7 +202,8 @@ export class EtapCvEnvoyeeComponent implements OnInit {
     });
     this.cvEnvoye = cvForm.value;
     this.cvEnvoye.contact = this.newContacts;
-     
+    this.cvEnvoye.etapeActuel = cvForm.value.etapeActuel; 
+    
     this.getConsultant(this.id);
    
 
@@ -187,6 +211,7 @@ export class EtapCvEnvoyeeComponent implements OnInit {
 
 
   public onModifyCvEnvoye(cvEnvoye: CvEnvoye): void {
+     
     this.cvEnvoyeService.updateCvEnvoye(cvEnvoye).subscribe(
       (response: CvEnvoye) => {
         this.notificationsService.onSuccess("Mise à jour avec succès");
@@ -252,4 +277,6 @@ export class EtapCvEnvoyeeComponent implements OnInit {
       }
     }
   }
+   
+
 }

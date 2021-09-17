@@ -72,13 +72,13 @@ export class EtapEntretienClientComponent implements OnInit {
     
     this.entretienClientService.updateEntretienClient(entretienClient, this.id, this.consId).subscribe(
       (response: EntretienClient) => {
-        this.notificationsService.onSuccess("Mise à jour avec succès");
         if (this.panelTitle == "Ajouter") {
           this.notificationsService.onSuccess("Ajout réussi");
           this.panelTitle = "Modifier"
         }else{
           this.notificationsService.onSuccess("Mise à jour avec succès");
         }
+        this.getEntretienClientById();
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
