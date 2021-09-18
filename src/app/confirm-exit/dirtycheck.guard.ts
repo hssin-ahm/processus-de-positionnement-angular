@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { subscribeOn } from 'rxjs/operators';
-import { DialogService } from '../shared/dialog-service/dialog.service';
+import { DialogService } from '../_services/dialog-service/dialog.service';
 import { ComponentCanDeactivate } from './component-can-deactivate';
 
 @Injectable({

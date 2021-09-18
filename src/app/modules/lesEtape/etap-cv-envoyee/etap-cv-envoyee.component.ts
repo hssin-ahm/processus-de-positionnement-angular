@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ContactDialogService } from 'src/app/shared/dialog-service/contact-dialog.service';
-import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
-import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
+import { ContactDialogService } from 'src/app/_services/dialog-service/contact-dialog.service';
+import { DialogService } from 'src/app/_services/dialog-service/dialog.service';
+import { notificationsService } from 'src/app/_services/dialog-service/notifications.service';
 import { Contact } from 'src/app/_services/contact/contact';
 import { ContactService } from 'src/app/_services/contact/contact.service';
 import { CvEnvoyeService } from 'src/app/_services/cvEnvoye/cv-envoye.service';
@@ -90,39 +90,6 @@ export class EtapCvEnvoyeeComponent implements OnInit {
       this.event.emit(1);
     }
   }
-  // addEtapeActuel(cvEnvoye : CvEnvoye){
-  //   console.log(cvEnvoye.etapeActuel);
-    
-  //   return new Promise((resolve , reject) => {
-  //     setTimeout(() => {
-  //       this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
-  //         (response: CvEnvoye) => {
-  //           this.cvEnvoye.etapeActuel = response.etapeActuel;
-  //           this.etapeActuel = response.etapeActuel;
-  //         },
-  //         (error: HttpErrorResponse) => {
-  //           alert(error.message);
-  //         }
-  //       );
-  //       resolve("function done");
-  //     }, 2000);
-  //   });
-   
-  // }
-  // public addEtapveActuel(etapeActuel: string): void {
-  //   console.log(etapeActuel);
-  //   debugger
-  //   this.cvEnvoyeService.updateCvEnvoye(this.cvEnvoye).subscribe(
-  //     (response: CvEnvoye) => {
-  //       this.cvEnvoye.etapeActuel = response.etapeActuel;
-  //       this.etapeActuel = response.etapeActuel;
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       alert(error.message);
-  //     }
-  //   );
-  // }
- 
  
   public onOpenContactModal(nomContact: String): void {
     if (nomContact) {

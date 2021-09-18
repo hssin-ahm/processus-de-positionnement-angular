@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatConfirmDialogComponent } from '../mat-confirm-dialog/mat-confirm-dialog.component';
-import { notificationsService } from '../shared/dialog-service/notifications.service';
+import { notificationsService } from '../_services/dialog-service/notifications.service';
 import { Contact } from '../_services/contact/contact';
 import { ContactService } from '../_services/contact/contact.service';
 

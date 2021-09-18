@@ -7,11 +7,11 @@ import { CvEnvoye } from 'src/app/_services/cvEnvoye/cvEnvoye';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { FormControl, NgForm } from '@angular/forms';
-import { ContactDialogService } from 'src/app/shared/dialog-service/contact-dialog.service';
+import { ContactDialogService } from 'src/app/_services/dialog-service/contact-dialog.service';
 import { ContactService } from 'src/app/_services/contact/contact.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DialogService } from 'src/app/shared/dialog-service/dialog.service';
-import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
+import { DialogService } from 'src/app/_services/dialog-service/dialog.service';
+import { notificationsService } from 'src/app/_services/dialog-service/notifications.service';
 import { ConsultantService } from '../consultant/consultant.service';
 import { Consultant } from '../consultant/consultant';
 
@@ -50,7 +50,6 @@ export class CvEnvoyeComponent implements OnInit {
     private ContactService: ContactService,
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService: ConsultantService,
     private contactService: ContactService
   ) {
 

@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { notificationsService } from 'src/app/shared/dialog-service/notifications.service';
+import { notificationsService } from 'src/app/_services/dialog-service/notifications.service';
 import { TestTechniqueClientService } from 'src/app/_services/testTechniqueClient/test-technique-client.service';
 import { TestTechniqueClient } from 'src/app/_services/testTechniqueClient/testTechniqueClient';
 
