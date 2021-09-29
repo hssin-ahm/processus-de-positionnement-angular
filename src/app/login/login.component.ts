@@ -43,7 +43,9 @@ export class LoginComponent implements OnInit {
         this.userAuthService.setRoles(response.user.role)
         this.userAuthService.setToken(response.jwtToken)
         const role = response.user.role[0]['roleName'];
-        
+        /** if the role of the user is super admin then redirect to super admin interface
+         * else if the role is admin then redirect to admin interface
+          */
         if (role === "Super_Admin") {
           this.router.navigate(['/super-admin']);
         }else{

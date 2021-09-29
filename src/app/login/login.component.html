@@ -1,8 +1,10 @@
 <body>
     <div class="center">
+        <!--alert danger 'Bad credentials'-->
         <div *ngIf="msg!=''" class="alert alert-danger" style="padding: 10px 35px;">
             {{msg}}
         </div>
+        <!--login form-->
         <h1>Login</h1>
         <form  #loginForm="ngForm" (ngSubmit)="login(loginForm)">
             

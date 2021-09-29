@@ -4,6 +4,7 @@
        
       <mat-form-field class="search-form-field" floatLabel="never">
         <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="on" (keyup)="applyFilter($event)">
+        <!--if element searchKey is empty then we display the close icon   -->
         <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
           <mat-icon>close</mat-icon>
         </button>

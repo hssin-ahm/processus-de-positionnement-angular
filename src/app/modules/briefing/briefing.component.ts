@@ -35,6 +35,7 @@ export class BriefingComponent implements OnInit {
 
   columns: string[] = ["dateBriefing", "type", "contact", "remarque", "statut", "actions"]
 
+  
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   searchKey: string;
@@ -48,7 +49,6 @@ export class BriefingComponent implements OnInit {
     private ContactService: ContactService,
     private dialogService: DialogService,
     private notificationsService: notificationsService,
-    private consultantService: ConsultantService,
     private contactService: ContactService
   ) {
 
@@ -63,6 +63,7 @@ export class BriefingComponent implements OnInit {
 
   }
 
+  /**get attributes 'briefing' with the id of 'consultant'*/
   getBriefingByConsultantId() {
     this.briefingService.getBriefingByConsultantId(this.id).subscribe(
       response => {
@@ -76,6 +77,7 @@ export class BriefingComponent implements OnInit {
       }
     )
   }
+  /** affiche warn notification si le longeur de response est 0*/
   warn() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
@@ -85,6 +87,7 @@ export class BriefingComponent implements OnInit {
     });
 
   }
+  /**add nom et prenom de contact to topping list  */
   addContactToTtoppingList(contacts: Contact[]) {
     this.toppingList = [];
     contacts.forEach(element => {
@@ -92,10 +95,12 @@ export class BriefingComponent implements OnInit {
       this.toppingList.push(element.prenom + " " + element.nom);
     });
   }
+
   onSearchClear() {
     this.searchKey = "";
     this.dataSource.filter = this.searchKey.trim().toLowerCase();
   }
+
 
   applyFilter(event) {
     this.searchKey = (event.target as HTMLInputElement).value;
@@ -137,6 +142,9 @@ export class BriefingComponent implements OnInit {
   }
   public onOpenContactModal(nomContact: String): void {
     if (nomContact) {
+      /** search the missing contact informations using the name of contact 
+       * after we open contact modal for editing 
+        */
       var contact: Contact;
       this.contacts.forEach(element => {
         if ((element.prenom + " " + element.nom) == nomContact) {
@@ -146,12 +154,14 @@ export class BriefingComponent implements OnInit {
 
       this.contactDialogService.openConfirmDialog(contact)
         .afterClosed().subscribe(res => {
+          /**aprés la modification on affiche success notification  */
           if (res) {
             this.getContacts();
             this.notificationsService.onSuccess("Mise à jour avec succès");
           }
         });
     } else {
+      /** if element 'nomContact' is null then we open contact modal for adding a new contact*/
       this.contactDialogService.openConfirmDialog(null)
         .afterClosed().subscribe(res => {
           if (res) {
@@ -163,6 +173,7 @@ export class BriefingComponent implements OnInit {
     }
 
   }
+  /**get all contacts and add to topping list  */
   public getContacts(): void {
     this.ContactService.getContacts().subscribe(
       (response: Contact[]) => {
@@ -175,14 +186,9 @@ export class BriefingComponent implements OnInit {
     );
   }
  
-  refreshTheList() {
-    this.getContacts();
-  }
 
-
+  /**open delete modal if we press in delete icon */
   public onOpenDeleteModal(briefing: Briefing): void {
-
-
     this.dialogService.openConfirmDialog("Êtes-vous sûr de vouloir supprimer ")
       .afterClosed().subscribe(res => {
         if (res) {
@@ -191,6 +197,8 @@ export class BriefingComponent implements OnInit {
         }
       });
   }
+
+  
   public onOpenContactDeleteModal(nomContact: string): void {
 
     var contact: Contact;

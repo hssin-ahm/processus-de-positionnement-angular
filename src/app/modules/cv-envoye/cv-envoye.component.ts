@@ -58,7 +58,6 @@ export class CvEnvoyeComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id'];
     this.getCvEnvoyeByConsultantId();
-
     this.getContacts();
 
 
